@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<meta name="theme-color" content="#2d5a4f">
+<title>Мой юг: Роза Хутор — горная жемчужина</title>
+
+<!-- ИКОНКА САЙТА (favicon) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Roza.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- ========== ШАПКА ========== -->
+  <div class="header">
+    <div class="header-left">
+      <div class="mobile-menu-btn" id="mobileMenuBtn">⛵</div>
+    </div>
+    <div class="title">Мой юг: от Анапы до Сочи</div>
+    <div class="header-right">
+      <div class="stickers">
+        <div class="sticker-clock">⏱️<span id="st-time-txt">--:--</span></div>
+        <button id="theme-toggle" class="icon-btn">
+          <span id="themeIcon">☀️</span>
+          <span class="theme-text" id="themeText">День</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== МОБИЛЬНОЕ МЕНЮ ========== -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+      <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+      <div class="mobile-menu-item" data-target="index">🏠 На главную</div>
+      <div class="mobile-menu-item" id="mobileRoutesBtn">🗺️ Мои маршруты</div>
+      <div class="mobile-menu-sub" id="mobileRoutesSub" style="display: none;">
+        <a href="../Anapa/Anapa.html" class="mobile-sub-link">🏖️ Анапа</a>
+        <a href="../Gelendzhik/Gelendzhik.html" class="mobile-sub-link">🌴 Геленджик</a>
+        <a href="../Sochi/Sochi.html" class="mobile-sub-link">☀️ Сочи</a>
+        <a href="../Sirius/Sirius.html" class="mobile-sub-link">⭐ Сириус</a>
+      </div>
+      <div class="mobile-menu-item" data-target="places">📅 Планирую посетить</div>
+      <div class="mobile-menu-item" data-target="review">✍️ Поделиться впечатлением</div>
+    </div>
+  </div>
+
+  <!-- Кнопка наверх -->
+  <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
+
+  <!-- ========== ГЛАВНОЕ ФОТО ========== -->
+  <div class="hero-photo-wrap">
+    <img class="hero-photo" id="heroImg" src="Img.Roza/roz.jpg" alt="Роза Хутор">
+    <div class="photo-caption">Роза Хутор</div>
+  </div>
+
+  <!-- ========== ПОГОДА ========== -->
+  <div class="weather-widget" id="weatherWidget">
+    <div class="weather-title-center">🏔️ Погода на курорте</div>
+    <div class="weather-content">
+      <div class="weather-items">
+        <div class="weather-item">
+          <span class="item-icon" id="weatherMainIcon">☀️</span>
+          <span class="item-value" id="weatherTemp">--</span>
+          <span class="item-unit">°C</span>
+        </div>
+        <div class="weather-item">
+          <span class="item-icon">💨</span>
+          <span class="item-value" id="weatherWind">--</span>
+          <span class="item-unit">м/с</span>
+        </div>
+        <div class="weather-item">
+          <span class="item-icon">🌫️</span>
+          <span class="item-value" id="weatherFog">--</span>
+          <span class="item-unit">%</span>
+        </div>
+      </div>
+      <div class="weather-verdict" id="weatherVerdictBadge">Загрузка...</div>
+    </div>
+  </div>
+
+  <!-- ========== ГОНДОЛЫ (КАНАТНАЯ ДОРОГА) ========== -->
+  <div class="gondola-section">
+    <div class="gondola-title">🚡 Канатная дорога — вверх к вершинам 🚡</div>
+    <div class="gondola-container">
+      <div class="gondola-canvas" id="gondolaCanvas">
+        <div class="night-full-layer"></div>
+        <!-- Гондола 1 -->
+        <div class="gondola gondola-1" data-station="1">
+          <div class="gondola-icon">🚠</div>
+          <div class="gondola-label">Роза-стадион<br>940 м</div>
+        </div>
+        <!-- Гондола 2 -->
+        <div class="gondola gondola-2" data-station="2">
+          <div class="gondola-icon">🚡</div>
+          <div class="gondola-label">Парк Йети<br>1350 м</div>
+        </div>
+        <!-- Гондола 3 -->
+        <div class="gondola gondola-3" data-station="3">
+          <div class="gondola-icon">🚠</div>
+          <div class="gondola-label">Роза Пик<br>2320 м</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ГОНДОЛ ========== -->
+  <!-- Гондола 1: Роза-стадион -->
+  <div id="gondolaModal1" class="gondola-modal">
+    <div class="gondola-modal-content">
+      <button class="gondola-modal-close" data-modal="gondolaModal1">✕</button>
+      <div class="gondola-modal-flex">
+        <img class="gondola-modal-photo" src="Img.Roza/28.jpg" alt="Роза-стадион">
+        <div class="gondola-modal-right">
+          <div class="gondola-modal-title">🏟️ Роза-стадион (940 м)</div>
+          <div class="gondola-modal-text">На этой высоте царит спокойствие, а в зеркальной глади горного озера невероятно красиво отражаются вершины. Это идеальная точка для привала, где можно просто посидеть у воды и подышать чистейшим воздухом. Пейзажи здесь выглядят очень уютно и напоминают альпийские деревушки.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Гондола 2: Парк Йети -->
+  <div id="gondolaModal2" class="gondola-modal">
+    <div class="gondola-modal-content">
+      <button class="gondola-modal-close" data-modal="gondolaModal2">✕</button>
+      <div class="gondola-modal-flex">
+        <img class="gondola-modal-photo" src="Img.Roza/29.jpg" alt="Парк Йети">
+        <div class="gondola-modal-right">
+          <div class="gondola-modal-title">❄️ Парк Йети (1350 м)</div>
+          <div class="gondola-modal-text">Это самое забавное и необычное место на склоне, которое мгновенно поднимает настроение и взрослым, и детям. Огромные фигуры снежного человека — классный фон для весёлых фотографий с долей юмора. Здесь чувствуется атмосфера приключений и сказок, спрятанных высоко в горах.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Гондола 3: Роза Пик -->
+  <div id="gondolaModal3" class="gondola-modal">
+    <div class="gondola-modal-content">
+      <button class="gondola-modal-close" data-modal="gondolaModal3">✕</button>
+      <div class="gondola-modal-flex">
+        <img class="gondola-modal-photo" src="Img.Roza/30.jpg" alt="Роза Пик">
+        <div class="gondola-modal-right">
+          <div class="gondola-modal-title">🏔️ Роза Пик (2320 м)</div>
+          <div class="gondola-modal-text">Подъём на самую высокую точку дарит ощущение полной свободы и восторга от масштаба Кавказских гор. Облака здесь часто проплывают прямо под ногами, а вид на острые хребты просто захватывает дух. Это то место, где осознаёшь всю мощь природы и чувствуешь себя на вершине мира.</div>
+          <button class="binocular-btn" id="openVideoBtn"><span class="binocular-emoji">👀</span> Посмотри моими глазами!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== СТИКЕРЫ-НАПОМИНАЛКИ ========== -->
+  <div class="stickers-section">
+    <div class="note-sticker sticker-green">🏔️ Высота 2320 м — захватывающий вид на Кавказские горы</div>
+    <div class="note-sticker sticker-blue">🎿 Лыжный сезон с декабря по май, летом — велосипеды</div>
+    <div class="note-sticker sticker-sand">☕ На вершине вкусный глинтвейн и панорамные фотозоны</div>
+  </div>
+
+  <!-- ========== БИЛЕТ-УГОЛОК (переход на Сириус) ========== -->
+  <div class="ticket-wrapper">
+    <div class="ticket-corner" id="ticketCorner">
+      <div class="ticket-inner">
+        <div class="ticket-icon">🎫</div>
+        <div class="ticket-invite" id="ticketInvite">🌊 А может на море? →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ВИДЕО С ЛАЙКАМИ ========== -->
+<div id="videoOverlay" class="video-overlay">
+  <div class="video-container-small">
+    <button class="video-close-btn" id="closeVideoBtn">✕</button>
+    <video id="localVideo" controls loop playsinline style="width:100%; max-width:400px; height:auto; margin:0 auto; display:block; border-radius:24px; box-shadow:0 20px 35px rgba(0,0,0,0.4);">
+      <source src="Video.Roza/videoo.mp4" type="video/mp4">
+    </video>
+    <p style="text-align:center; color:#fff; margin-top:12px; font-family:'Caveat', cursive;">🎬 Вид с Роза Пик</p>
+    
+    <!-- ЛАЙКИ ПОД ВИДЕО -->
+    <div class="video-likes-section">
+      <div class="likes-container">
+        <div class="like-button-wrapper">
+          <button class="heart-like-btn" id="videoHeartBtn">
+            <span class="like-heart-icon" id="videoHeartIcon">🤍</span>
+          </button>
+          <div class="like-text-info">
+            <div class="like-count" id="videoLikesCount">100</div>
+            <div class="like-label">Мне нравится</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ЛИАНА (ПК) ========== -->
+<div class="rope-container">
+  <div class="rope-line"></div>
+  <div class="knot-item" id="knotHome" style="top: 12%;">⛵
+    <div class="bubble-menu">⚓ Главная</div>
+  </div>
+  <div class="knot-item" id="knotRoutes" style="top: 35%;">🗺️
+    <div class="subknots">
+      <div class="subknot-title">📋 Мои маршруты</div>
+      <a href="../Anapa/Anapa.html" class="subknot-link">🏖️ Анапа</a>
+      <a href="../Gelendzhik/Gelendzhik.html" class="subknot-link">🌴 Геленджик</a>
+      <a href="../Sochi/Sochi.html" class="subknot-link">☀️ Сочи</a>
+      <a href="../Sirius/Sirius.html" class="subknot-link">⭐ Сириус</a>
+    </div>
+  </div>
+  <div class="knot-item" id="knotPlaces" style="top: 60%;">📅
+    <div class="bubble-menu">📅 Планирую посетить</div>
+  </div>
+  <div class="knot-item" id="knotReview" style="top: 85%;">✍️
+    <div class="bubble-menu">✍️ Поделитесь впечатлением</div>
+  </div>
+</div>
+<div class="rope-anchor" id="ropeAnchor">⚓</div>
+
+<!-- ========== ФУТЕР ========== -->
+<div class="footer">
+  <div>© 2025 Мой юг: от Анапы до Сочи</div>
+  <div style="margin-top: 8px;"><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
+</div>
+
+<!-- Подключение общих скриптов -->
+<script src="../menu.js"></script>
+<script src="Roza.js"></script>
+</body>
+</html>

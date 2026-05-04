@@ -1,0 +1,634 @@
+/* ======================================================= ОБНУЛЕНИЕ И БАЗОВЫЕ СТИЛИ ================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+.clickable, .option-card, .route-card, .remind-wrap, .about-float, .icon-btn, .change-bg-btn, .modal-close, .cta-button, .star, .share-btn, .knot-item, .subknot-link, button, a, .dot, .modal-card, .back-to-main-btn, .music-player, .mobile-menu-btn {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =================================================== ПЕРЕМЕННЫЕ ЦВЕТОВ (СВЕТЛАЯ ТЕМА) =============================================== */
+:root{
+  --accent:#2d6a4f;
+  --accent2:#1e6091;
+  --bg-page: #cfe3b3;
+  --card-bg: rgba(255,255,245,0.92);
+  --text:#1e3a2f;
+  --text-light:#2d5a4a;
+  --muted:rgba(0,0,0,.5);
+  --shadow:rgba(0,0,0,0.15);
+  --border-light:rgba(30,60,40,0.15);
+  --point-bg:rgba(30,96,145,0.9);
+  --footer-bg:#c8dfaa;
+  --modal-bg:#fef9e6;
+  --modal-text:#2d5a4f;
+  --modal-border:#2d6a4f;
+  --header-grad-start:rgba(45,106,79,0.25);
+  --header-grad-end:rgba(30,96,145,0.2);
+  --music-bg:#e2f0cc;
+  --rope-color: #8B6914;
+  --knot-color: #c9772e;
+  --bubble-bg: rgba(0,0,0,0.75);
+  --mobile-menu-bg: #0a2a1a;
+  --mobile-menu-text: #f0f7e6;
+}
+
+/* =================================================== ПЕРЕМЕННЫЕ ЦВЕТОВ (ТЁМНАЯ ТЕМА) =============================================== */
+[data-theme="dark"]{
+  --accent:#a7d489;
+  --accent2:#b8e1fc;
+  --bg-page: #0c2b1f;
+  --card-bg: #1a3a2ad9;
+  --text:#f0f7e6;
+  --text-light:#d4f0d0;
+  --muted:rgba(255,255,200,0.8);
+  --shadow:rgba(0,0,0,0.6);
+  --border-light:rgba(160,210,130,0.25);
+  --point-bg:rgba(122,184,122,0.95);
+  --footer-bg:#0a2a1a;
+  --modal-bg:#1f3f2f;
+  --modal-text:#e2f0d0;
+  --modal-border:#a7d489;
+  --header-grad-start:rgba(70,120,50,0.45);
+  --header-grad-end:rgba(60,140,120,0.35);
+  --music-bg:#1e3a2a;
+  --rope-color: #c9a03d;
+  --knot-color: #e8a94e;
+  --bubble-bg: rgba(0,0,0,0.85);
+  --mobile-menu-bg: #0a1a3a;
+  --mobile-menu-text: #cce4ff;
+}
+
+/* ========================================================= ОСНОВНЫЕ СТИЛИ ========================================================================================= */
+html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', system-ui, sans-serif;color:var(--text);min-height:100vh;transition:background 0.3s, color 0.2s; scroll-behavior:smooth;}
+.container{ max-width: 1000px; width: 92%; margin: 20px auto; background: var(--card-bg); border-radius: 28px; box-shadow: 0 20px 40px var(--shadow); overflow: hidden; backdrop-filter: blur(2px); }
+
+/* ================================================================ ШАПКА ==================================================================================================== */
+.header {
+  background: linear-gradient(135deg, var(--header-grad-start), var(--header-grad-end));
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  z-index: 10000;
+  border-bottom: 1px solid var(--border-light);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.title {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-align: center;
+  color: var(--accent);
+  letter-spacing: 0.4px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.08);
+  flex: 1;
+}
+.header-left{display:flex;align-items:center;gap:12px;}
+.header-right{display:flex;gap:12px;align-items:center;}
+.stickers{display:flex;gap:8px;align-items:center;}
+.sticker{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:40px;background:rgba(255,255,255,0.95);box-shadow:0 4px 12px rgba(0,0,0,.06);font-size:1rem;font-weight:bold;color:var(--text)}
+.sticker span{font-weight:800;font-size:1.2rem;font-family:monospace;}
+[data-theme="dark"] .sticker{background:rgba(0,20,40,0.7);border:1px solid rgba(100,150,220,0.3);color:#eef4ff}
+.icon-btn{background:rgba(0,0,0,0.05);border:none;border-radius:40px;padding:8px 16px;cursor:pointer;font-size:1rem;transition:0.2s;display:flex;align-items:center;gap:8px;}
+.icon-btn:active{transform:scale(0.95);}
+.theme-text{font-size:0.8rem;font-weight:normal;}
+[data-theme="dark"] .theme-text{color:#eef4ff;}
+
+/* ==================================================================== МОБИЛЬНОЕ МЕНЮ (БУРГЕР-КОРАБЛЬ) ================================================================================== */
+.mobile-menu-btn {
+  display: none;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 60px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: white;
+  transition: 0.2s;
+  animation: menuPulse 1.5s ease-in-out infinite;
+}
+@keyframes menuPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(255,255,255,0.2); }
+}
+.mobile-menu-btn:active { transform: scale(0.95); animation: none; }
+
+/* ====================================================================Затемнение фона при открытом меню================================================================================= */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(12px);
+  z-index: 20000;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+.mobile-menu-overlay.active { visibility: visible; opacity: 1; }
+
+/*========================================================================= Контейнер мобильного меню (выезжает слева) ========================================================================*/
+.mobile-menu-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 75%;
+  max-width: 300px;
+  height: 100%;
+  background: var(--mobile-menu-bg);
+  padding: 80px 20px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+.mobile-menu-overlay.active .mobile-menu-container { transform: translateX(0); }
+
+/* ====================================================================================Кнопка закрытия меню ===============================================================================*/
+.mobile-menu-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.6rem;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-menu-close:active { transform: scale(0.9); }
+
+/*==================================================================================== Пункты мобильного меню ======================================================================*/
+.mobile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 16px;
+  border-radius: 28px;
+  color: var(--mobile-menu-text);
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+  background: rgba(255,255,255,0.05);
+  margin-bottom: 8px;
+}
+.mobile-menu-item:active { background: rgba(255,255,255,0.2); transform: scale(0.98); }
+
+/* ===============================================================================Выпадающий список городов=========================================================================== */
+.mobile-menu-sub {
+  padding-left: 45px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.mobile-sub-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 24px;
+  color: var(--mobile-menu-text);
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: background 0.2s;
+  background: rgba(255,255,255,0.08);
+}
+.mobile-sub-link:active { background: rgba(255,255,255,0.2); transform: scale(0.97); }
+
+/* ===================================================================================АДАПТАЦИЯ: ПК И МОБИЛЬНЫЕ ========================================================================= */
+@media (min-width: 769px) {
+  .rope-container { display: block; }
+  .rope-anchor { display: flex; }
+  .mobile-menu-btn { display: none; }
+  .mobile-menu-overlay { display: none; }
+}
+@media (max-width: 768px) {
+  .rope-container { display: none !important; }
+  .rope-anchor { display: none !important; }
+  .mobile-menu-btn { display: flex; }
+  .header-left { display: flex; }
+}
+
+/* ==================================================================================== ЯКОРЬ ЛИАНЫ =================================================================================== */
+.rope-anchor {
+  position: fixed;
+  left: calc(50% - 500px - 36px);
+  width: 52px;
+  height: 52px;
+  background: radial-gradient(circle, #ffd700, #ff8c00);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  z-index: 1005;
+  pointer-events: none;
+  box-shadow: 0 0 22px rgba(255,200,0,0.9);
+  border: 3px solid rgba(255,255,200,0.6);
+  top: 35%;
+  transform: translateY(-50%);
+}
+@media (max-width: 1060px) { .rope-anchor { left: 2px; width: 44px; height: 44px; font-size: 1.8rem; } }
+
+/* =================================================================================== КАРТА С ФОТО И НАДПИСЯМИ ======================================================================================== */
+.map-container {
+  position: relative;
+  margin: 20px 24px;
+  border-radius: 48px;
+  overflow: hidden;
+  box-shadow: 0 20px 30px var(--shadow);
+}
+.map-image { width:100%; display:block; }
+
+/* ======================================================================Надпись сверху: ГЕЛЕНДЖИК ========================================================================================================*/
+.handwrite-city-top {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Impact', 'Inter', sans-serif;
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 6px;
+  color: rgba(255, 250, 220, 0.95);
+  text-shadow: 3px 3px 8px rgba(0,0,0,0.7), 0 0 20px rgba(255,215,0,0.5);
+  z-index: 20;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/*=================================================== Надпись снизу: город, зажатый между горами и морем ===================================================================================================*/
+.handwrite-city-bottom {
+  position: absolute;
+  bottom: 25px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1rem, 5vw, 1.8rem);
+  font-weight: 700;
+  font-style: italic;
+  color: rgba(255, 250, 220, 0.95);
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7), 0 0 15px rgba(255,215,0,0.4);
+  z-index: 20;
+  white-space: nowrap;
+}
+[data-theme="dark"] .handwrite-city-top,
+[data-theme="dark"] .handwrite-city-bottom {
+  color: #ffffdd;
+  text-shadow: 3px 3px 10px black, 0 0 25px #ffcc55;
+}
+
+/* ======================================================================= ТОЧКИ НА КАРТЕ ===================================================================================== */
+.map-point { position:absolute; cursor:pointer; z-index:25; min-width: 48px; min-height:48px; }
+.point-dot { width: 36px; height: 36px; background:var(--point-bg); border:3px solid white; border-radius:50%; box-shadow:0 0 0 3px rgba(0,0,0,0.3); transition:0.05s; }
+.point-dot:active { transform:scale(1.25); }
+.point-label {
+  position:absolute; top:-42px; left:50%; transform:translateX(-50%);
+  background:rgba(0,0,0,0.85); color:white; font-size:1rem; font-weight:bold;
+  padding:6px 18px; border-radius:40px; white-space:nowrap; pointer-events:none;
+  opacity:0; transition:0.12s; font-family:'Inter', sans-serif;
+}
+.map-point:hover .point-label, .map-point:active .point-label { opacity:1; }
+
+@media (max-width: 768px) {
+  .map-container { margin: 12px 16px; }
+  .point-dot { width: 30px; height: 30px; }
+  .point-label { font-size: 0.7rem; top: -36px; padding: 4px 10px; }
+  .handwrite-city-top { top: 12px; letter-spacing: 3px; font-size: clamp(1.2rem, 6vw, 2.2rem); }
+  .handwrite-city-bottom { bottom: 12px; font-size: clamp(0.7rem, 4vw, 1rem); white-space: nowrap; }
+}
+
+/* =========================================================================== МУЗЫКАЛЬНЫЙ ПЛЕЕР =================================================================================== */
+.music-player {
+  background: var(--music-bg);
+  margin: 20px 24px 30px 24px;
+  padding: 16px 28px;
+  border-radius: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  border: 1px solid var(--border-light);
+}
+.music-info { font-family:'Inter', monospace; font-size:1.1rem; font-weight:500; }
+.music-btn {
+  background: var(--accent2);
+  border: none;
+  border-radius: 60px;
+  width: 60px;
+  height: 60px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: white;
+  transition: 0.1s;
+}
+.music-btn:active { transform: scale(0.92); }
+@media (max-width:700px){
+  .music-player { padding: 10px 16px; margin: 15px 16px 20px 16px; gap: 10px; }
+  .music-info { font-size: 0.8rem; }
+  .music-btn { width: 44px; height: 44px; font-size: 1.4rem; border-radius: 12px; }
+}
+
+/* ========================================================================== МОДАЛЬНЫЕ ОКНА =============================================================================================== */
+.modal-overlay {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,20,5,0.94);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000;
+  visibility: hidden;
+  opacity:0;
+  transition:0.2s;
+}
+.modal-overlay.active { visibility: visible; opacity:1; }
+.modal-wall {
+  background: var(--modal-bg);
+  width: 92%;
+  max-width: 1000px;
+  border-radius: 64px;
+  padding: 28px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-photo-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.modal-photo-horizontal {
+  flex: 0 0 auto;
+  width: 300px;
+  max-width: 300px;
+  background: #e8dcc8;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 28px var(--shadow);
+  border: 3px solid rgba(255,215,150,0.9);
+}
+.modal-photo-horizontal img { width:100%; height:auto; display:block; object-fit:cover; }
+.modal-photo-vertical {
+  flex: 0 0 auto;
+  width: 260px;
+  max-width: 260px;
+  background: #e8dcc8;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 28px var(--shadow);
+  border: 3px solid rgba(255,215,150,0.9);
+}
+.modal-photo-vertical img { width:100%; height:auto; display:block; object-fit:cover; }
+.modal-text-box {
+  font-family:'Inter', system-ui;
+  font-size:1.2rem;
+  padding: 20px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 48px;
+  text-align:center;
+  margin-bottom: 20px;
+}
+
+/* =====================================================================Верхняя панель модального окна (лайк + крестик) ===============================================================================*/
+.modal-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,215,150,0.3);
+}
+.modal-like-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  padding: 5px 15px;
+  border-radius: 40px;
+}
+.modal-heart-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+.modal-heart-icon {
+  font-size: 1.6rem;
+  transition: all 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+.modal-heart-btn:active .modal-heart-icon { transform: scale(1.3); }
+.modal-likes-count {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffefcf;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.modal-close-btn {
+  background: rgba(0,0,0,0.5);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+.modal-close-btn:active { transform: scale(0.9); }
+@media (max-width:700px){
+  .modal-photo-horizontal { width: 240px; max-width: 240px; }
+  .modal-photo-vertical { width: 210px; max-width: 210px; }
+  .modal-text-box { font-size: 1rem; }
+  .modal-like-block { padding: 3px 12px; }
+  .modal-heart-icon { font-size: 1.3rem; }
+  .modal-likes-count { font-size: 0.9rem; }
+  .modal-close-btn { width: 32px; height: 32px; font-size: 1rem; }
+}
+
+/* ====================================================================== ЛИАНА (ПК) ================================================================================================== */
+.rope-container {
+  position: fixed;
+  left: calc(50% - 500px - 30px);
+  top: 100px;
+  bottom: 100px;
+  width: 6px;
+  z-index: 1000;
+  pointer-events: none;
+}
+@media (max-width: 1060px) { .rope-container { left: 8px; } }
+.rope-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, var(--rope-color) 0%, #6b4c1a 50%, var(--rope-color) 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+.knot-item {
+  position: absolute;
+  left: -18px;
+  width: 52px;
+  height: 52px;
+  background: radial-gradient(circle at 30% 30%, var(--knot-color), #8B5A2B);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 1002;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  touch-action: manipulation;
+}
+.knot-item:active { transform: translateY(-50%) scale(1.1); box-shadow: 0 0 18px rgba(255,215,0,0.7); }
+.bubble-menu {
+  position: absolute;
+  left: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bubble-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 30px;
+  padding: 6px 20px;
+  white-space: nowrap;
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffefcf;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,215,150,0.3);
+  opacity: 0;
+}
+.knot-item:hover .bubble-menu, .knot-item:active .bubble-menu { opacity: 1; }
+.subknots {
+  position: absolute;
+  left: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bubble-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 10px 18px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 1003;
+  border: 1px solid rgba(255,215,150,0.3);
+}
+.knot-item:hover .subknots, .knot-item:active .subknots { opacity: 1; visibility: visible; }
+.subknot-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: #ffefcf;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: background 0.2s;
+  touch-action: manipulation;
+}
+.subknot-link:active { background: rgba(255,215,150,0.3); transform: scale(0.96); }
+.subknot-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: #ffefcf;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+@media (max-width: 1060px) {
+  .knot-item { width: 48px; height: 48px; left: -16px; font-size: 1.4rem; }
+  .bubble-menu { left: 48px; font-size: 0.85rem; padding: 5px 12px; }
+  .subknots { left: 48px; padding: 8px 12px; }
+  .subknot-link { font-size: 0.9rem; padding: 6px 12px; }
+  .subknot-title { font-size: 0.9rem; padding: 6px 12px; }
+}
+
+/* ================================================================================== ФУТЕР ======================================================================================================= */
+.footer { 
+  text-align:center; 
+  padding: 20px; 
+  font-size:0.9rem; 
+  border-top: 3px solid #5f9ea0; 
+  color: var(--muted); 
+  background: var(--footer-bg); 
+  margin-top:20px; 
+}
+.footer a { 
+  color: var(--accent2); 
+  text-decoration:none; 
+  font-family:'Pacifico',cursive;
+}
+.footer a:active { transform: scale(0.96); display:inline-block; }
+@media (max-width:700px){
+  .container { width: 96%; margin: 12px auto; border-radius: 20px; }
+  .title { font-size: 1rem; }
+  .header { padding: 10px 16px; }
+  .sticker { padding: 4px 8px; font-size: 0.7rem; }
+  .sticker span { font-size: 0.85rem; }
+  .icon-btn { padding: 5px 10px; font-size: 0.8rem; }
+  .theme-text { font-size: 0.65rem; }
+}
+
+/* ================================================================================ ЛЕТАЮЩИЕ СЕРДЕЧКИ ДЛЯ ЛАЙКОВ =================================================================================== */
+.floating-heart-gel {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100000;
+  filter: drop-shadow(0 0 8px rgba(255,100,100,0.6));
+  will-change: transform;
+  text-shadow: 0 0 4px rgba(255,255,255,0.5);
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<meta name="theme-color" content="#008080">
+<title>Мой юг: Геленджик</title>
+
+<!-- ========== ИКОНКА САЙТА (favicon) ДЛЯ ГЕЛЕНДЖИКА ========== -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Gelendzhik.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- ========== ШАПКА ========== -->
+  <div class="header">
+    <div class="header-left">
+      <div class="mobile-menu-btn" id="mobileMenuBtn">⛵</div>
+    </div>
+    <div class="title">Мой юг: от Анапы до Сочи</div>
+    <div class="header-right">
+      <div class="stickers">
+        <div class="sticker" id="st-weather">🌥️<span id="st-weather-txt">Загрузка</span></div>
+        <div class="sticker" id="st-water">💧<span id="st-water-txt">--</span>°C</div>
+        <div class="sticker" id="st-time">⏱️<span id="st-time-txt">--:--</span></div>
+      </div>
+      <button id="theme-toggle" class="icon-btn">
+        <span id="themeIcon">☀️</span>
+        <span class="theme-text" id="themeText">День</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== МОБИЛЬНОЕ МЕНЮ (HTML-структура) ========== -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+      <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+      <div class="mobile-menu-item" data-target="index">🏠 На главную</div>
+      <div class="mobile-menu-item" id="mobileRoutesBtn">🗺️ Мои маршруты</div>
+      <div class="mobile-menu-sub" id="mobileRoutesSub" style="display: none;">
+        <a href="../Anapa/Anapa.html" class="mobile-sub-link">🏖️ Анапа</a>
+        <a href="../Sochi/Sochi.html" class="mobile-sub-link">☀️ Сочи</a>
+        <a href="../Sirius/Sirius.html" class="mobile-sub-link">⭐ Сириус</a>
+        <a href="../Roza/Roza.html" class="mobile-sub-link">⛰️ Роза-Хутор</a>
+      </div>
+      <div class="mobile-menu-item" data-target="places">📅 Планирую посетить</div>
+      <div class="mobile-menu-item" data-target="review">✍️ Поделиться впечатлением</div>
+    </div>
+  </div>
+
+  <!-- ========== КАРТА С ТОЧКАМИ И МОДАЛКАМИ ========== -->
+  <div class="map-container" id="section-main">
+    <img class="map-image" id="bayImage" src="Img.Gelendzhik/10.jpg" alt="Геленджик бухта">
+    <div class="handwrite-city-top">ГЕЛЕНДЖИК</div>
+    <div class="handwrite-city-bottom">город, зажатый между горами и морем</div>
+    
+    <!-- Точки на карте (кликабельные) -->
+    <div class="map-point" style="bottom: 38%; left: 68%;" data-point="naberezhnaya">
+      <div class="point-dot"></div>
+      <div class="point-label">🌊 Набережная 14 км</div>
+    </div>
+    <div class="map-point" style="top: 12%; left: 16%;" data-point="kanatka">
+      <div class="point-dot"></div>
+      <div class="point-label">🚠 Канатка + Сафари-парк</div>
+    </div>
+  </div>
+
+  <!-- ========== МУЗЫКА ========== -->
+  <div class="music-player">
+    <div class="music-info">🎸 Леонид Агутин — Мир зелёного света</div>
+    <div class="music-controls">
+      <button class="music-btn" id="playPauseBtn">▶</button>
+    </div>
+  </div>
+  <audio id="audioPlayer" loop>
+    <source src="Audio.Gelendzhik/agu.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ТОЧЕК НА КАРТЕ ========== -->
+<!-- Модальное окно 1: Набережная -->
+<div id="modalNaberezhnaya" class="modal-overlay">
+  <div class="modal-wall">
+    <div class="modal-header-row">
+      <div class="modal-like-block">
+        <button class="modal-heart-btn" data-modal="naberezhnaya">
+          <span class="modal-heart-icon">🤍</span>
+        </button>
+        <span class="modal-likes-count" id="likesNaberezhnaya">100</span>
+      </div>
+      <button class="modal-close-btn">✕</button>
+    </div>
+    <div class="modal-photo-grid">
+      <div class="modal-photo-horizontal"><img src="Img.Gelendzhik/12.jpg" alt="Набережная панорама"></div>
+      <div class="modal-photo-vertical"><img src="Img.Gelendzhik/11.jpg" alt="Арка набережной"></div>
+    </div>
+    <div class="modal-text-box">
+      📍 <strong>Набережная Геленджика</strong><br>Это самая длинная и белоснежная набережная в России, которая тянется вдоль всей живописной бухты.
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно 2: Канатка -->
+<div id="modalKanatka" class="modal-overlay">
+  <div class="modal-wall">
+    <div class="modal-header-row">
+      <div class="modal-like-block">
+        <button class="modal-heart-btn" data-modal="kanatka">
+          <span class="modal-heart-icon">🤍</span>
+        </button>
+        <span class="modal-likes-count" id="likesKanatka">100</span>
+      </div>
+      <button class="modal-close-btn">✕</button>
+    </div>
+    <div class="modal-photo-grid">
+      <div class="modal-photo-horizontal"><img src="Img.Gelendzhik/15.jpg" alt="Вид с канатки"></div>
+      <div class="modal-photo-vertical"><img src="Img.Gelendzhik/14.jpg" alt="Кабинка канатки"></div>
+    </div>
+    <div class="modal-text-box">
+      🚠 <strong>Канатная дорога + Сафари-парк</strong><br>Подъем в открытом кресле над густым лесом Маркотхского хребта.
+    </div>
+  </div>
+</div>
+
+<!-- ========== ФУТЕР ========== -->
+<div class="footer" id="section-review">
+  <div>© 2025 Мой юг: от Анапы до Сочи</div>
+  <div style="margin-top: 8px;"><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
+</div>
+
+<!-- ========== ЛИАНА (ПК БОКОВОЕ МЕНЮ) ========== -->
+<div class="rope-container">
+  <div class="rope-line"></div>
+  <div class="knot-item" id="knotHome" style="top: 12%;">⛵
+    <div class="bubble-menu">⚓ Главная</div>
+  </div>
+  <div class="knot-item" id="knotRoutes" style="top: 35%;">🗺️
+    <div class="subknots">
+      <div class="subknot-title">📋 Мои маршруты</div>
+      <a href="../Anapa/Anapa.html" class="subknot-link">🏖️ Анапа</a>
+      <a href="../Sochi/Sochi.html" class="subknot-link">☀️ Сочи</a>
+      <a href="../Sirius/Sirius.html" class="subknot-link">⭐ Сириус</a>
+      <a href="../Roza/Roza.html" class="subknot-link">⛰️ Роза-Хутор</a>
+    </div>
+  </div>
+  <div class="knot-item" id="knotPlaces" style="top: 60%;">📅
+    <div class="bubble-menu">📅 Планирую посетить</div>
+  </div>
+  <div class="knot-item" id="knotReview" style="top: 85%;">✍️
+    <div class="bubble-menu">✍️ Поделитесь впечатлением</div>
+  </div>
+</div>
+<div class="rope-anchor" id="ropeAnchor">⚓</div>
+
+<!-- ========== ПОДКЛЮЧЕНИЕ СКРИПТОВ ========== -->
+<!-- Общее меню (из корня) -->
+<script src="../menu.js"></script>
+<!-- Уникальные скрипты Геленджика -->
+<script src="Gelendzhik.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<meta name="theme-color" content="#0066aa">
+<title>Мой юг: Сириус — Солнце и море</title>
+
+<!-- ========== ИКОНКА САЙТА (favicon) ДЛЯ СИРИУСА ========== -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Sirius.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- ========== ШАПКА ========== -->
+  <div class="header">
+    <div class="header-left">
+      <div class="mobile-menu-btn" id="mobileMenuBtn">⛵</div>
+    </div>
+    <div class="title">Мой юг: от Анапы до Сочи</div>
+    <div class="header-right">
+      <div class="stickers">
+        <div class="sticker" id="st-weather">🌥️<span id="st-weather-txt">Загрузка</span></div>
+        <div class="sticker" id="st-water">💧<span id="st-water-txt">--</span>°C</div>
+        <div class="sticker-time">⏱️<span id="st-time-txt">--:--</span></div>
+      </div>
+      <button id="theme-toggle" class="icon-btn">
+        <span id="themeIcon">☀️</span>
+        <span class="theme-text" id="themeText">День</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== МОБИЛЬНОЕ МЕНЮ (HTML-структура) ========== -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+      <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+      <div class="mobile-menu-item" data-target="index">🏠 На главную</div>
+      <div class="mobile-menu-item" id="mobileRoutesBtn">🗺️ Мои маршруты</div>
+      <div class="mobile-menu-sub" id="mobileRoutesSub" style="display: none;">
+        <a href="../Anapa/Anapa.html" class="mobile-sub-link">🏖️ Анапа</a>
+        <a href="../Gelendzhik/Gelendzhik.html" class="mobile-sub-link">🌴 Геленджик</a>
+        <a href="../Sochi/Sochi.html" class="mobile-sub-link">☀️ Сочи</a>
+        <a href="../Roza/Roza.html" class="mobile-sub-link">⛰️ Роза-Хутор</a>
+      </div>
+      <div class="mobile-menu-item" data-target="places">📅 Планирую посетить</div>
+      <div class="mobile-menu-item" data-target="review">✍️ Поделиться впечатлением</div>
+    </div>
+  </div>
+
+  <!-- Кнопка наверх -->
+  <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
+
+  <!-- ========== ГЛАВНОЕ ФОТО ========== -->
+  <div class="hero-photo">
+    <img class="hero-image" id="heroImg" src="Img.Sirius/adlerr.jpg" alt="Сириус">
+    <div class="handwrite-city">Сириус</div>
+  </div>
+
+  <!-- ========== ФОТОПЛЁНКА (ГОРИЗОНТАЛЬНАЯ ПРОКРУТКА) ========== -->
+  <div class="filmstrip-section" id="section-film">
+    <div class="filmstrip-wrapper">
+      <div class="film-card">
+        <img class="film-img" src="Img.Sirius/40.png" alt="Олимпийский парк">
+        <div class="film-text"><strong>🏟️🔥 Олимпийский парк</strong> Масштабы этого места поражают воображение, особенно когда стоишь у чаши Олимпийского огня. Вечернее шоу поющих фонтанов под классическую музыку — это обязательное зрелище, которое пробирает до мурашек.</div>
+      </div>
+      <div class="film-card">
+        <img class="film-img" src="Img.Sirius/41.jpg" alt="Набережная Имеретинка">
+        <div class="film-text"><strong>🌊🚶‍♀️ Набережная "Имеретинка"</strong> Прогулка по широкой набережной вдоль моря — это лучший способ ощутить курортную свободу. Здесь нет железной дороги, поэтому вид на горизонт остается открытым и бесконечным.</div>
+      </div>
+      <div class="film-card">
+        <img class="film-img" src="Img.Sirius/45.jpg" alt="Сочи-Парк">
+        <div class="film-text"><strong>🎢🏰 Сочи-Парк</strong> Это настоящий город сказок, где захватывающие дух аттракционы соседствуют с атмосферой русского фольклора. Главный замок-отель «Богатырь» выглядит настолько эффектно.</div>
+      </div>
+      <div class="film-card">
+        <img class="film-img" src="Img.Sirius/42.jpg" alt="Мост Мзымта">
+        <div class="film-text"><strong>🌉✈️ Мост Мзымта</strong> Это место дарит дикий восторг, когда прямо над головой с гулом проносится огромный лайнер. На мосту через Мзымту чувствуешь невероятную близость неба и мощь авиации.</div>
+      </div>
+      <div class="film-card">
+        <img class="film-img" src="Img.Sirius/46.jpeg" alt="Парк Южные культуры">
+        <div class="film-text"><strong>🌿🌸 Парк "Южные культуры"</strong> Тихий и тенистый уголок с вековыми секвойями и экзотическими цветами, где время будто замедляется. Прогулка по бамбуковым рощам — лучший способ отдохнуть от суеты.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== САМОЛЁТ (ПЕРЕЛЁТ НА РОЗУ ХУТОР) ========== -->
+  <div class="plane-wrapper">
+    <div class="plane-corner" id="planeCorner">
+      <div class="plane-inner">
+        <div class="plane-icon">✈️</div>
+        <div class="plane-text">А может в горы? 🏔️</div>
+        <div class="plane-invite" id="planeInvite">🏔️ А может в горы? →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ФУТЕР ========== -->
+  <div class="footer">
+    <div>© 2025 Мой юг: от Анапы до Сочи</div>
+    <div style="margin-top: 10px;"><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
+  </div>
+</div>
+
+<!-- ========== ПК ЛИАНА ========== -->
+<div class="rope-container">
+  <div class="rope-line"></div>
+  <div class="knot-item" id="knotHome" style="top: 12%;">⛵<div class="bubble-menu">⚓ Главная</div></div>
+  <div class="knot-item" id="knotRoutes" style="top: 35%;">🗺️
+    <div class="subknots">
+      <div class="subknot-title">📋 Мои маршруты</div>
+      <a href="../Anapa/Anapa.html" class="subknot-link">🏖️ Анапа</a>
+      <a href="../Gelendzhik/Gelendzhik.html" class="subknot-link">🌴 Геленджик</a>
+      <a href="../Sochi/Sochi.html" class="subknot-link">☀️ Сочи</a>
+      <a href="../Roza/Roza.html" class="subknot-link">⛰️ Роза-Хутор</a>
+    </div>
+  </div>
+  <div class="knot-item" id="knotPlaces" style="top: 60%;">📅<div class="bubble-menu">📅 Планирую посетить</div></div>
+  <div class="knot-item" id="knotReview" style="top: 85%;">✍️<div class="bubble-menu">✍️ Поделитесь впечатлением</div></div>
+</div>
+<div class="rope-anchor" id="ropeAnchor">⚓</div>
+
+<!-- ========== ПОДКЛЮЧЕНИЕ СКРИПТОВ ========== -->
+<!-- Общее меню (из корня) -->
+<script src="../menu.js"></script>
+<!-- Уникальные скрипты Сириуса -->
+<script src="Sirius.js"></script>
+</body>
+</html>

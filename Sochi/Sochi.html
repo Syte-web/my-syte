@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#008080">
+  <meta name="description" content="Сочи — город-мечта у Чёрного моря">
+  <title>Сочи — Море, горы и ностальгия</title>
+  
+  <!-- ========== ИКОНКА САЙТА (favicon) ДЛЯ СОЧИ С ПАЛЬМОЙ ========== -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌴</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌴</text></svg>">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Sochi.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- ШАПКА -->
+  <div class="header">
+    <div class="header-left">
+      <!-- Кораблик-бургер для мобильного меню -->
+      <div class="mobile-menu-btn" id="mobileMenuBtn">⛵</div>
+    </div>
+    <div class="title">Мой юг: от Анапы до Сочи</div>
+    <div class="header-right">
+      <div class="stickers">
+        <div class="sticker">🌥️<span id="st-weather-txt">Загрузка</span></div>
+        <div class="sticker">💧<span id="st-water-txt">--</span>°C</div>
+        <div class="sticker">⏱️<span id="st-time-txt">--:--</span></div>
+      </div>
+      <button id="theme-toggle" class="icon-btn">
+        <span id="themeIcon">☀️</span>
+        <span class="theme-text" id="themeText">День</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- МОБИЛЬНОЕ МЕНЮ (ВЫЕЗЖАЮЩЕЕ) -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+      <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+      <div class="mobile-menu-item" data-target="index">🏠 На главную</div>
+      <div class="mobile-menu-item" id="mobileRoutesBtn">🗺️ Мои маршруты</div>
+      <div class="mobile-menu-sub" id="mobileRoutesSub" style="display: none;">
+        <a href="../Anapa/Anapa.html" class="mobile-sub-link">🏖️ Анапа</a>
+        <a href="../Gelendzhik/Gelendzhik.html" class="mobile-sub-link">🌴 Геленджик</a>
+        <a href="../Sirius/Sirius.html" class="mobile-sub-link">⭐ Сириус</a>
+        <a href="../Roza/Roza.html" class="mobile-sub-link">⛰️ Роза-Хутор</a>
+      </div>
+      <div class="mobile-menu-item" data-target="places">📅 Планирую посетить</div>
+      <div class="mobile-menu-item" data-target="review">✍️ Поделиться впечатлением</div>
+    </div>
+  </div>
+
+  <!-- КНОПКА НАВЕРХ -->
+  <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
+
+  <!-- ГЛАВНОЕ ФОТО С МУЗЫКОЙ -->
+  <div class="hero-photo">
+    <img class="hero-image" src="Img.Sochi/18.jpg" alt="Сочи">
+    <div class="handwrite-city">
+      <span id="typedText"></span><span class="cursor-blink"></span>
+    </div>
+    <div class="music-on-photo" id="photoMusicBtn">
+      <span class="music-icon-large">🎵</span>
+      <span class="music-info-text">Павел Черкасов — Сочи</span>
+      <span class="music-state-icon" id="photoMusicState">▶</span>
+    </div>
+  </div>
+
+  <div class="section-title">✨ Сочи — город-мечта ✨</div>
+
+  <!-- БЛОК 1: МОРСКОЙ ВОКЗАЛ -->
+  <div class="feature-block">
+    <div class="feature-duo">
+      <div class="square-img"><img src="Img.Sochi/17.jpg" alt="Морской вокзал"></div>
+      <div class="feature-text anchor-bg">
+        <div class="anchor-float anchor-1" style="top: 5%; left: 2%;">⚓</div>
+        <div class="anchor-float anchor-2" style="bottom: 10%; right: 3%;">⚓</div>
+        <div class="anchor-float anchor-3" style="top: 30%; right: 15%;">⚓</div>
+        <strong>🏛️ Морской вокзал Сочи</strong> — визитная карточка города, построенный в 1955 году. Его знаменитая 70-метровая башня со шпилем и ротонда стали символом черноморской жемчужины.
+      </div>
+    </div>
+  </div>
+
+  <!-- БЛОК 2: ПАРК РИВЬЕРА -->
+  <div class="feature-block">
+    <div class="feature-duo">
+      <div class="feature-text leaf-fall">
+        <div class="leaf leaf-1" style="top: -30px; left: 10%;">🍃</div>
+        <div class="leaf leaf-2" style="top: -40px; left: 25%;">🌿</div>
+        <div class="leaf leaf-3" style="top: -20px; left: 40%;">🍃</div>
+        <strong>🌿 Парк «Ривьера»</strong> — зелёное сердце Сочи, основанное в 1898 году. Настоящий оазис с тенистыми аллеями, вековыми дубами и экзотическими растениями.
+      </div>
+      <div class="carousel-container">
+        <div class="carousel-frame"><img class="carousel-img" id="rivieraImg" src="Img.Sochi/20.jpg" alt="Ривьера"></div>
+        <div class="carousel-buttons">
+          <button class="carousel-btn" id="prevRivieraBtn">◀ Назад</button>
+          <button class="carousel-btn" id="nextRivieraBtn">Вперёд ▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- БЛОК 3: МУЗЕЙ 90-Х -->
+  <div class="feature-block">
+    <div class="feature-duo">
+      <div class="carousel-container">
+        <div class="carousel-frame"><img class="carousel-img" id="museum90Img" src="Img.Sochi/24.jpg" alt="Музей 90-х"></div>
+        <div class="carousel-buttons">
+          <button class="carousel-btn" id="prevMuseumBtn">◀ Назад</button>
+          <button class="carousel-btn" id="nextMuseumBtn">Вперёд ▶</button>
+        </div>
+      </div>
+      <div class="feature-text tetris-bg">
+        <div class="tetris-piece tetris-1" style="top: 5%; left: 2%;">🟦🟦<br>🟦🟦</div>
+        <div class="tetris-piece tetris-2" style="bottom: 10%; right: 5%;">🟩🟩🟩</div>
+        <strong>📼 Музей 90-х</strong> — ностальгическое путешествие в эпоху видеокассет, жвачек Turbo, дисководов и первых мобильных телефонов.
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA БЛОК -->
+  <div class="cta-block">
+    <div class="cta-text">🏔️ Посмотрели Сочи? это только начало...</div>
+    <button class="cta-button" id="openChoiceBtn">Выбрать направление →</button>
+  </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО ВЫБОРА -->
+<div id="choiceModal" class="modal-choice">
+  <div class="choice-card">
+    <div class="choice-title">🏞️ Куда отправимся?</div>
+    <div class="modal-gallery">
+      <div class="modal-card" id="rozaCard">
+        <img class="modal-img" src="Img.Sochi/roza2.jpg" alt="Роза Хутор">
+        <div class="modal-caption">⛰️ Роза Хутор</div>
+      </div>
+      <div class="modal-card" id="siriusCard">
+        <img class="modal-img" src="Img.Sochi/adler.jpg" alt="Сириус">
+        <div class="modal-caption">⭐ Сириус</div>
+      </div>
+    </div>
+    <button class="back-to-main-btn" id="backToMainModalBtn">🏠 На главную</button>
+  </div>
+</div>
+
+<!-- ФУТЕР -->
+<div class="footer">
+  <div>© 2025 Мой юг: от Анапы до Сочи</div>
+  <div style="margin-top: 8px;"><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
+</div>
+
+<!-- ЛИАНА ДЛЯ ПК (БОКОВАЯ НАВИГАЦИЯ) -->
+<div class="rope-container">
+  <div class="rope-line"></div>
+  <div class="knot-item" id="knotHome" style="top: 12%;">⛵<div class="bubble-menu">⚓ Главная</div></div>
+  <div class="knot-item" id="knotRoutes" style="top: 35%;">🗺️
+    <div class="subknots">
+      <div class="subknot-title">📋 Мои маршруты</div>
+      <a href="../Anapa/Anapa.html" class="subknot-link">🏖️ Анапа</a>
+      <a href="../Gelendzhik/Gelendzhik.html" class="subknot-link">🌴 Геленджик</a>
+      <a href="../Sirius/Sirius.html" class="subknot-link">⭐ Сириус</a>
+      <a href="../Roza/Roza.html" class="subknot-link">⛰️ Роза-Хутор</a>
+    </div>
+  </div>
+  <div class="knot-item" id="knotPlaces" style="top: 60%;">📅<div class="bubble-menu">📅 Планирую посетить</div></div>
+  <div class="knot-item" id="knotReview" style="top: 85%;">✍️<div class="bubble-menu">✍️ Поделитесь впечатлением</div></div>
+</div>
+
+<!-- ДЕКОРАТИВНЫЙ ПЛАВАЮЩИЙ ЯКОРЬ -->
+<div class="rope-anchor" id="ropeAnchor">⚓</div>
+
+<!-- АУДИО ДЛЯ МУЗЫКИ -->
+<audio id="sochiMusic" src="Audio.Sochi/soc.mp3" loop preload="auto"></audio>
+
+<script src="Sochi.js"></script>
+</body>
+</html>

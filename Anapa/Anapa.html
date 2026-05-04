@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<meta name="theme-color" content="#e8c48c">
+<title>Мой юг: Анапа — песчаная жемчужина</title>
+
+<!=================================================== ИКОНКА САЙТА (favicon) для Анапы - песок/пляж 🏖️ =============================================================>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏖️</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏖️</text></svg>">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Anapa.css">
+</head>
+<body>
+
+
+  <!====================================================================== ШАПКА ПРОФИЛЯ================================================================================>
+<div class="container">
+  <div class="header">
+    <div class="header-left">
+      <div class="mobile-menu-btn" id="mobileMenuBtn">⛵</div>
+    </div>
+    <div class="title">Мой юг: от Анапы до Сочи</div>
+    <div class="header-right">
+      <div class="stickers">
+        <div class="sticker" id="st-weather">🌥️<span id="st-weather-txt">Загрузка</span></div>
+        <div class="sticker" id="st-water">💧<span id="st-water-txt">--</span>°C</div>
+        <div class="sticker" id="st-time">⏱️<span id="st-time-txt">--:--</span></div>
+      </div>
+      <button id="theme-toggle" class="icon-btn">
+        <span id="themeIcon">☀️</span>
+        <span class="theme-text" id="themeText">День</span>
+      </button>
+    </div>
+  </div>
+
+
+  <!======================================================================= МОБИЛЬНОЕ МЕНЮ (HTML-структура) ===========================================================>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+      <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+      <div class="mobile-menu-item" data-target="index">🏠 На главную</div>
+      <div class="mobile-menu-item" id="mobileRoutesBtn">🗺️ Мои маршруты</div>
+      <div class="mobile-menu-sub" id="mobileRoutesSub" style="display: none;">
+        <a href="../Gelendzhik/Gelendzhik.html" class="mobile-sub-link">🌴 Геленджик</a>
+        <a href="../Sochi/Sochi.html" class="mobile-sub-link">☀️ Сочи</a>
+        <a href="../Sirius/Sirius.html" class="mobile-sub-link">⭐ Сириус</a>
+        <a href="../Roza/Roza.html" class="mobile-sub-link">⛰️ Роза-Хутор</a>
+      </div>
+      <div class="mobile-menu-item" data-target="places">📅 Планирую посетить</div>
+      <div class="mobile-menu-item" data-target="review">✍️ Поделиться впечатлением</div>
+    </div>
+  </div>
+
+  <div class="hero-photo-wrap">
+    <img class="hero-photo" src="Img.Anapa/1.jpg" alt="Анапа пляж">
+    <div class="photo-caption">Анапа</div>
+  </div>
+
+
+
+<!============================================================================== Стикеры======================================================================>
+  <div class="stickers-section">
+    <div class="note-sticker sticker-yellow">🌽 Обязательно попробуйте местный виноград и кукурузу на пляже 🌽</div>
+    <div class="note-sticker sticker-pink">🌅 Лучшие закаты - на Высоком берегу. Берите плед! 🌅</div>
+    <div class="note-sticker sticker-mint">🦀 Не забудьте маску. В Анапе мелко и можно увидеть крабиков 🦀</div>
+  </div>
+
+
+
+<!=====================================================================Впечатление ==============================================================================>
+  <div class="impression-section">
+    <div class="impression-title">✨ Моё впечатление о поездке в Анапу ✨</div>
+    <div class="impression-card">
+      <div class="impression-quote">“</div>
+      <div class="impression-text">
+        Анапа влюбляет в себя бескрайними песчаными дюнами Джемете и захватывающими видами с обрывов Высокого берега. Настоящая магия ждет в пригороде, где прямо из зеркальной воды Кипарисового озера растут сказочные деревья-великаны. Здесь южное солнце, 
+морской бриз и уникальная природа создают идеальный коктейль для самых ярких впечатлений и фотографий. 🌊💙
+      </div>
+      <div class="impression-date">Июль 2024</div>
+    </div>
+  </div>
+
+
+<!======================================================================= Полоса прокрутки фотографий ===================================================>
+  <div class="slider-section">
+    <div class="slider-title">📸 Анапа в объективе</div>
+    <div class="slider-container">
+      <div class="slider-track" id="sliderTrack">
+        <div class="slider-item"><img class="slider-img" src="Img.Anapa/800st.jpg" alt="800 ступенек"><div class="slider-caption">🏔️ 800 ступенек</div></div>
+        <div class="slider-item"><img class="slider-img" src="Img.Anapa/kiparis.jpg" alt="Кипарисовое озеро"><div class="slider-caption">🌲 Кипарисовое озеро</div></div>
+        <div class="slider-item"><img class="slider-img" src="Img.Anapa/bereg.jpg" alt="Высокий берег"><div class="slider-caption">🌅 Высокий берег</div></div>
+        <div class="slider-item"><img class="slider-img" src="Img.Anapa/plaaah.jpg" alt="Благовещенская"><div class="slider-caption">🏖️ Благовещенская</div></div>
+        <div class="slider-item"><img class="slider-img" src="Img.Anapa/plaah2.jpg" alt="Центральный пляж"><div class="slider-caption">🏊 Центральный пляж</div></div>
+        <div class="slider-item"><img class="slider-img" src="Img.Anapa/smeh.jpg" alt="Памятник туристу"><div class="slider-caption">😎 Памятник туристу</div></div>
+        <div class="slider-item"><img class="slider-img" src="Img.Anapa/lasto.jpg" alt="Ласточкино"><div class="slider-caption">🏰 Ласточкино гнездо</div></div>
+        <div class="slider-item"><img class="slider-img" src="Img.Anapa/lotos.jpg" alt="Долина лотосов"><div class="slider-caption">🌸 Долина лотосов</div></div>
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+
+
+<!=================================================================Голосование===============================================================================>
+  <div class="poll-section" id="pollSection">
+    <div class="poll-title">🏖️ Лучший пляж Анапы?</div>
+    <div class="poll-options" id="pollOptions">
+      <label class="poll-option"><input type="radio" name="beach" value="Центральный пляж"> 🏖️ Центральный пляж (песок)</label>
+      <label class="poll-option"><input type="radio" name="beach" value="Высокий пляж"> ⛰️ Высокий пляж (галька)</label>
+      <label class="poll-option"><input type="radio" name="beach" value="Благовещенская"> 🌊 Благовещенская (дюны)</label>
+    </div>
+    <div id="pollResult" class="poll-result"></div>
+  </div>
+</div>
+
+<!==============================================================================ФУТЕР ==========================================================================>
+<div class="footer" id="sandFooter">
+  <div>© 2025 Мой юг: от Анапы до Сочи</div>
+  <div style="margin-top: 8px;"><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
+  <div class="sand-particles" id="sandParticles"></div>
+</div>
+
+<!====================================================================ПК ЛИАНА =====================================================================================>
+<div class="rope-container">
+  <div class="rope-line"></div>
+  <div class="knot-item" id="knotHome" style="top: 12%;">⛵<div class="bubble-menu">⚓ Главная</div></div>
+  <div class="knot-item" id="knotRoutes" style="top: 35%;">🗺️
+    <div class="subknots">
+      <div class="subknot-title">📋 Мои маршруты</div>
+      <a href="../Gelendzhik/Gelendzhik.html" class="subknot-link">🌴 Геленджик</a>
+      <a href="../Sochi/Sochi.html" class="subknot-link">☀️ Сочи</a>
+      <a href="../Sirius/Sirius.html" class="subknot-link">⭐ Сириус</a>
+      <a href="../Roza/Roza.html" class="subknot-link">⛰️ Роза-Хутор</a>
+    </div>
+  </div>
+  <div class="knot-item" id="knotPlaces" style="top: 60%;">📅<div class="bubble-menu">📅 Планирую посетить</div></div>
+  <div class="knot-item" id="knotReview" style="top: 85%;">✍️<div class="bubble-menu">✍️ Поделиться впечатлением</div></div>
+</div>
+<div class="rope-anchor" id="ropeAnchor">⚓</div>
+
+<!================================================================================= ПОДКЛЮЧЕНИЕ СКРИПТОВ ============================================>
+<!------------------------------------------------- Общее меню (из корня)--------------------------- -->
+<script src="menu.js"></script>
+<!-----------------------------------------Уникальные скрипты Анапы (без дублей меню) ------------------->
+<script src="Anapa.js"></script>
+</body>
+</html>
