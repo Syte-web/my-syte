@@ -17,10 +17,14 @@ function applyTheme(t) {
   localStorage.setItem('siteTheme', t);
 }
 applyTheme(localStorage.getItem('siteTheme') || 'light');
-document.getElementById('theme-toggle').addEventListener('click', () => {
-  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-});
+
+const themeToggle = document.getElementById('theme-toggle');
+if(themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
+}
 
 // ========== ПОГОДА И ВОДА ==========
 async function fetchWeatherAndSea() {
@@ -29,26 +33,34 @@ async function fetchWeatherAndSea() {
     const data = await res.json();
     if(data.current_weather) {
       const air = Math.round(data.current_weather.temperature);
-      document.getElementById('st-weather-txt').innerHTML = air + '°C';
+      const weatherElem = document.getElementById('st-weather-txt');
+      const waterElem = document.getElementById('st-water-txt');
+      if(weatherElem) weatherElem.innerHTML = air + '°C';
       let water = Math.min(28, Math.max(10, air - 2));
-      document.getElementById('st-water-txt').innerHTML = water;
+      if(waterElem) waterElem.innerHTML = water;
     }
   } catch(e) {
-    document.getElementById('st-weather-txt').innerHTML = '23°C';
-    document.getElementById('st-water-txt').innerHTML = '21°C';
+    const weatherElem = document.getElementById('st-weather-txt');
+    const waterElem = document.getElementById('st-water-txt');
+    if(weatherElem) weatherElem.innerHTML = '23°C';
+    if(waterElem) waterElem.innerHTML = '21°C';
   }
 }
 fetchWeatherAndSea();
 
 // ========== ВРЕМЯ ==========
 function updateTime() {
-  document.getElementById('st-time-txt').textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  const timeElem = document.getElementById('st-time-txt');
+  if(timeElem) {
+    timeElem.textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  }
 }
 updateTime();
 setInterval(updateTime, 60000);
 
 // ========== ГОРИЗОНТАЛЬНАЯ ПРОКРУТКА ФОТОПЛЁНКИ ==========
-const filmstrip = document.getElementById('filmstrip');
+// Исправлено: в HTML используется класс "filmstrip-section", а не id "filmstrip"
+const filmstrip = document.querySelector('.filmstrip-section');
 let isDown = false;
 let startX;
 let scrollLeft;
@@ -100,10 +112,12 @@ function flyToMountains() {
   if(!plane) return;
   if(isMobile) {
     plane.classList.add('plane-fly-mobile');
-    setTimeout(() => { window.location.href = '../Roza/Roza.html'; }, 5000);
+    // Увеличено время полета для мобильной версии: было 5000, стало 6000
+    setTimeout(() => { window.location.href = '../Roza/Roza.html'; }, 6000);
   } else {
     plane.classList.add('plane-fly');
-    setTimeout(() => { window.location.href = '../Roza/Roza.html'; }, 500);
+    // Увеличено время полета для ПК версии: было 500, стало 3000
+    setTimeout(() => { window.location.href = '../Roza/Roza.html'; }, 3000);
   }
 }
 
@@ -133,5 +147,107 @@ if(!isMobile && plane) {
   plane.addEventListener('click', (e) => {
     e.stopPropagation();
     flyToMountains();
+  });
+}
+
+// ========== КНОПКА НАВЕРХ ==========
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+if(scrollTopBtn) {
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 300) {
+      scrollTopBtn.classList.add('show');
+    } else {
+      scrollTopBtn.classList.remove('show');
+    }
+  });
+  
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+// ========== МОБИЛЬНОЕ МЕНЮ ==========
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+const mobileMenuClose = document.getElementById('mobileMenuClose');
+const mobileRoutesBtn = document.getElementById('mobileRoutesBtn');
+const mobileRoutesSub = document.getElementById('mobileRoutesSub');
+
+if(mobileMenuBtn && mobileMenuOverlay) {
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+  
+  if(mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', () => {
+      mobileMenuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  }
+  
+  mobileMenuOverlay.addEventListener('click', (e) => {
+    if(e.target === mobileMenuOverlay) {
+      mobileMenuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+  
+  // Переключение выпадающего списка маршрутов
+  if(mobileRoutesBtn && mobileRoutesSub) {
+    mobileRoutesBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if(mobileRoutesSub.style.display === 'none') {
+        mobileRoutesSub.style.display = 'flex';
+      } else {
+        mobileRoutesSub.style.display = 'none';
+      }
+    });
+  }
+  
+  // Обработка пунктов меню
+  const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
+  menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const target = item.getAttribute('data-target');
+      if(target === 'index') {
+        window.location.href = '../index.html';
+      } else if(target === 'places') {
+        // Прокрутка к разделу "Планирую посетить" или другая логика
+        const section = document.getElementById('section-film');
+        if(section) section.scrollIntoView({ behavior: 'smooth' });
+      } else if(target === 'review') {
+        alert('Поделитесь впечатлением: angelina.chernovalova@yandex.ru');
+      }
+      mobileMenuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+// ========== ПК ЛИАНА (УЗЛЫ) ==========
+const knotHome = document.getElementById('knotHome');
+const knotPlaces = document.getElementById('knotPlaces');
+const knotReview = document.getElementById('knotReview');
+
+if(knotHome) {
+  knotHome.addEventListener('click', () => {
+    window.location.href = '../index.html';
+  });
+}
+
+if(knotPlaces) {
+  knotPlaces.addEventListener('click', () => {
+    const filmSection = document.getElementById('section-film');
+    if(filmSection) filmSection.scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
+if(knotReview) {
+  knotReview.addEventListener('click', () => {
+    alert('Поделитесь впечатлением: angelina.chernovalova@yandex.ru');
   });
 }

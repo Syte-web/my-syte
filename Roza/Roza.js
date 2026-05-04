@@ -18,14 +18,22 @@ function applyTheme(t) {
   localStorage.setItem('siteTheme', t);
 }
 applyTheme(localStorage.getItem('siteTheme') || 'light');
-document.getElementById('theme-toggle').addEventListener('click', () => {
-  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-});
+
+const themeToggle = document.getElementById('theme-toggle');
+if(themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
+}
 
 // ========== ВРЕМЯ ==========
-function updateTime(){ document.getElementById('st-time-txt').textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
-updateTime(); setInterval(updateTime, 60000);
+function updateTime(){ 
+  const timeElem = document.getElementById('st-time-txt');
+  if(timeElem) timeElem.textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); 
+}
+updateTime(); 
+setInterval(updateTime, 60000);
 
 // ========== ПОГОДА ==========
 async function fetchWeather() {
@@ -38,9 +46,13 @@ async function fetchWeather() {
       const fog = data.hourly?.relativehumidity_2m?.[0] || 65;
       const precip = data.hourly?.precipitation?.[0] || 0;
       
-      document.getElementById('weatherTemp').innerHTML = temp;
-      document.getElementById('weatherWind').innerText = wind;
-      document.getElementById('weatherFog').innerText = fog;
+      const tempElem = document.getElementById('weatherTemp');
+      const windElem = document.getElementById('weatherWind');
+      const fogElem = document.getElementById('weatherFog');
+      
+      if(tempElem) tempElem.innerHTML = temp;
+      if(windElem) windElem.innerText = wind;
+      if(fogElem) fogElem.innerText = fog;
       
       let mainIcon = '☀️';
       if(precip > 1) mainIcon = '🌧️';
@@ -49,24 +61,29 @@ async function fetchWeather() {
       else if(temp > 10 && temp <= 20) mainIcon = '⛅';
       else if(temp <= 10 && temp > 0) mainIcon = '☁️';
       else if(temp <= 0) mainIcon = '❄️';
-      document.getElementById('weatherMainIcon').innerHTML = mainIcon;
+      
+      const mainIconElem = document.getElementById('weatherMainIcon');
+      if(mainIconElem) mainIconElem.innerHTML = mainIcon;
       
       const badge = document.getElementById('weatherVerdictBadge');
-      
-      if(temp < -5 || wind > 15 || precip > 5) {
-        badge.innerHTML = 'Подъём: ❌ НЕТ';
-        badge.className = 'weather-verdict verdict-bad';
-      } else if(temp < 5 || wind > 10 || precip > 2) {
-        badge.innerHTML = 'Подъём: ⚠️ ОСТОРОЖНО';
-        badge.className = 'weather-verdict verdict-warning';
-      } else {
-        badge.innerHTML = 'Подъём: ✅ ДА!';
-        badge.className = 'weather-verdict verdict-good';
+      if(badge) {
+        if(temp < -5 || wind > 15 || precip > 5) {
+          badge.innerHTML = 'Подъём: ❌ НЕТ';
+          badge.className = 'weather-verdict verdict-bad';
+        } else if(temp < 5 || wind > 10 || precip > 2) {
+          badge.innerHTML = 'Подъём: ⚠️ ОСТОРОЖНО';
+          badge.className = 'weather-verdict verdict-warning';
+        } else {
+          badge.innerHTML = 'Подъём: ✅ ДА!';
+          badge.className = 'weather-verdict verdict-good';
+        }
       }
     }
   } catch(e) {
-    document.getElementById('weatherTemp').innerHTML = '--';
-    document.getElementById('weatherVerdictBadge').innerHTML = 'Подъём: ⚠️ Ошибка';
+    const tempElem = document.getElementById('weatherTemp');
+    const badge = document.getElementById('weatherVerdictBadge');
+    if(tempElem) tempElem.innerHTML = '--';
+    if(badge) badge.innerHTML = 'Подъём: ⚠️ Ошибка';
   }
 }
 fetchWeather();
@@ -112,42 +129,135 @@ document.querySelectorAll('.gondola-modal').forEach(modal => {
   });
 });
 
-// ========== ВИДЕО (БИНОКЛЬ) С КРЕСТИКОМ ==========
+// ========== ОПТИМИЗИРОВАННОЕ ВИДЕО (БИНОКЛЬ) ==========
 const videoOverlay = document.getElementById('videoOverlay');
 const localVideo = document.getElementById('localVideo');
 const openVideoBtn = document.getElementById('openVideoBtn');
 const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-if(openVideoBtn) {
-  openVideoBtn.addEventListener('click', () => {
-    videoOverlay.classList.add('active');
-    localVideo.load();
-    setTimeout(() => {
-      localVideo.play().catch(e => console.log('Автовоспроизведение заблокировано'));
-    }, 100);
-  });
-}
+// Флаг, открыто ли видео
+let isVideoOpen = false;
 
-// Закрытие видео + закрытие модалки гондолы
+// Функция закрытия видео (максимально быстрая)
 function closeVideoAndGondola() {
-  videoOverlay.classList.remove('active');
-  localVideo.pause();
-  localVideo.currentTime = 0;
+  if(!videoOverlay) return;
   
+  // Сначала скрываем оверлей (мгновенно)
+  videoOverlay.classList.remove('active');
+  isVideoOpen = false;
+  
+  // Затем останавливаем видео
+  if(localVideo) {
+    localVideo.pause();
+    localVideo.currentTime = 0;
+  }
+  
+  // Закрываем все модалки гондол
   document.querySelectorAll('.gondola-modal.active').forEach(modal => {
     modal.classList.remove('active');
   });
+  
   document.body.style.overflow = '';
-  // window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-if(closeVideoBtn) {
-  closeVideoBtn.addEventListener('click', closeVideoAndGondola);
+// Функция открытия видео
+function openVideo() {
+  if(!videoOverlay || !localVideo) return;
+  
+  videoOverlay.classList.add('active');
+  isVideoOpen = true;
+  
+  // Загружаем видео если еще не загружено
+  if(localVideo.readyState === 0) {
+    localVideo.load();
+  }
+  
+  // Пытаемся воспроизвести
+  setTimeout(() => {
+    localVideo.play().catch(e => {
+      console.log('Автовоспроизведение заблокировано');
+      // Показываем кнопку Play
+      showPlayButton();
+    });
+  }, 50);
 }
+
+// Кнопка Play если авто запрещено
+function showPlayButton() {
+  const container = document.querySelector('.video-container-small');
+  if(container && !container.querySelector('.manual-play-btn')) {
+    const playBtn = document.createElement('button');
+    playBtn.className = 'manual-play-btn';
+    playBtn.innerHTML = '▶';
+    playBtn.style.position = 'absolute';
+    playBtn.style.top = '50%';
+    playBtn.style.left = '50%';
+    playBtn.style.transform = 'translate(-50%, -50%)';
+    playBtn.style.width = '70px';
+    playBtn.style.height = '70px';
+    playBtn.style.borderRadius = '50%';
+    playBtn.style.background = 'rgba(0,0,0,0.8)';
+    playBtn.style.border = '3px solid white';
+    playBtn.style.fontSize = '2rem';
+    playBtn.style.color = 'white';
+    playBtn.style.cursor = 'pointer';
+    playBtn.style.zIndex = '35';
+    playBtn.style.display = 'flex';
+    playBtn.style.alignItems = 'center';
+    playBtn.style.justifyContent = 'center';
+    container.style.position = 'relative';
+    container.appendChild(playBtn);
+    
+    playBtn.onclick = () => {
+      localVideo.play();
+      playBtn.remove();
+    };
+    
+    // Убираем через 3 секунды если не нажали
+    setTimeout(() => {
+      if(playBtn && playBtn.parentNode) playBtn.remove();
+    }, 3000);
+  }
+}
+
+// Добавляем обработчики с максимальной производительностью
+if(openVideoBtn) {
+  openVideoBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    openVideo();
+  });
+}
+
+// КРЕСТИК - максимально быстрая реакция
+if(closeVideoBtn) {
+  // Используем touchstart и mousedown для максимальной скорости
+  closeVideoBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeVideoAndGondola();
+  });
+  
+  closeVideoBtn.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeVideoAndGondola();
+  });
+}
+
+// Закрытие по клику на фон
 if(videoOverlay) {
   videoOverlay.addEventListener('click', (e) => {
-    if(e.target === videoOverlay) closeVideoAndGondola();
+    if(e.target === videoOverlay) {
+      closeVideoAndGondola();
+    }
   });
+}
+
+// Предзагрузка видео при загрузке страницы
+if(localVideo) {
+  localVideo.preload = 'metadata';
+  localVideo.setAttribute('playsinline', '');
 }
 
 // ========== ЛАЙКИ ДЛЯ ВИДЕО ==========
@@ -294,20 +404,106 @@ if(ticket) {
     goToSea(); 
   });
 }
-document.getElementById('ticketInvite')?.addEventListener('click', (e) => { 
-  e.stopPropagation(); 
-  goToSea(); 
-});
+const ticketInvite = document.getElementById('ticketInvite');
+if(ticketInvite) {
+  ticketInvite.addEventListener('click', (e) => { 
+    e.stopPropagation(); 
+    goToSea(); 
+  });
+}
 
 // ========== КНОПКА СТРЕЛКА ВВЕРХ ==========
 const scrollTopBtn = document.getElementById('scrollTopBtn');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {
-    scrollTopBtn.classList.add('show');
-  } else {
-    scrollTopBtn.classList.remove('show');
+if(scrollTopBtn) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.classList.add('show');
+    } else {
+      scrollTopBtn.classList.remove('show');
+    }
+  });
+  
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ========== МОБИЛЬНОЕ МЕНЮ ==========
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+const mobileMenuClose = document.getElementById('mobileMenuClose');
+const mobileRoutesBtn = document.getElementById('mobileRoutesBtn');
+const mobileRoutesSub = document.getElementById('mobileRoutesSub');
+
+if(mobileMenuBtn && mobileMenuOverlay) {
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+  
+  if(mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', () => {
+      mobileMenuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
   }
-});
-scrollTopBtn?.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+  
+  mobileMenuOverlay.addEventListener('click', (e) => {
+    if(e.target === mobileMenuOverlay) {
+      mobileMenuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+  
+  if(mobileRoutesBtn && mobileRoutesSub) {
+    mobileRoutesBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if(mobileRoutesSub.style.display === 'none') {
+        mobileRoutesSub.style.display = 'flex';
+      } else {
+        mobileRoutesSub.style.display = 'none';
+      }
+    });
+  }
+  
+  const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
+  menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const target = item.getAttribute('data-target');
+      if(target === 'index') {
+        window.location.href = '../index.html';
+      } else if(target === 'places') {
+        const section = document.querySelector('.gondola-section');
+        if(section) section.scrollIntoView({ behavior: 'smooth' });
+      } else if(target === 'review') {
+        alert('Поделитесь впечатлением: angelina.chernovalova@yandex.ru');
+      }
+      mobileMenuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+// ========== ПК ЛИАНА (УЗЛЫ) ==========
+const knotHome = document.getElementById('knotHome');
+const knotPlaces = document.getElementById('knotPlaces');
+const knotReview = document.getElementById('knotReview');
+
+if(knotHome) {
+  knotHome.addEventListener('click', () => {
+    window.location.href = '../index.html';
+  });
+}
+
+if(knotPlaces) {
+  knotPlaces.addEventListener('click', () => {
+    const gondolaSection = document.querySelector('.gondola-section');
+    if(gondolaSection) gondolaSection.scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
+if(knotReview) {
+  knotReview.addEventListener('click', () => {
+    alert('Поделитесь впечатлением: angelina.chernovalova@yandex.ru');
+  });
+}
