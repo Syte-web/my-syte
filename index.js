@@ -206,3 +206,85 @@ document.querySelectorAll('.share-btn').forEach(btn => {
     }
   });
 });
+
+
+// ========== ДВИЖЕНИЕ ЯКОРЯ ПРИ СКРОЛЛЕ (ГЛАВНАЯ СТРАНИЦА) ==========
+(function initRopeAnchor() {
+    const ropeAnchor = document.getElementById('ropeAnchor');
+    if (!ropeAnchor) return;
+    
+    function updateAnchorPosition() {
+        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        // Минимальная и максимальная позиция якоря (в пикселях от верха)
+        const minTop = 80;
+        const maxTop = window.innerHeight - 100;
+        let newTop = minTop + (maxTop - minTop) * scrollPercent;
+        newTop = Math.min(maxTop, Math.max(minTop, newTop));
+        ropeAnchor.style.top = newTop + 'px';
+    }
+    
+    // Обновляем при скролле (с оптимизацией requestAnimationFrame)
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateAnchorPosition();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+    
+    // Обновляем при изменении размера окна
+    window.addEventListener('resize', () => updateAnchorPosition());
+    
+    // Запускаем один раз при загрузке
+    updateAnchorPosition();
+})();
+
+// ========== ИСПРАВЛЕНИЕ ЛИАНЫ ДЛЯ НАВЕДЕНИЯ (ПК) ==========
+(function fixRopeHover() {
+    const knots = document.querySelectorAll('.knot-item');
+    
+    knots.forEach(knot => {
+        // Для тач-экранов и мыши — делаем по клику
+        knot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const submenu = knot.querySelector('.subknots-right');
+            if (submenu) {
+                // Закрываем все другие подменю
+                document.querySelectorAll('.subknots-right').forEach(m => {
+                    if (m !== submenu) {
+                        m.style.opacity = '0';
+                        m.style.visibility = 'hidden';
+                    }
+                });
+                // Переключаем текущее
+                const isVisible = submenu.style.visibility === 'visible';
+                submenu.style.opacity = isVisible ? '0' : '1';
+                submenu.style.visibility = isVisible ? 'hidden' : 'visible';
+            }
+        });
+    });
+})();
+
+// ========== ПЕРЕХОДЫ ПО ПУНКТАМ ЛИАНЫ (ЕСЛИ НЕ СРАБАТЫВАЕТ ИЗ menu.js) ==========
+(function initKnotLinks() {
+    // Находим узлы, у которых есть data-target (для плавного скролла по странице)
+    const knotItems = document.querySelectorAll('.knot-item[data-target]');
+    knotItems.forEach(knot => {
+        knot.addEventListener('click', (e) => {
+            // Не даём клику уйти на всплывающее меню
+            if (e.target.closest('.subknot-link')) return;
+            
+            const targetId = knot.getAttribute('data-target');
+            if (targetId) {
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
+})();
