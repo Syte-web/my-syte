@@ -159,7 +159,7 @@
     const backToMainBtn = document.getElementById('backToMainModalBtn');
     if (backToMainBtn) {
         backToMainBtn.addEventListener('click', () => {
-            window.location.href = '../Index/Index.html';
+            window.location.href = '/index.html';
         });
     }
     const rozaCard = document.getElementById('rozaCard');
@@ -171,17 +171,17 @@
     const knotHome = document.getElementById('knotHome');
     const knotPlaces = document.getElementById('knotPlaces');
     const knotReview = document.getElementById('knotReview');
-    if (knotHome) knotHome.addEventListener('click', () => { window.location.href = '../Index/Index.html'; });
-    if (knotPlaces) knotPlaces.addEventListener('click', () => { window.location.href = '../Index/Index.html#section-places'; });
-    if (knotReview) knotReview.addEventListener('click', () => { window.location.href = '../Index/Index.html#section-review'; });
+    if (knotHome) knotHome.addEventListener('click', () => { window.location.href = '/index.html'; });
+    if (knotPlaces) knotPlaces.addEventListener('click', () => { window.location.href = '/index.html#section-places'; });
+    if (knotReview) knotReview.addEventListener('click', () => { window.location.href = '/index.html#section-review'; });
 
     document.querySelectorAll('.knot-item').forEach(knot => {
         knot.addEventListener('touchstart', (e) => {
             e.stopPropagation();
             const targetId = knot.getAttribute('id');
-            if (targetId === 'knotHome') window.location.href = '../Index/Index.html';
-            else if (targetId === 'knotPlaces') window.location.href = '../Index/Index.html#section-places';
-            else if (targetId === 'knotReview') window.location.href = '../Index/Index.html#section-review';
+            if (targetId === 'knotHome') window.location.href = '/index.html';
+            else if (targetId === 'knotPlaces') window.location.href = '/index.html#section-places';
+            else if (targetId === 'knotReview') window.location.href = '/index.html#section-review';
         });
     });
 
@@ -234,17 +234,17 @@
             const targetId = item.dataset.target;
             if (targetId === 'index') {
                 closeMobileMenu();
-                window.location.href = '../Index/Index.html';
+                window.location.href = '/index.html';
                 return;
             }
             if (targetId === 'places') {
                 closeMobileMenu();
-                window.location.href = '../Index/Index.html#section-places';
+                window.location.href = '/index.html#section-places';
                 return;
             }
             if (targetId === 'review') {
                 closeMobileMenu();
-                window.location.href = '../Index/Index.html#section-review';
+                window.location.href = '/index.html#section-review';
                 return;
             }
             const targetSection = document.getElementById(targetId);
