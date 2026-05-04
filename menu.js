@@ -1,23 +1,14 @@
-// ========== menu.js ==========
-// Универсальное меню для главной страницы и всех городов (Анапа, Геленджик, Сочи, Сириус, Роза)
+/**
+ * menu.js — универсальное меню для всех страниц
+ * Работает на главной и в папках городов (Анапа, Геленджик, Сочи, Сириус, Роза)
+ * Не конфликтует, не дублирует обработчики.
+ */
 
 (function() {
     "use strict";
 
-    // ========== ОПРЕДЕЛЯЕМ ГЛУБИНУ ВЛОЖЕННОСТИ ==========
-    // Узнаём, на какой странице мы находимся
-    const path = window.location.pathname;
-    // Если в пути есть папка (например, /Anapa/ или /Sochi/), то поднимаемся на уровень выше
-    const isInCityFolder = path.includes('/') && 
-                           !path.endsWith('index.html') && 
-                           path !== '/' &&
-                           !path.endsWith('/');
-    
-    // Базовый путь к главной странице:
-    // - Если мы в папке города (например, /Anapa/Anapa.html) → возвращаемся в корень через ../index.html
-    // - Если мы уже в корне → просто index.html
-    const basePath = isInCityFolder ? '../' : '';
-    // Абсолютный путь от корня сайта (самый надёжный вариант)
+    // ========== ОПРЕДЕЛЯЕМ КОРЕНЬ ==========
+    // Используем абсолютный путь от корня сайта — работает всегда и везде
     const rootPath = '/';
 
     // ========== МОБИЛЬНОЕ МЕНЮ ==========
@@ -86,6 +77,7 @@
                 return;
             }
             
+            // Если это якорь на текущей странице
             const targetSection = document.getElementById(targetId);
             if (targetSection) {
                 closeMobileMenu();
@@ -96,20 +88,14 @@
         });
     });
 
-    // ========== ПК ЛИАНА (боковое меню) ==========
+    // ========== ПК ЛИАНА (только узлы с id knotHome, knotPlaces, knotReview) ==========
     const knotHome = document.getElementById('knotHome');
     const knotPlaces = document.getElementById('knotPlaces');
     const knotReview = document.getElementById('knotReview');
 
-    function navigateToHome() {
-        window.location.href = rootPath + 'index.html';
-    }
-    function navigateToPlaces() {
-        window.location.href = rootPath + 'index.html#section-places';
-    }
-    function navigateToReview() {
-        window.location.href = rootPath + 'index.html#section-review';
-    }
+    function navigateToHome() { window.location.href = rootPath + 'index.html'; }
+    function navigateToPlaces() { window.location.href = rootPath + 'index.html#section-places'; }
+    function navigateToReview() { window.location.href = rootPath + 'index.html#section-review'; }
 
     if (knotHome) {
         knotHome.addEventListener('click', navigateToHome);
@@ -123,40 +109,5 @@
         knotReview.addEventListener('click', navigateToReview);
         knotReview.addEventListener('touchstart', navigateToReview);
     }
-
-    // Обработка всех узлов лианы (на случай, если они есть)
-    document.querySelectorAll('.knot-item').forEach(knot => {
-        knot.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const targetId = knot.getAttribute('id');
-            if (targetId === 'knotHome') navigateToHome();
-            else if (targetId === 'knotPlaces') navigateToPlaces();
-            else if (targetId === 'knotReview') navigateToReview();
-        });
-        knot.addEventListener('touchstart', (e) => {
-            e.stopPropagation();
-            const targetId = knot.getAttribute('id');
-            if (targetId === 'knotHome') navigateToHome();
-            else if (targetId === 'knotPlaces') navigateToPlaces();
-            else if (targetId === 'knotReview') navigateToReview();
-        });
-    });
-
-    // ========== АВТОМАТИЧЕСКОЕ ОБНОВЛЕНИЕ ССЫЛОК В ВЫПАДАЮЩИХ СПИСКАХ ==========
-    // Исправляем ссылки на города, чтобы они вели в правильные папки
-    document.querySelectorAll('.subknot-link, .mobile-sub-link').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && href.startsWith('../')) {
-            // Если ссылка уже с ../ — оставляем как есть (работает из папок)
-            return;
-        }
-        if (href && href.endsWith('.html') && !href.startsWith('/') && !href.startsWith('../')) {
-            // Если ссылка просто "Anapa.html" — исправляем на "../Anapa/Anapa.html" для страниц в папках
-            if (isInCityFolder) {
-                const cityName = href.replace('.html', '');
-                link.setAttribute('href', '../' + cityName + '/' + cityName + '.html');
-            }
-        }
-    });
 
 })();
