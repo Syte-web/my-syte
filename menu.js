@@ -1,15 +1,20 @@
 /**
  * menu.js — универсальное меню для всех страниц
- * Работает на главной и в папках городов (Анапа, Геленджик, Сочи, Сириус, Роза)
- * Не конфликтует, не дублирует обработчики.
+ * Работает на главной и в папках городов
  */
 
 (function() {
     "use strict";
 
-    // ========== ОПРЕДЕЛЯЕМ КОРЕНЬ ==========
-    // Используем абсолютный путь от корня сайта — работает всегда и везде
-    const rootPath = '/';
+    // Автоматически определяем глубину вложенности
+    const path = window.location.pathname;
+    const isInCityFolder = path.includes('/') && 
+                           !path.endsWith('index.html') && 
+                           path !== '/' &&
+                           !path.endsWith('/');
+    
+    // Базовый путь к главной странице
+    const basePath = isInCityFolder ? '../' : '';
 
     // ========== МОБИЛЬНОЕ МЕНЮ ==========
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -65,19 +70,18 @@
             const targetId = item.dataset.target;
             
             if (targetId === 'index') {
-                window.location.href = rootPath + 'index.html';
+                window.location.href = basePath + 'index.html';
                 return;
             }
             if (targetId === 'places') {
-                window.location.href = rootPath + 'index.html#section-places';
+                window.location.href = basePath + 'index.html#section-places';
                 return;
             }
             if (targetId === 'review') {
-                window.location.href = rootPath + 'index.html#section-review';
+                window.location.href = basePath + 'index.html#section-review';
                 return;
             }
             
-            // Если это якорь на текущей странице
             const targetSection = document.getElementById(targetId);
             if (targetSection) {
                 closeMobileMenu();
@@ -88,14 +92,14 @@
         });
     });
 
-    // ========== ПК ЛИАНА (только узлы с id knotHome, knotPlaces, knotReview) ==========
+    // ========== ПК ЛИАНА ==========
     const knotHome = document.getElementById('knotHome');
     const knotPlaces = document.getElementById('knotPlaces');
     const knotReview = document.getElementById('knotReview');
 
-    function navigateToHome() { window.location.href = rootPath + 'index.html'; }
-    function navigateToPlaces() { window.location.href = rootPath + 'index.html#section-places'; }
-    function navigateToReview() { window.location.href = rootPath + 'index.html#section-review'; }
+    function navigateToHome() { window.location.href = basePath + 'index.html'; }
+    function navigateToPlaces() { window.location.href = basePath + 'index.html#section-places'; }
+    function navigateToReview() { window.location.href = basePath + 'index.html#section-review'; }
 
     if (knotHome) {
         knotHome.addEventListener('click', navigateToHome);
@@ -108,6 +112,30 @@
     if (knotReview) {
         knotReview.addEventListener('click', navigateToReview);
         knotReview.addEventListener('touchstart', navigateToReview);
+    }
+
+    // ========== ДВИЖЕНИЕ ЯКОРЯ НА ГЛАВНОЙ СТРАНИЦЕ ==========
+    const ropeAnchor = document.getElementById('ropeAnchor');
+    if (ropeAnchor && !isInCityFolder) {
+        let ticking = false;
+        function updateAnchor() {
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            const minTop = 80;
+            const maxTop = window.innerHeight - 100;
+            let newTop = minTop + (maxTop - minTop) * scrollPercent;
+            newTop = Math.min(maxTop, Math.max(minTop, newTop));
+            ropeAnchor.style.top = newTop + 'px';
+        }
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateAnchor();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+        updateAnchor();
     }
 
 })();
