@@ -49,20 +49,20 @@ if(mobileRoutesBtn) {
   });
 }
 
-// Обработчики пунктов мобильного меню — переходы на главную
+// ========== ПЕРЕХОДЫ НА ГЛАВНУЮ (АБСОЛЮТНЫЙ ПУТЬ) ==========
 document.querySelectorAll('.mobile-menu-item[data-target]').forEach(item => {
   item.addEventListener('click', () => {
     const targetId = item.dataset.target;
     if (targetId === 'index') {
-      window.location.href = '../index.html';
+      window.location.href = '/index.html';
       return;
     }
     if (targetId === 'places') {
-      window.location.href = '../index.html#section-places';
+      window.location.href = '/index.html#section-places';
       return;
     }
     if (targetId === 'review') {
-      window.location.href = '../index.html#section-review';
+      window.location.href = '/index.html#section-review';
       return;
     }
     const targetSection = document.getElementById(targetId);
@@ -80,15 +80,15 @@ document.querySelectorAll('.knot-item').forEach(knot => {
   knot.addEventListener('click', (e) => {
     e.stopPropagation();
     const targetId = knot.getAttribute('id');
-    if(targetId === 'knotHome') window.location.href = '../index.html';
-    else if(targetId === 'knotPlaces') window.location.href = '../index.html#section-places';
-    else if(targetId === 'knotReview') window.location.href = '../index.html#section-review';
+    if(targetId === 'knotHome') window.location.href = '/index.html';
+    else if(targetId === 'knotPlaces') window.location.href = '/index.html#section-places';
+    else if(targetId === 'knotReview') window.location.href = '/index.html#section-review';
   });
   knot.addEventListener('touchstart', (e) => {
     e.stopPropagation();
     const targetId = knot.getAttribute('id');
-    if(targetId === 'knotHome') window.location.href = '../index.html';
-    else if(targetId === 'knotPlaces') window.location.href = '../index.html#section-places';
-    else if(targetId === 'knotReview') window.location.href = '../index.html#section-review';
+    if(targetId === 'knotHome') window.location.href = '/index.html';
+    else if(targetId === 'knotPlaces') window.location.href = '/index.html#section-places';
+    else if(targetId === 'knotReview') window.location.href = '/index.html#section-review';
   });
 });
