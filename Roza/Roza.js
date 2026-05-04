@@ -88,19 +88,54 @@ async function fetchWeather() {
 }
 fetchWeather();
 
-// ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ГОНДОЛ ==========
+// ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ГОНДОЛ (ИСПРАВЛЕННЫЕ) ==========
+let savedScrollY = 0;
+
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
-  if(modal) {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
+  if(!modal) return;
+  
+  // Сохраняем текущую позицию скролла
+  savedScrollY = window.scrollY;
+  
+  // Блокируем скролл body без потери позиции
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${savedScrollY}px`;
+  document.body.style.width = '100%';
+  document.body.style.overflow = 'hidden';
+  
+  // Открываем модалку
+  modal.classList.add('active');
 }
+
 function closeModal(modal) {
-  if(modal) {
+  if(!modal) return;
+  
+  // Закрываем модалку
+  modal.classList.remove('active');
+  
+  // Возвращаем скролл body
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  document.body.style.overflow = '';
+  
+  // Восстанавливаем позицию скролла
+  window.scrollTo(0, savedScrollY);
+}
+
+// Закрытие всех модалок (для видео)
+function closeAllGondolaModals() {
+  const activeModals = document.querySelectorAll('.gondola-modal.active');
+  activeModals.forEach(modal => {
     modal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
+  });
+  // Возвращаем скролл
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  document.body.style.overflow = '';
+  window.scrollTo(0, savedScrollY);
 }
 
 // Открытие по клику на гондолы
@@ -117,6 +152,7 @@ document.querySelectorAll('.gondola').forEach(g => {
 // Закрытие по кнопке ✕
 document.querySelectorAll('.gondola-modal-close').forEach(btn => {
   btn.addEventListener('click', (e) => {
+    e.stopPropagation();
     const modal = btn.closest('.gondola-modal');
     closeModal(modal);
   });
@@ -125,8 +161,23 @@ document.querySelectorAll('.gondola-modal-close').forEach(btn => {
 // Закрытие по клику на фон
 document.querySelectorAll('.gondola-modal').forEach(modal => {
   modal.addEventListener('click', (e) => {
-    if(e.target === modal) closeModal(modal);
+    if(e.target === modal) {
+      closeModal(modal);
+    }
   });
+});
+
+// Закрытие по ESC
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') {
+    const activeModal = document.querySelector('.gondola-modal.active');
+    if(activeModal) {
+      closeModal(activeModal);
+    }
+    if(videoOverlay && videoOverlay.classList.contains('active')) {
+      closeVideoAndGondola();
+    }
+  }
 });
 
 // ========== ОПТИМИЗИРОВАННОЕ ВИДЕО (БИНОКЛЬ) ==========
@@ -135,29 +186,39 @@ const localVideo = document.getElementById('localVideo');
 const openVideoBtn = document.getElementById('openVideoBtn');
 const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-// Флаг, открыто ли видео
 let isVideoOpen = false;
 
-// Функция закрытия видео (максимально быстрая)
+// Функция закрытия видео (исправленная)
 function closeVideoAndGondola() {
   if(!videoOverlay) return;
   
-  // Сначала скрываем оверлей (мгновенно)
+  // Скрываем оверлей
   videoOverlay.classList.remove('active');
   isVideoOpen = false;
   
-  // Затем останавливаем видео
+  // Останавливаем видео
   if(localVideo) {
     localVideo.pause();
     localVideo.currentTime = 0;
   }
   
-  // Закрываем все модалки гондол
-  document.querySelectorAll('.gondola-modal.active').forEach(modal => {
-    modal.classList.remove('active');
-  });
+  // Закрываем все модалки гондол с восстановлением скролла
+  const activeModals = document.querySelectorAll('.gondola-modal.active');
+  if(activeModals.length > 0) {
+    activeModals.forEach(modal => {
+      modal.classList.remove('active');
+    });
+    // Возвращаем скролл
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, savedScrollY);
+  }
   
-  document.body.style.overflow = '';
+  // Удаляем кнопку Play если есть
+  const playBtn = document.querySelector('.manual-play-btn');
+  if(playBtn) playBtn.remove();
 }
 
 // Функция открытия видео
@@ -176,7 +237,6 @@ function openVideo() {
   setTimeout(() => {
     localVideo.play().catch(e => {
       console.log('Автовоспроизведение заблокировано');
-      // Показываем кнопку Play
       showPlayButton();
     });
   }, 50);
@@ -213,14 +273,13 @@ function showPlayButton() {
       playBtn.remove();
     };
     
-    // Убираем через 3 секунды если не нажали
     setTimeout(() => {
       if(playBtn && playBtn.parentNode) playBtn.remove();
     }, 3000);
   }
 }
 
-// Добавляем обработчики с максимальной производительностью
+// Обработчики видео
 if(openVideoBtn) {
   openVideoBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -229,23 +288,16 @@ if(openVideoBtn) {
   });
 }
 
-// КРЕСТИК - максимально быстрая реакция
+// КРЕСТИК - быстрая реакция
 if(closeVideoBtn) {
-  // Используем touchstart и mousedown для максимальной скорости
-  closeVideoBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeVideoAndGondola();
-  });
-  
-  closeVideoBtn.addEventListener('mousedown', (e) => {
+  closeVideoBtn.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
     closeVideoAndGondola();
   });
 }
 
-// Закрытие по клику на фон
+// Закрытие по клику на фон видео
 if(videoOverlay) {
   videoOverlay.addEventListener('click', (e) => {
     if(e.target === videoOverlay) {
@@ -254,7 +306,7 @@ if(videoOverlay) {
   });
 }
 
-// Предзагрузка видео при загрузке страницы
+// Предзагрузка видео
 if(localVideo) {
   localVideo.preload = 'metadata';
   localVideo.setAttribute('playsinline', '');

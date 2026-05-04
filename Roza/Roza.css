@@ -415,7 +415,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .gondola-3 { top: 32%; left: 67%; transform: translate(-50%, -50%); }
 }
 
-/* ========== МОДАЛЬНЫЕ ОКНА ГОНДОЛ ========== */
+/* ========== МОДАЛЬНЫЕ ОКНА ГОНДОЛ (ФИКС СКРОЛЛА) ========== */
 .gondola-modal {
   position: fixed;
   top: 0;
@@ -430,7 +430,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   z-index: 30000;
   visibility: hidden;
   opacity: 0;
-  transition: 0.3s;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 .gondola-modal.active {
   visibility: visible;
@@ -445,7 +445,25 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   border: 2px solid var(--info-border);
   max-height: 85vh;
   overflow-y: auto;
+  position: relative;
+  margin: auto;
 }
+.gondola-modal-close {
+  position: sticky;
+  top: 10px;
+  float: right;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  margin-bottom: 10px;
+}
+.gondola-modal-close:active { transform: scale(0.9); }
 .gondola-modal-flex {
   display: flex;
   gap: 24px;
@@ -453,6 +471,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 10px;
+  clear: both;
 }
 .gondola-modal-photo {
   width: 280px;
@@ -479,21 +498,13 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   color: var(--text);
   margin-bottom: 20px;
 }
-.gondola-modal-close {
-  position: sticky;
-  top: 10px;
-  float: right;
-  background: rgba(0,0,0,0.6);
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 1.2rem;
-  color: white;
+.gondola-modal .binocular-btn {
+  margin-top: 15px;
+  pointer-events: auto;
   cursor: pointer;
-  z-index: 10;
+  position: relative;
+  z-index: 5;
 }
-.gondola-modal-close:active { transform: scale(0.9); }
 
 @media (max-width: 768px) {
   .gondola-modal-flex { flex-direction: column; align-items: center; }
@@ -503,7 +514,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .gondola-modal-close { width: 44px; height: 44px; font-size: 1.4rem; }
 }
 
-/* ========== ВИДЕО ========== */
+/* ========== ВИДЕО (ОПТИМИЗИРОВАННАЯ ВЕРСИЯ) ========== */
 .video-overlay {
   position: fixed;
   top: 0;
@@ -518,7 +529,8 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   z-index: 20000;
   visibility: hidden;
   opacity: 0;
-  transition: 0.25s;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  will-change: opacity, visibility;
 }
 .video-overlay.active {
   visibility: visible;
@@ -532,6 +544,8 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   border-radius: 32px;
   padding: 20px;
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform;
 }
 .video-container-small video {
   width: 100%;
@@ -540,9 +554,8 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   display: block;
   margin: 0 auto;
   border-radius: 24px;
+  background: #000;
 }
-
-/* КРЕСТИК НА БЕЛОМ ФОНЕ */
 .video-close-btn {
   position: absolute;
   top: 10px;
@@ -550,28 +563,28 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   background: white;
   border: none;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 1.2rem;
+  width: 40px;
+  height: 40px;
+  font-size: 1.3rem;
   font-weight: bold;
   color: #333;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 30;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 20001;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.1s ease, background 0.1s ease;
+  pointer-events: auto;
 }
-.video-close-btn:active { transform: scale(0.9); }
-
-@media (max-width: 768px) {
-  .video-close-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 1.5rem;
-    top: 8px;
-    right: 8px;
-  }
+.video-close-btn:hover {
+  background: #ff4444;
+  color: white;
+  transform: scale(1.05);
+}
+.video-close-btn:active {
+  transform: scale(0.95);
+  transition: transform 0.05s ease;
 }
 
 /* ========== ЛАЙКИ ДЛЯ ВИДЕО ========== */
@@ -627,10 +640,25 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 
 @media (max-width: 768px) {
+  .video-close-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.6rem;
+    top: 8px;
+    right: 8px;
+  }
   .like-heart-icon { font-size: 1.6rem; }
   .like-count { font-size: 0.9rem; }
   .like-label { font-size: 0.7rem; }
   .like-button-wrapper { padding: 5px 18px; gap: 12px; }
+}
+
+/* Ускорение анимаций */
+.gondola-modal,
+.video-overlay,
+.video-container-small {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* СТИКЕРЫ */
@@ -875,106 +903,3 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   color: #cccccc;
 }
 [data-theme="dark"] .footer a { color: #ffcc66; }
-
-
-
-
-
-
-/* ========== ОПТИМИЗАЦИЯ ВИДЕО И ОВЕРЛЕЯ ========== */
-.video-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--video-bg);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 20000;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-  will-change: opacity, visibility;
-}
-
-.video-overlay.active {
-  visibility: visible;
-  opacity: 1;
-}
-
-.video-container-small {
-  position: relative;
-  width: auto;
-  max-width: 450px;
-  background: rgba(0,0,0,0.4);
-  border-radius: 32px;
-  padding: 20px;
-  backdrop-filter: blur(8px);
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-.video-container-small video {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border-radius: 24px;
-  background: #000;
-}
-
-/* Улучшенный крестик - всегда поверх и быстро реагирует */
-.video-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 20001;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  transition: transform 0.1s ease, background 0.1s ease;
-  pointer-events: auto;
-}
-
-.video-close-btn:hover {
-  background: #ff4444;
-  color: white;
-  transform: scale(1.05);
-}
-
-.video-close-btn:active {
-  transform: scale(0.95);
-  transition: transform 0.05s ease;
-}
-
-@media (max-width: 768px) {
-  .video-close-btn {
-    width: 48px;
-    height: 48px;
-    font-size: 1.6rem;
-    top: 8px;
-    right: 8px;
-  }
-}
-
-/* Ускорение анимаций */
-.gondola-modal,
-.video-overlay,
-.video-container-small {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
