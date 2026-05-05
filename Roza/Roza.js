@@ -1,4 +1,4 @@
-// ========== ТЕМА (ДЕНЬ/НОЧЬ) ==========
+// ========== ТЕМА ==========
 function applyTheme(t) {
   const hero = document.getElementById('heroImg');
   const themeIcon = document.getElementById('themeIcon');
@@ -88,49 +88,41 @@ async function fetchWeather() {
 }
 fetchWeather();
 
-// ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ГОНДОЛ (ИСПРАВЛЕННЫЕ) ==========
+// ========== МОДАЛЬНЫЕ ОКНА (ИСПРАВЛЕННЫЕ - НИЧЕГО НЕ ЗАЕЗЖАЕТ) ==========
 let savedScrollY = 0;
 
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if(!modal) return;
   
-  // Сохраняем текущую позицию скролла
   savedScrollY = window.scrollY;
   
-  // Блокируем скролл body без потери позиции
   document.body.style.position = 'fixed';
   document.body.style.top = `-${savedScrollY}px`;
   document.body.style.width = '100%';
   document.body.style.overflow = 'hidden';
   
-  // Открываем модалку
   modal.classList.add('active');
 }
 
 function closeModal(modal) {
   if(!modal) return;
   
-  // Закрываем модалку
   modal.classList.remove('active');
   
-  // Возвращаем скролл body
   document.body.style.position = '';
   document.body.style.top = '';
   document.body.style.width = '';
   document.body.style.overflow = '';
   
-  // Восстанавливаем позицию скролла
   window.scrollTo(0, savedScrollY);
 }
 
-// Закрытие всех модалок (для видео)
-function closeAllGondolaModals() {
+function closeAllModals() {
   const activeModals = document.querySelectorAll('.gondola-modal.active');
   activeModals.forEach(modal => {
     modal.classList.remove('active');
   });
-  // Возвращаем скролл
   document.body.style.position = '';
   document.body.style.top = '';
   document.body.style.width = '';
@@ -141,6 +133,13 @@ function closeAllGondolaModals() {
 // Открытие по клику на гондолы
 document.querySelectorAll('.gondola').forEach(g => {
   g.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const station = g.dataset.station;
+    if(station === '1') openModal('gondolaModal1');
+    else if(station === '2') openModal('gondolaModal2');
+    else if(station === '3') openModal('gondolaModal3');
+  });
+  g.addEventListener('touchstart', (e) => {
     e.stopPropagation();
     const station = g.dataset.station;
     if(station === '1') openModal('gondolaModal1');
@@ -171,115 +170,44 @@ document.querySelectorAll('.gondola-modal').forEach(modal => {
 document.addEventListener('keydown', (e) => {
   if(e.key === 'Escape') {
     const activeModal = document.querySelector('.gondola-modal.active');
-    if(activeModal) {
-      closeModal(activeModal);
-    }
-    if(videoOverlay && videoOverlay.classList.contains('active')) {
-      closeVideoAndGondola();
-    }
+    if(activeModal) closeModal(activeModal);
+    if(videoOverlay && videoOverlay.classList.contains('active')) closeVideoAndGondola();
   }
 });
 
-// ========== ОПТИМИЗИРОВАННОЕ ВИДЕО (БИНОКЛЬ) ==========
+// ========== ВИДЕО ==========
 const videoOverlay = document.getElementById('videoOverlay');
 const localVideo = document.getElementById('localVideo');
 const openVideoBtn = document.getElementById('openVideoBtn');
 const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-let isVideoOpen = false;
-
-// Функция закрытия видео (исправленная)
 function closeVideoAndGondola() {
   if(!videoOverlay) return;
   
-  // Скрываем оверлей
   videoOverlay.classList.remove('active');
-  isVideoOpen = false;
   
-  // Останавливаем видео
   if(localVideo) {
     localVideo.pause();
     localVideo.currentTime = 0;
   }
   
-  // Закрываем все модалки гондол с восстановлением скролла
-  const activeModals = document.querySelectorAll('.gondola-modal.active');
-  if(activeModals.length > 0) {
-    activeModals.forEach(modal => {
-      modal.classList.remove('active');
-    });
-    // Возвращаем скролл
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    document.body.style.overflow = '';
-    window.scrollTo(0, savedScrollY);
-  }
-  
-  // Удаляем кнопку Play если есть
-  const playBtn = document.querySelector('.manual-play-btn');
-  if(playBtn) playBtn.remove();
+  closeAllModals();
 }
 
-// Функция открытия видео
 function openVideo() {
   if(!videoOverlay || !localVideo) return;
   
   videoOverlay.classList.add('active');
-  isVideoOpen = true;
   
-  // Загружаем видео если еще не загружено
   if(localVideo.readyState === 0) {
     localVideo.load();
   }
   
-  // Пытаемся воспроизвести
   setTimeout(() => {
-    localVideo.play().catch(e => {
-      console.log('Автовоспроизведение заблокировано');
-      showPlayButton();
-    });
+    localVideo.play().catch(e => console.log('Автовоспроизведение заблокировано'));
   }, 50);
 }
 
-// Кнопка Play если авто запрещено
-function showPlayButton() {
-  const container = document.querySelector('.video-container-small');
-  if(container && !container.querySelector('.manual-play-btn')) {
-    const playBtn = document.createElement('button');
-    playBtn.className = 'manual-play-btn';
-    playBtn.innerHTML = '▶';
-    playBtn.style.position = 'absolute';
-    playBtn.style.top = '50%';
-    playBtn.style.left = '50%';
-    playBtn.style.transform = 'translate(-50%, -50%)';
-    playBtn.style.width = '70px';
-    playBtn.style.height = '70px';
-    playBtn.style.borderRadius = '50%';
-    playBtn.style.background = 'rgba(0,0,0,0.8)';
-    playBtn.style.border = '3px solid white';
-    playBtn.style.fontSize = '2rem';
-    playBtn.style.color = 'white';
-    playBtn.style.cursor = 'pointer';
-    playBtn.style.zIndex = '35';
-    playBtn.style.display = 'flex';
-    playBtn.style.alignItems = 'center';
-    playBtn.style.justifyContent = 'center';
-    container.style.position = 'relative';
-    container.appendChild(playBtn);
-    
-    playBtn.onclick = () => {
-      localVideo.play();
-      playBtn.remove();
-    };
-    
-    setTimeout(() => {
-      if(playBtn && playBtn.parentNode) playBtn.remove();
-    }, 3000);
-  }
-}
-
-// Обработчики видео
 if(openVideoBtn) {
   openVideoBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -288,7 +216,6 @@ if(openVideoBtn) {
   });
 }
 
-// КРЕСТИК - быстрая реакция
 if(closeVideoBtn) {
   closeVideoBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -297,22 +224,18 @@ if(closeVideoBtn) {
   });
 }
 
-// Закрытие по клику на фон видео
 if(videoOverlay) {
   videoOverlay.addEventListener('click', (e) => {
-    if(e.target === videoOverlay) {
-      closeVideoAndGondola();
-    }
+    if(e.target === videoOverlay) closeVideoAndGondola();
   });
 }
 
-// Предзагрузка видео
 if(localVideo) {
   localVideo.preload = 'metadata';
   localVideo.setAttribute('playsinline', '');
 }
 
-// ========== ЛАЙКИ ДЛЯ ВИДЕО ==========
+// ========== ЛАЙКИ ==========
 let videoLikes = localStorage.getItem('videoLikesRoza') ? parseInt(localStorage.getItem('videoLikesRoza')) : 100;
 let hasLikedVideo = localStorage.getItem('likedVideoRoza') === 'true';
 
@@ -321,129 +244,56 @@ const videoHeartBtn = document.getElementById('videoHeartBtn');
 const videoHeartIcon = document.getElementById('videoHeartIcon');
 
 if(videoLikesSpan) videoLikesSpan.textContent = videoLikes;
-if(videoHeartIcon) {
-  videoHeartIcon.textContent = hasLikedVideo ? '❤️' : '🤍';
-}
+if(videoHeartIcon) videoHeartIcon.textContent = hasLikedVideo ? '❤️' : '🤍';
 
 function createFloatingHeartForVideo(x, y) {
-  const heartSymbols = ['❤️', '💖', '💕', '💗', '💓', '❣️', '💝', '💘', '💟'];
+  const heartSymbols = ['❤️', '💖', '💕', '💗', '💓', '❣️', '💝', '💘'];
   const randomHeart = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-  
   const heart = document.createElement('div');
   heart.className = 'floating-heart-roza';
   heart.textContent = randomHeart;
-  
-  const colors = ['#ff3333', '#ff5555', '#ff7777', '#ff9999', '#ff69b4', '#ff88cc', '#ff3366'];
-  heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-  
-  const offsetX = (Math.random() - 0.5) * 80;
-  const randomSize = Math.floor(Math.random() * 28 + 20);
-  
-  heart.style.left = (x + offsetX - randomSize/2) + 'px';
+  heart.style.color = '#ff3366';
+  heart.style.left = (x + (Math.random() - 0.5) * 60) + 'px';
   heart.style.top = y + 'px';
-  heart.style.fontSize = randomSize + 'px';
+  heart.style.fontSize = (Math.floor(Math.random() * 20 + 20)) + 'px';
   heart.style.position = 'fixed';
   heart.style.pointerEvents = 'none';
   heart.style.zIndex = '100000';
   heart.style.textShadow = '0 0 5px rgba(255,255,255,0.5)';
-  
   document.body.appendChild(heart);
   
   let startTime = null;
-  const startY = y;
-  const startX = parseFloat(heart.style.left);
-  const amplitude = Math.random() * 40 + 20;
-  
-  function animateHeartUp(timestamp) {
+  function animate(timestamp) {
     if(!startTime) startTime = timestamp;
     const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / 1800, 1);
-    
-    const moveY = startY - (progress * 300);
-    const moveX = startX + Math.sin(progress * Math.PI * 2) * amplitude * (1 - progress);
-    
-    heart.style.transform = `translate(${moveX - startX}px, ${moveY - startY}px) rotate(${progress * 360}deg)`;
+    const progress = Math.min(elapsed / 1500, 1);
+    heart.style.transform = `translateY(-${progress * 250}px) scale(${1 - progress * 0.5})`;
     heart.style.opacity = 1 - progress;
-    
-    if(progress < 1) {
-      requestAnimationFrame(animateHeartUp);
-    } else {
-      heart.remove();
-    }
+    if(progress < 1) requestAnimationFrame(animate);
+    else heart.remove();
   }
-  
-  requestAnimationFrame(animateHeartUp);
-}
-
-function showVideoLikesBurst(btnElement) {
-  const rect = btnElement.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-  
-  for(let i = 0; i < 25; i++) {
-    setTimeout(() => {
-      createFloatingHeartForVideo(centerX, centerY);
-    }, i * 30);
-  }
-}
-
-function showVideoToast(message) {
-  let toast = document.getElementById('videoToastMsg');
-  if(!toast) {
-    toast = document.createElement('div');
-    toast.id = 'videoToastMsg';
-    toast.style.position = 'fixed';
-    toast.style.bottom = '30px';
-    toast.style.left = '50%';
-    toast.style.transform = 'translateX(-50%)';
-    toast.style.background = 'rgba(0,0,0,0.85)';
-    toast.style.backdropFilter = 'blur(12px)';
-    toast.style.color = '#ffefcf';
-    toast.style.fontFamily = 'Pacifico, cursive';
-    toast.style.padding = '10px 24px';
-    toast.style.borderRadius = '60px';
-    toast.style.zIndex = '100001';
-    toast.style.fontSize = '0.9rem';
-    toast.style.whiteSpace = 'nowrap';
-    toast.style.opacity = '0';
-    toast.style.transition = '0.2s';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = message;
-  toast.style.opacity = '1';
-  setTimeout(() => toast.style.opacity = '0', 2000);
+  requestAnimationFrame(animate);
 }
 
 if(videoHeartBtn) {
   videoHeartBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    
-    if(hasLikedVideo) {
-      showVideoToast('❤️ Вы уже поставили лайк этому видео!');
-      return;
-    }
-    
+    if(hasLikedVideo) return;
     hasLikedVideo = true;
     videoLikes++;
-    
     if(videoLikesSpan) videoLikesSpan.textContent = videoLikes;
     if(videoHeartIcon) videoHeartIcon.textContent = '❤️';
-    
     localStorage.setItem('videoLikesRoza', videoLikes);
     localStorage.setItem('likedVideoRoza', 'true');
     
-    showVideoLikesBurst(videoHeartBtn);
-    
-    if(videoHeartIcon) {
-      videoHeartIcon.style.transform = 'scale(1.4)';
-      setTimeout(() => {
-        if(videoHeartIcon) videoHeartIcon.style.transform = 'scale(1)';
-      }, 200);
+    const rect = videoHeartBtn.getBoundingClientRect();
+    for(let i = 0; i < 15; i++) {
+      setTimeout(() => createFloatingHeartForVideo(rect.left + rect.width/2, rect.top + rect.height/2), i * 40);
     }
   });
 }
 
-// ========== БИЛЕТ (переход на Сириус) ==========
+// ========== БИЛЕТ ==========
 const ticket = document.getElementById('ticketCorner');
 function goToSea() {
   if(!ticket) return;
@@ -451,111 +301,18 @@ function goToSea() {
   setTimeout(() => { window.location.href = '../Sirius/Sirius.html'; }, 5000);
 }
 if(ticket) {
-  ticket.addEventListener('click', (e) => { 
-    e.stopPropagation(); 
-    goToSea(); 
-  });
-}
-const ticketInvite = document.getElementById('ticketInvite');
-if(ticketInvite) {
-  ticketInvite.addEventListener('click', (e) => { 
-    e.stopPropagation(); 
-    goToSea(); 
-  });
+  ticket.addEventListener('click', (e) => { e.stopPropagation(); goToSea(); });
+  ticket.addEventListener('touchstart', (e) => { e.stopPropagation(); goToSea(); });
 }
 
-// ========== КНОПКА СТРЕЛКА ВВЕРХ ==========
+// ========== КНОПКА НАВЕРХ ==========
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 if(scrollTopBtn) {
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      scrollTopBtn.classList.add('show');
-    } else {
-      scrollTopBtn.classList.remove('show');
-    }
+    if(window.scrollY > 300) scrollTopBtn.classList.add('show');
+    else scrollTopBtn.classList.remove('show');
   });
-  
-  scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  scrollTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 }
 
-// ========== МОБИЛЬНОЕ МЕНЮ ==========
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-const mobileMenuClose = document.getElementById('mobileMenuClose');
-const mobileRoutesBtn = document.getElementById('mobileRoutesBtn');
-const mobileRoutesSub = document.getElementById('mobileRoutesSub');
-
-if(mobileMenuBtn && mobileMenuOverlay) {
-  mobileMenuBtn.addEventListener('click', () => {
-    mobileMenuOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  });
-  
-  if(mobileMenuClose) {
-    mobileMenuClose.addEventListener('click', () => {
-      mobileMenuOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-  }
-  
-  mobileMenuOverlay.addEventListener('click', (e) => {
-    if(e.target === mobileMenuOverlay) {
-      mobileMenuOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
-  
-  if(mobileRoutesBtn && mobileRoutesSub) {
-    mobileRoutesBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if(mobileRoutesSub.style.display === 'none') {
-        mobileRoutesSub.style.display = 'flex';
-      } else {
-        mobileRoutesSub.style.display = 'none';
-      }
-    });
-  }
-  
-  const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
-  menuItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const target = item.getAttribute('data-target');
-      if(target === 'index') {
-        window.location.href = '../index.html';
-      } else if(target === 'places') {
-        const section = document.querySelector('.gondola-section');
-        if(section) section.scrollIntoView({ behavior: 'smooth' });
-      } else if(target === 'review') {
-        alert('Поделитесь впечатлением: angelina.chernovalova@yandex.ru');
-      }
-      mobileMenuOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-  });
-}
-
-// ========== ПК ЛИАНА (УЗЛЫ) ==========
-const knotHome = document.getElementById('knotHome');
-const knotPlaces = document.getElementById('knotPlaces');
-const knotReview = document.getElementById('knotReview');
-
-if(knotHome) {
-  knotHome.addEventListener('click', () => {
-    window.location.href = '../index.html';
-  });
-}
-
-if(knotPlaces) {
-  knotPlaces.addEventListener('click', () => {
-    const gondolaSection = document.querySelector('.gondola-section');
-    if(gondolaSection) gondolaSection.scrollIntoView({ behavior: 'smooth' });
-  });
-}
-
-if(knotReview) {
-  knotReview.addEventListener('click', () => {
-    alert('Поделитесь впечатлением: angelina.chernovalova@yandex.ru');
-  });
-}
+console.log('Roza.js загружен - модальные окна исправлены');

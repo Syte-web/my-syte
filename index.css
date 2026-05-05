@@ -909,3 +909,60 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     padding: 20px 16px;
   }
 }
+
+/* ========== ДОПОЛНИТЕЛЬНЫЕ ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНЫХ ========== */
+@media (max-width: 768px) {
+    /* Увеличиваем область нажатия для карточек маршрутов */
+    .route-card, .place-card {
+        cursor: pointer;
+        touch-action: manipulation;
+        min-height: 200px;
+    }
+    
+    .route-card .card-inner, .place-card .card-inner {
+        min-height: 200px;
+    }
+    
+    /* Увеличиваем зону клика для кнопок */
+    .share-btn, .option-card, .modal-close, .icon-btn, .music-player {
+        padding: 10px 16px;
+        min-height: 44px;
+    }
+    
+    /* Исправляем отзывы - форма должна быть удобной */
+    .review-form input, .review-form textarea {
+        font-size: 16px;
+        padding: 12px;
+        min-height: 44px;
+    }
+    
+    .review-form button {
+        padding: 12px 24px;
+        min-height: 48px;
+    }
+    
+    /* Стикеры на главном фото */
+    .remind-wrap {
+        padding: 10px 16px;
+        min-height: 44px;
+    }
+    
+    /* Звёзды для отзыва */
+    .star {
+        font-size: 1.8rem;
+        padding: 5px;
+        cursor: pointer;
+    }
+    
+    /* Футер - ссылка почты */
+    .footer a {
+        display: inline-block;
+        padding: 8px 12px;
+    }
+    
+    /* Карусели - плавная прокрутка */
+    .carousel-container {
+        overflow-x: hidden;
+        touch-action: pan-y pinch-zoom;
+    }
+}

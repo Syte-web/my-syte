@@ -6,7 +6,6 @@
 <meta name="theme-color" content="#2d5a4f">
 <title>Мой юг: Роза Хутор — горная жемчужина</title>
 
-<!-- ИКОНКА САЙТА (favicon) -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
 
@@ -85,23 +84,20 @@
     </div>
   </div>
 
-  <!-- ========== ГОНДОЛЫ (КАНАТНАЯ ДОРОГА) ========== -->
+  <!-- ========== ГОНДОЛЫ ========== -->
   <div class="gondola-section">
     <div class="gondola-title">🚡 Канатная дорога — вверх к вершинам 🚡</div>
     <div class="gondola-container">
       <div class="gondola-canvas" id="gondolaCanvas">
         <div class="night-full-layer"></div>
-        <!-- Гондола 1 -->
         <div class="gondola gondola-1" data-station="1">
           <div class="gondola-icon">🚠</div>
           <div class="gondola-label">Роза-стадион<br>940 м</div>
         </div>
-        <!-- Гондола 2 -->
         <div class="gondola gondola-2" data-station="2">
           <div class="gondola-icon">🚡</div>
           <div class="gondola-label">Парк Йети<br>1350 м</div>
         </div>
-        <!-- Гондола 3 -->
         <div class="gondola gondola-3" data-station="3">
           <div class="gondola-icon">🚠</div>
           <div class="gondola-label">Роза Пик<br>2320 м</div>
@@ -111,7 +107,6 @@
   </div>
 
   <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ГОНДОЛ ========== -->
-  <!-- Гондола 1: Роза-стадион -->
   <div id="gondolaModal1" class="gondola-modal">
     <div class="gondola-modal-content">
       <button class="gondola-modal-close" data-modal="gondolaModal1">✕</button>
@@ -119,13 +114,12 @@
         <img class="gondola-modal-photo" src="Img.Roza/28.jpg" alt="Роза-стадион">
         <div class="gondola-modal-right">
           <div class="gondola-modal-title">🏟️ Роза-стадион (940 м)</div>
-          <div class="gondola-modal-text">На этой высоте царит спокойствие, а в зеркальной глади горного озера невероятно красиво отражаются вершины. Это идеальная точка для привала, где можно просто посидеть у воды и подышать чистейшим воздухом. Пейзажи здесь выглядят очень уютно и напоминают альпийские деревушки.</div>
+          <div class="gondola-modal-text">На этой высоте царит спокойствие, а в зеркальной глади горного озера невероятно красиво отражаются вершины. Это идеальная точка для привала, где можно просто посидеть у воды и подышать чистейшим воздухом.</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Гондола 2: Парк Йети -->
   <div id="gondolaModal2" class="gondola-modal">
     <div class="gondola-modal-content">
       <button class="gondola-modal-close" data-modal="gondolaModal2">✕</button>
@@ -133,13 +127,12 @@
         <img class="gondola-modal-photo" src="Img.Roza/29.jpg" alt="Парк Йети">
         <div class="gondola-modal-right">
           <div class="gondola-modal-title">❄️ Парк Йети (1350 м)</div>
-          <div class="gondola-modal-text">Это самое забавное и необычное место на склоне, которое мгновенно поднимает настроение и взрослым, и детям. Огромные фигуры снежного человека — классный фон для весёлых фотографий с долей юмора. Здесь чувствуется атмосфера приключений и сказок, спрятанных высоко в горах.</div>
+          <div class="gondola-modal-text">Это самое забавное и необычное место на склоне, которое мгновенно поднимает настроение и взрослым, и детям. Огромные фигуры снежного человека — классный фон для весёлых фотографий.</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Гондола 3: Роза Пик -->
   <div id="gondolaModal3" class="gondola-modal">
     <div class="gondola-modal-content">
       <button class="gondola-modal-close" data-modal="gondolaModal3">✕</button>
@@ -147,21 +140,21 @@
         <img class="gondola-modal-photo" src="Img.Roza/30.jpg" alt="Роза Пик">
         <div class="gondola-modal-right">
           <div class="gondola-modal-title">🏔️ Роза Пик (2320 м)</div>
-          <div class="gondola-modal-text">Подъём на самую высокую точку дарит ощущение полной свободы и восторга от масштаба Кавказских гор. Облака здесь часто проплывают прямо под ногами, а вид на острые хребты просто захватывает дух. Это то место, где осознаёшь всю мощь природы и чувствуешь себя на вершине мира.</div>
+          <div class="gondola-modal-text">Подъём на самую высокую точку дарит ощущение полной свободы и восторга от масштаба Кавказских гор. Облака здесь часто проплывают прямо под ногами, а вид на острые хребты просто захватывает дух.</div>
           <button class="binocular-btn" id="openVideoBtn"><span class="binocular-emoji">👀</span> Посмотри моими глазами!</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ========== СТИКЕРЫ-НАПОМИНАЛКИ ========== -->
+  <!-- ========== СТИКЕРЫ ========== -->
   <div class="stickers-section">
     <div class="note-sticker sticker-green">🏔️ Высота 2320 м — захватывающий вид на Кавказские горы</div>
     <div class="note-sticker sticker-blue">🎿 Лыжный сезон с декабря по май, летом — велосипеды</div>
     <div class="note-sticker sticker-sand">☕ На вершине вкусный глинтвейн и панорамные фотозоны</div>
   </div>
 
-  <!-- ========== БИЛЕТ-УГОЛОК (переход на Сириус) ========== -->
+  <!-- ========== БИЛЕТ ========== -->
   <div class="ticket-wrapper">
     <div class="ticket-corner" id="ticketCorner">
       <div class="ticket-inner">
@@ -172,16 +165,14 @@
   </div>
 </div>
 
-<!-- ========== ВИДЕО С ЛАЙКАМИ ========== -->
+<!-- ========== ВИДЕО ========== -->
 <div id="videoOverlay" class="video-overlay">
   <div class="video-container-small">
     <button class="video-close-btn" id="closeVideoBtn">✕</button>
-    <video id="localVideo" controls loop playsinline preload="metadata" style="width:100%; max-width:400px; height:auto; margin:0 auto; display:block; border-radius:24px; box-shadow:0 20px 35px rgba(0,0,0,0.4);">
+    <video id="localVideo" controls loop playsinline preload="metadata" style="width:100%; max-width:400px; height:auto; margin:0 auto; display:block; border-radius:24px;">
       <source src="Video.Roza/videoo.mp4" type="video/mp4">
     </video>
     <p style="text-align:center; color:#fff; margin-top:12px; font-family:'Caveat', cursive;">🎬 Вид с Роза Пик</p>
-    
-    <!-- ЛАЙКИ ПОД ВИДЕО -->
     <div class="video-likes-section">
       <div class="likes-container">
         <div class="like-button-wrapper">
@@ -198,12 +189,10 @@
   </div>
 </div>
 
-<!-- ========== ЛИАНА (ПК) ========== -->
+<!-- ========== ЛИАНА ========== -->
 <div class="rope-container">
   <div class="rope-line"></div>
-  <div class="knot-item" id="knotHome" style="top: 12%;">⛵
-    <div class="bubble-menu">⚓ Главная</div>
-  </div>
+  <div class="knot-item" id="knotHome" style="top: 12%;">⛵<div class="bubble-menu">⚓ Главная</div></div>
   <div class="knot-item" id="knotRoutes" style="top: 35%;">🗺️
     <div class="subknots">
       <div class="subknot-title">📋 Мои маршруты</div>
@@ -213,12 +202,8 @@
       <a href="../Sirius/Sirius.html" class="subknot-link">⭐ Сириус</a>
     </div>
   </div>
-  <div class="knot-item" id="knotPlaces" style="top: 60%;">📅
-    <div class="bubble-menu">📅 Планирую посетить</div>
-  </div>
-  <div class="knot-item" id="knotReview" style="top: 85%;">✍️
-    <div class="bubble-menu">✍️ Поделитесь впечатлением</div>
-  </div>
+  <div class="knot-item" id="knotPlaces" style="top: 60%;">📅<div class="bubble-menu">📅 Планирую посетить</div></div>
+  <div class="knot-item" id="knotReview" style="top: 85%;">✍️<div class="bubble-menu">✍️ Поделитесь впечатлением</div></div>
 </div>
 <div class="rope-anchor" id="ropeAnchor">⚓</div>
 
@@ -228,7 +213,6 @@
   <div style="margin-top: 8px;"><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
 </div>
 
-<!-- Подключение общих скриптов -->
 <script src="../menu.js"></script>
 <script src="Roza.js"></script>
 </body>

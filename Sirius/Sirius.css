@@ -4,9 +4,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-.clickable, .option-card, .route-card, .remind-wrap, .about-float, .icon-btn, .change-bg-btn, .modal-close, .cta-button, .star, .share-btn, .knot-item, .subknot-link, button, a, .dot, .modal-card, .back-to-main-btn, .music-player, .mobile-menu-btn, .scroll-top-btn {
+
+.clickable, .option-card, .route-card, .remind-wrap, .about-float, .icon-btn, .change-bg-btn, .modal-close, .cta-button, .star, .share-btn, .knot-item, .subknot-link, button, a, .dot, .modal-card, .back-to-main-btn, .music-player, .mobile-menu-btn, .scroll-top-btn, .film-card, .plane-corner, .sticker, .mobile-menu-item, .mobile-sub-link {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* ========== ПЕРЕМЕННЫЕ ЦВЕТОВ (СВЕТЛАЯ ТЕМА) ========== */
@@ -98,8 +100,8 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   flex: 1;
 }
 .header-left{display:flex;align-items:center;gap:12px;}
-.header-right{ display:flex; gap:15px; align-items:center; }
-.stickers{ display:flex; gap:12px; align-items:center; }
+.header-right{ display:flex; gap:15px; align-items:center; flex-wrap:wrap; }
+.stickers{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
 .sticker{ 
   display:inline-flex; 
   align-items:center; 
@@ -114,21 +116,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   border:1px solid rgba(255,255,255,0.25);
 }
 .sticker span { font-weight: 800; font-size: 1.2rem; font-family: monospace; }
-.sticker-time {
-  display:inline-flex; 
-  align-items:center; 
-  gap:8px; 
-  padding:8px 18px; 
-  border-radius:60px; 
-  background:rgba(0,0,0,0.5); 
-  backdrop-filter:blur(10px);
-  font-size:1.2rem; 
-  font-weight:800;
-  color: white;
-  border:1px solid rgba(255,255,255,0.25);
-  font-family: 'Courier New', monospace;
-  letter-spacing: 2px;
-}
 .icon-btn{ 
   background:rgba(0,0,0,0.4); 
   backdrop-filter:blur(8px);
@@ -145,9 +132,8 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .icon-btn:active { transform: scale(0.95); }
 .theme-text { font-size: 0.8rem; font-weight: normal; }
-[data-theme="dark"] .theme-text { color: #eef4ff; }
 
-/* ========== МОБИЛЬНОЕ МЕНЮ (БУРГЕР-КОРАБЛЬ) ========== */
+/* ========== МОБИЛЬНОЕ МЕНЮ (БУРГЕР) ========== */
 .mobile-menu-btn {
   display: none;
   background: rgba(0,0,0,0.4);
@@ -167,7 +153,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .mobile-menu-btn:active { transform: scale(0.95); animation: none; }
 
-/* Затемнение фона при открытом меню */
 .mobile-menu-overlay {
   position: fixed;
   top: 0;
@@ -183,7 +168,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .mobile-menu-overlay.active { visibility: visible; opacity: 1; }
 
-/* Контейнер мобильного меню (выезжает слева) */
 .mobile-menu-container {
   position: absolute;
   top: 0;
@@ -202,7 +186,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .mobile-menu-overlay.active .mobile-menu-container { transform: translateX(0); }
 
-/* Кнопка закрытия меню */
 .mobile-menu-close {
   position: absolute;
   top: 15px;
@@ -221,7 +204,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .mobile-menu-close:active { transform: scale(0.9); }
 
-/* Пункты мобильного меню */
 .mobile-menu-item {
   display: flex;
   align-items: center;
@@ -239,7 +221,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .mobile-menu-item:active { background: rgba(255,255,255,0.2); transform: scale(0.98); }
 
-/* Выпадающий список городов */
 .mobile-menu-sub {
   padding-left: 45px;
   display: flex;
@@ -274,6 +255,13 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .rope-anchor { display: none !important; }
   .mobile-menu-btn { display: flex; }
   .header-left { display: flex; }
+  .title { font-size: 1rem; }
+  .header { padding: 10px 16px; }
+  .sticker { padding: 5px 12px; font-size: 0.8rem; }
+  .sticker span { font-size: 0.9rem; }
+  .icon-btn { padding: 5px 12px; font-size: 0.8rem; }
+  .theme-text { font-size: 0.65rem; }
+  .stickers { gap: 8px; }
 }
 
 /* ========== КНОПКА НАВЕРХ ========== */
@@ -299,7 +287,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .scroll-top-btn.show { display: flex; opacity: 1; transform: scale(1); }
 .scroll-top-btn:active { transform: scale(0.9); }
-[data-theme="dark"] .scroll-top-btn { background: var(--accent-teal); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
 /* ========== ГЛАВНОЕ ФОТО ========== */
 .hero-photo {
@@ -335,19 +322,9 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   letter-spacing: 2px;
   border: 1px solid rgba(255,255,255,0.25);
 }
-[data-theme="dark"] .handwrite-city {
-  background: rgba(0,0,0,0.5);
-  text-shadow: 0 0 8px rgba(255,255,200,0.5);
-}
 @media (max-width:700px){
   .handwrite-city { font-size: 2rem; top: 15px; left: 15px; padding: 5px 14px; }
   .hero-photo { max-width: 100%; margin: 12px; }
-  .title { font-size: 1.2rem; }
-  .header { padding: 10px 16px; }
-  .sticker, .sticker-time { padding: 5px 12px; font-size: 0.8rem; }
-  .sticker span { font-size: 0.9rem; }
-  .icon-btn { padding: 5px 12px; font-size: 0.8rem; }
-  .theme-text { font-size: 0.65rem; }
 }
 
 /* ========== ФОТОПЛЁНКА ========== */
@@ -365,7 +342,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   padding: 20px 0;
   box-shadow: inset 0 0 0 2px var(--film-border), 0 8px 24px var(--shadow);
   position: relative;
-  touch-action: pan-x pan-y;
+  touch-action: pan-x pinch-zoom;
 }
 .filmstrip-section:active { cursor: grabbing; }
 .filmstrip-wrapper {
@@ -386,28 +363,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   white-space: normal;
   position: relative;
   border: 1px solid var(--film-border);
-}
-.film-card::before {
-  content: "";
-  position: absolute;
-  top: 8px;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(90deg, var(--film-border), var(--film-border) 12px, transparent 12px, transparent 16px);
-  pointer-events: none;
-  z-index: 2;
-}
-.film-card::after {
-  content: "";
-  position: absolute;
-  bottom: 8px;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(90deg, var(--film-border), var(--film-border) 12px, transparent 12px, transparent 16px);
-  pointer-events: none;
-  z-index: 2;
+  touch-action: manipulation;
 }
 .film-card:active { transform: translateY(-3px) scale(0.99); }
 .film-img { width: 100%; height: 220px; object-fit: cover; display: block; background: #2d3e3e; }
@@ -434,6 +390,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .film-img { height: 180px; }
   .film-text { font-size: 0.9rem; padding: 12px; }
   .film-text strong { font-size: 1rem; }
+  .filmstrip-section { margin: 20px 12px; padding: 12px 0; }
 }
 
 /* ========== САМОЛЁТ ========== */
@@ -446,6 +403,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   width: 85px;
   transition: width 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
   cursor: pointer;
+  touch-action: manipulation;
 }
 .plane-corner:hover { width: 280px; }
 .plane-inner {
@@ -502,7 +460,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   100% { transform: translateX(-600px) rotate(-15deg); opacity: 0; visibility: hidden; width: 0; }
 }
 
-/* Мобильная версия самолёта */
 @media (max-width: 768px) {
   .plane-corner {
     width: auto;
@@ -510,11 +467,12 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     box-shadow: 0 0 15px rgba(255,200,0,0.6);
     border-radius: 60px;
   }
+  .plane-corner:active { transform: scale(0.97); }
   .plane-corner:hover { width: auto; }
-  .plane-inner { padding: 12px 20px; gap: 12px; }
-  .plane-icon { font-size: 1.8rem; transform: scaleX(-1); }
+  .plane-inner { padding: 10px 18px; gap: 10px; }
+  .plane-icon { font-size: 1.6rem; transform: scaleX(-1); }
   .plane-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     opacity: 1;
     font-family: 'Pacifico', cursive;
     font-weight: bold;
@@ -523,12 +481,12 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     white-space: nowrap;
   }
   .plane-invite { display: none; }
-  .plane-corner:hover .plane-text { font-size: 1.1rem; }
+  .plane-corner:active .plane-text { transform: scale(0.98); }
   .plane-fly-mobile { animation: flyAwayMobile 5s ease-in-out forwards !important; pointer-events: none; }
 }
 @keyframes planeBlinkMobile {
   0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 2px #ffaa00); }
-  50% { opacity: 0.8; transform: scale(1.03); filter: drop-shadow(0 0 15px #ffcc00); }
+  50% { opacity: 0.85; transform: scale(1.02); filter: drop-shadow(0 0 12px #ffcc00); }
 }
 @keyframes flyAwayMobile {
   0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
@@ -699,22 +657,3 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   transition: 0.2s;
 }
 .footer a:active { opacity: 0.8; transform: scale(0.96); display: inline-block; }
-
-/* ========== TOAST-СООБЩЕНИЯ ========== */
-.toast-message {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%) scale(0.9);
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(20px);
-  color: #ffefcf;
-  font-family: 'Pacifico', cursive;
-  padding: 12px 28px;
-  border-radius: 60px;
-  z-index: 20000;
-  opacity: 0;
-  transition: 0.2s;
-  white-space: nowrap;
-}
-.toast-message.show { opacity: 1; transform: translateX(-50%) scale(1); }

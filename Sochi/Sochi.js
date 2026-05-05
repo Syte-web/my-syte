@@ -1,5 +1,5 @@
 /**
- * Sochi.js — логика страницы Сочи (без дублирования menu.js)
+ * Sochi.js — логика страницы Сочи
  */
 
 (function() {
@@ -12,7 +12,7 @@
     let isMusicPlaying = false;
 
     if (photoMusicBtn && sochiMusic) {
-        photoMusicBtn.addEventListener('click', (e) => {
+        const toggleMusic = (e) => {
             e.stopPropagation();
             if (isMusicPlaying) {
                 sochiMusic.pause();
@@ -23,36 +23,38 @@
                 if (photoMusicState) photoMusicState.textContent = '⏸';
                 isMusicPlaying = true;
             }
-        });
+        };
+        photoMusicBtn.addEventListener('click', toggleMusic);
+        photoMusicBtn.addEventListener('touchstart', toggleMusic);
     }
 
     // ======================== АНИМАЦИЯ ПЕЧАТИ ========================
     const typedSpan = document.getElementById("typedText");
-    const cityName = "Сочи";
-    let idx = 0, del = false;
-
-    function typeAnim() {
-        if (!typedSpan) return;
-        if (!del) {
-            typedSpan.textContent = cityName.substring(0, idx + 1);
-            idx++;
-            if (idx === cityName.length) {
-                del = true;
-                setTimeout(typeAnim, 1800);
-                return;
-            }
-        } else {
-            typedSpan.textContent = cityName.substring(0, idx - 1);
-            idx--;
-            if (idx === 0) {
-                del = false;
-                setTimeout(typeAnim, 400);
-                return;
+    if (typedSpan) {
+        const cityName = "Сочи";
+        let idx = 0;
+        let isDeleting = false;
+        
+        function typeAnimation() {
+            if (!isDeleting && idx <= cityName.length) {
+                typedSpan.textContent = cityName.substring(0, idx);
+                idx++;
+                setTimeout(typeAnimation, 150);
+            } else if (isDeleting && idx >= 0) {
+                typedSpan.textContent = cityName.substring(0, idx);
+                idx--;
+                setTimeout(typeAnimation, 100);
+            } else if (idx === cityName.length + 1) {
+                isDeleting = true;
+                setTimeout(typeAnimation, 2000);
+            } else if (idx === -1) {
+                isDeleting = false;
+                idx = 0;
+                setTimeout(typeAnimation, 500);
             }
         }
-        setTimeout(typeAnim, del ? 120 : 200);
+        typeAnimation();
     }
-    typeAnim();
 
     // ======================== ТЕМА ========================
     function applyTheme(t) {
@@ -75,10 +77,12 @@
 
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
+        const toggleTheme = () => {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             applyTheme(isDark ? 'light' : 'dark');
-        });
+        };
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggle.addEventListener('touchstart', toggleTheme);
     }
 
     // ======================== ПОГОДА ========================
@@ -122,8 +126,17 @@
     }
     const prevRiv = document.getElementById('prevRivieraBtn');
     const nextRiv = document.getElementById('nextRivieraBtn');
-    if (prevRiv) prevRiv.addEventListener('click', () => { rIdx = (rIdx - 1 + rivImages.length) % rivImages.length; updateRiviera(); });
-    if (nextRiv) nextRiv.addEventListener('click', () => { rIdx = (rIdx + 1) % rivImages.length; updateRiviera(); });
+    
+    if (prevRiv) {
+        const prevHandler = () => { rIdx = (rIdx - 1 + rivImages.length) % rivImages.length; updateRiviera(); };
+        prevRiv.addEventListener('click', prevHandler);
+        prevRiv.addEventListener('touchstart', prevHandler);
+    }
+    if (nextRiv) {
+        const nextHandler = () => { rIdx = (rIdx + 1) % rivImages.length; updateRiviera(); };
+        nextRiv.addEventListener('click', nextHandler);
+        nextRiv.addEventListener('touchstart', nextHandler);
+    }
     updateRiviera();
 
     // ======================== КАРУСЕЛЬ МУЗЕЙ ========================
@@ -135,42 +148,83 @@
     }
     const prevMus = document.getElementById('prevMuseumBtn');
     const nextMus = document.getElementById('nextMuseumBtn');
-    if (prevMus) prevMus.addEventListener('click', () => { mIdx = (mIdx - 1 + musImages.length) % musImages.length; updateMuseum(); });
-    if (nextMus) nextMus.addEventListener('click', () => { mIdx = (mIdx + 1) % musImages.length; updateMuseum(); });
+    
+    if (prevMus) {
+        const prevHandler = () => { mIdx = (mIdx - 1 + musImages.length) % musImages.length; updateMuseum(); };
+        prevMus.addEventListener('click', prevHandler);
+        prevMus.addEventListener('touchstart', prevHandler);
+    }
+    if (nextMus) {
+        const nextHandler = () => { mIdx = (mIdx + 1) % musImages.length; updateMuseum(); };
+        nextMus.addEventListener('click', nextHandler);
+        nextMus.addEventListener('touchstart', nextHandler);
+    }
     updateMuseum();
 
     // ======================== МОДАЛКА ВЫБОРА ========================
     const modal = document.getElementById('choiceModal');
     const openChoiceBtn = document.getElementById('openChoiceBtn');
-    if (openChoiceBtn && modal) {
-        openChoiceBtn.addEventListener('click', () => {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+    let savedScrollY = 0;
+
+    function openModal() {
+        if (!modal) return;
+        savedScrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${savedScrollY}px`;
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
+        modal.classList.add('active');
     }
+
+    function closeModal() {
+        if (!modal) return;
+        modal.classList.remove('active');
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        window.scrollTo(0, savedScrollY);
+    }
+
+    if (openChoiceBtn && modal) {
+        const openHandler = (e) => {
+            e.stopPropagation();
+            openModal();
+        };
+        openChoiceBtn.addEventListener('click', openHandler);
+        openChoiceBtn.addEventListener('touchstart', openHandler);
+    }
+
     if (modal) {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
+                closeModal();
             }
         });
     }
-    
+
     // КНОПКА "НА ГЛАВНУЮ" В МОДАЛЬНОМ ОКНЕ
-    // (путь ../index.html так как мы в папке Sochi/)
     const backToMainBtn = document.getElementById('backToMainModalBtn');
     if (backToMainBtn) {
-        backToMainBtn.addEventListener('click', () => {
-            window.location.href = '../index.html';
-        });
+        const goToMain = () => { window.location.href = '../index.html'; };
+        backToMainBtn.addEventListener('click', goToMain);
+        backToMainBtn.addEventListener('touchstart', goToMain);
     }
     
     // КАРТОЧКИ В МОДАЛЬНОМ ОКНЕ
     const rozaCard = document.getElementById('rozaCard');
     const siriusCard = document.getElementById('siriusCard');
-    if (rozaCard) rozaCard.addEventListener('click', () => { window.location.href = '../Roza/Roza.html'; });
-    if (siriusCard) siriusCard.addEventListener('click', () => { window.location.href = '../Sirius/Sirius.html'; });
+    
+    if (rozaCard) {
+        const goToRoza = () => { window.location.href = '../Roza/Roza.html'; };
+        rozaCard.addEventListener('click', goToRoza);
+        rozaCard.addEventListener('touchstart', goToRoza);
+    }
+    if (siriusCard) {
+        const goToSirius = () => { window.location.href = '../Sirius/Sirius.html'; };
+        siriusCard.addEventListener('click', goToSirius);
+        siriusCard.addEventListener('touchstart', goToSirius);
+    }
 
     // ======================== КНОПКА НАВЕРХ ========================
     const scrollTopBtn = document.getElementById('scrollTopBtn');
@@ -182,9 +236,10 @@
                 scrollTopBtn.classList.remove('show');
             }
         });
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); };
+        scrollTopBtn.addEventListener('click', scrollToTop);
+        scrollTopBtn.addEventListener('touchstart', scrollToTop);
     }
 
+    console.log('Sochi.js загружен - модальное окно адаптировано для мобильных');
 })();
