@@ -1,37 +1,9 @@
 /**
- * Sochi.js — вся логика страницы Сочи
+ * Sochi.js — логика страницы Сочи (без дублирования menu.js)
  */
 
 (function() {
     "use strict";
-
-    // ======================== АНИМАЦИЯ ПЕЧАТИ ========================
-    const typedSpan = document.getElementById("typedText");
-    if (typedSpan) {
-        const cityName = "Сочи";
-        let idx = 0;
-        let isDeleting = false;
-        
-        function typeAnimation() {
-            if (!isDeleting && idx <= cityName.length) {
-                typedSpan.textContent = cityName.substring(0, idx);
-                idx++;
-                setTimeout(typeAnimation, 150);
-            } else if (isDeleting && idx >= 0) {
-                typedSpan.textContent = cityName.substring(0, idx);
-                idx--;
-                setTimeout(typeAnimation, 100);
-            } else if (idx === cityName.length + 1) {
-                isDeleting = true;
-                setTimeout(typeAnimation, 2000);
-            } else if (idx === -1) {
-                isDeleting = false;
-                idx = 0;
-                setTimeout(typeAnimation, 500);
-            }
-        }
-        typeAnimation();
-    }
 
     // ======================== МУЗЫКА ========================
     const photoMusicBtn = document.getElementById('photoMusicBtn');
@@ -53,6 +25,34 @@
             }
         });
     }
+
+    // ======================== АНИМАЦИЯ ПЕЧАТИ ========================
+    const typedSpan = document.getElementById("typedText");
+    const cityName = "Сочи";
+    let idx = 0, del = false;
+
+    function typeAnim() {
+        if (!typedSpan) return;
+        if (!del) {
+            typedSpan.textContent = cityName.substring(0, idx + 1);
+            idx++;
+            if (idx === cityName.length) {
+                del = true;
+                setTimeout(typeAnim, 1800);
+                return;
+            }
+        } else {
+            typedSpan.textContent = cityName.substring(0, idx - 1);
+            idx--;
+            if (idx === 0) {
+                del = false;
+                setTimeout(typeAnim, 400);
+                return;
+            }
+        }
+        setTimeout(typeAnim, del ? 120 : 200);
+    }
+    typeAnim();
 
     // ======================== ТЕМА ========================
     function applyTheme(t) {
@@ -139,7 +139,7 @@
     if (nextMus) nextMus.addEventListener('click', () => { mIdx = (mIdx + 1) % musImages.length; updateMuseum(); });
     updateMuseum();
 
-    // ======================== МОДАЛКА ========================
+    // ======================== МОДАЛКА ВЫБОРА ========================
     const modal = document.getElementById('choiceModal');
     const openChoiceBtn = document.getElementById('openChoiceBtn');
     if (openChoiceBtn && modal) {
@@ -156,12 +156,17 @@
             }
         });
     }
+    
+    // КНОПКА "НА ГЛАВНУЮ" В МОДАЛЬНОМ ОКНЕ
+    // (путь ../index.html так как мы в папке Sochi/)
     const backToMainBtn = document.getElementById('backToMainModalBtn');
     if (backToMainBtn) {
         backToMainBtn.addEventListener('click', () => {
-            window.location.href = '/index.html';
+            window.location.href = '../index.html';
         });
     }
+    
+    // КАРТОЧКИ В МОДАЛЬНОМ ОКНЕ
     const rozaCard = document.getElementById('rozaCard');
     const siriusCard = document.getElementById('siriusCard');
     if (rozaCard) rozaCard.addEventListener('click', () => { window.location.href = '../Roza/Roza.html'; });
@@ -181,4 +186,5 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
+
 })();
