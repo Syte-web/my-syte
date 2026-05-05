@@ -147,6 +147,11 @@
             const modal = btn.closest('.gondola-modal');
             closeModal(modal);
         });
+        btn.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            const modal = btn.closest('.gondola-modal');
+            closeModal(modal);
+        });
     });
 
     // Закрытие по клику на фон
@@ -161,7 +166,6 @@
         if (e.key === 'Escape') {
             const activeModal = document.querySelector('.gondola-modal.active');
             if (activeModal) closeModal(activeModal);
-            if (videoOverlay && videoOverlay.classList.contains('active')) closeVideoAndGondola();
         }
     });
 
@@ -171,15 +175,13 @@
     const openVideoBtn = document.getElementById('openVideoBtn');
     const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-    function closeVideoAndGondola() {
+    function closeVideo() {
         if (!videoOverlay) return;
         videoOverlay.classList.remove('active');
         if (localVideo) {
             localVideo.pause();
             localVideo.currentTime = 0;
         }
-        const activeModals = document.querySelectorAll('.gondola-modal.active');
-        activeModals.forEach(modal => closeModal(modal));
     }
 
     function openVideo() {
@@ -194,15 +196,11 @@
         openVideoBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); openVideo(); });
     }
     if (closeVideoBtn) {
-        closeVideoBtn.addEventListener('click', (e) => { e.preventDefault(); closeVideoAndGondola(); });
-        closeVideoBtn.addEventListener('touchstart', (e) => { e.preventDefault(); closeVideoAndGondola(); });
+        closeVideoBtn.addEventListener('click', (e) => { e.preventDefault(); closeVideo(); });
+        closeVideoBtn.addEventListener('touchstart', (e) => { e.preventDefault(); closeVideo(); });
     }
     if (videoOverlay) {
-        videoOverlay.addEventListener('click', (e) => { if (e.target === videoOverlay) closeVideoAndGondola(); });
-    }
-    if (localVideo) {
-        localVideo.preload = 'metadata';
-        localVideo.setAttribute('playsinline', '');
+        videoOverlay.addEventListener('click', (e) => { if (e.target === videoOverlay) closeVideo(); });
     }
 
     // ========== ЛАЙКИ ==========
@@ -226,14 +224,14 @@
         heart.style.fontSize = (Math.floor(Math.random() * 20 + 20)) + 'px';
         heart.style.pointerEvents = 'none';
         heart.style.zIndex = '100000';
-        heart.style.transition = 'all 1.5s ease-out';
+        heart.style.transition = 'all 1s ease-out';
         document.body.appendChild(heart);
-        setTimeout(() => { heart.style.transform = 'translateY(-150px) scale(1.5)'; heart.style.opacity = '0'; }, 10);
-        setTimeout(() => heart.remove(), 1500);
+        setTimeout(() => { heart.style.transform = 'translateY(-100px) scale(1.5)'; heart.style.opacity = '0'; }, 10);
+        setTimeout(() => heart.remove(), 1000);
     }
 
     if (videoHeartBtn) {
-        videoHeartBtn.addEventListener('click', (e) => {
+        const likeHandler = (e) => {
             e.stopPropagation();
             if (hasLikedVideo) return;
             hasLikedVideo = true;
@@ -246,21 +244,9 @@
             for (let i = 0; i < 10; i++) {
                 setTimeout(() => createFloatingHeart(rect.left + rect.width/2, rect.top + rect.height/2), i * 50);
             }
-        });
-        videoHeartBtn.addEventListener('touchstart', (e) => {
-            e.stopPropagation();
-            if (hasLikedVideo) return;
-            hasLikedVideo = true;
-            videoLikes++;
-            if (videoLikesSpan) videoLikesSpan.textContent = videoLikes;
-            if (videoHeartIcon) videoHeartIcon.textContent = '❤️';
-            localStorage.setItem('videoLikesRoza', videoLikes);
-            localStorage.setItem('likedVideoRoza', 'true');
-            const rect = videoHeartBtn.getBoundingClientRect();
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => createFloatingHeart(rect.left + rect.width/2, rect.top + rect.height/2), i * 50);
-            }
-        });
+        };
+        videoHeartBtn.addEventListener('click', likeHandler);
+        videoHeartBtn.addEventListener('touchstart', likeHandler);
     }
 
     // ========== БИЛЕТ ==========
@@ -324,25 +310,17 @@
         if (mobileRoutesBtn && mobileRoutesSub) {
             mobileRoutesBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (mobileRoutesSub.style.display === 'none') {
-                    mobileRoutesSub.style.display = 'flex';
-                } else {
-                    mobileRoutesSub.style.display = 'none';
-                }
+                mobileRoutesSub.style.display = mobileRoutesSub.style.display === 'none' ? 'flex' : 'none';
             });
             mobileRoutesBtn.addEventListener('touchstart', (e) => {
                 e.stopPropagation();
-                if (mobileRoutesSub.style.display === 'none') {
-                    mobileRoutesSub.style.display = 'flex';
-                } else {
-                    mobileRoutesSub.style.display = 'none';
-                }
+                mobileRoutesSub.style.display = mobileRoutesSub.style.display === 'none' ? 'flex' : 'none';
             });
         }
         
         const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
         menuItems.forEach(item => {
-            item.addEventListener('click', () => {
+            const menuHandler = () => {
                 const target = item.getAttribute('data-target');
                 if (target === 'index') {
                     window.location.href = '../index.html';
@@ -354,20 +332,9 @@
                 }
                 mobileMenuOverlay.classList.remove('active');
                 document.body.style.overflow = '';
-            });
-            item.addEventListener('touchstart', () => {
-                const target = item.getAttribute('data-target');
-                if (target === 'index') {
-                    window.location.href = '../index.html';
-                } else if (target === 'places') {
-                    const section = document.querySelector('.gondola-section');
-                    if (section) section.scrollIntoView({ behavior: 'smooth' });
-                } else if (target === 'review') {
-                    alert('📧 Поделитесь впечатлением: angelina.chernovalova@yandex.ru');
-                }
-                mobileMenuOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
+            };
+            item.addEventListener('click', menuHandler);
+            item.addEventListener('touchstart', menuHandler);
         });
     }
 

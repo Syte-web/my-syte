@@ -141,13 +141,6 @@ html, body {
 .icon-btn:active { transform: scale(0.95); }
 .theme-text { font-size: 0.8rem; }
 
-@media (max-width: 768px) {
-  .title { font-size: 1rem; }
-  .header { padding: 10px 16px; }
-  .sticker-clock { padding: 5px 12px; font-size: 1rem; }
-  .icon-btn { padding: 5px 12px; font-size: 1rem; }
-}
-
 /* ========== МОБИЛЬНОЕ МЕНЮ ========== */
 .mobile-menu-btn {
   display: none;
@@ -181,7 +174,6 @@ html, body {
   transition: 0.3s;
 }
 .mobile-menu-overlay.active { visibility: visible; opacity: 1; }
-
 .mobile-menu-container {
   position: absolute;
   top: 0;
@@ -199,7 +191,6 @@ html, body {
   overflow-y: auto;
 }
 .mobile-menu-overlay.active .mobile-menu-container { transform: translateX(0); }
-
 .mobile-menu-close {
   position: absolute;
   top: 15px;
@@ -294,10 +285,6 @@ html, body {
   backdrop-filter: blur(4px);
   padding: 6px 20px;
   border-radius: 60px;
-}
-@media (max-width: 700px) {
-  .hero-photo { height: 220px; }
-  .photo-caption { font-size: 1.2rem; top: 10px; right: 12px; padding: 4px 12px; }
 }
 
 /* ========== ПОГОДА ========== */
@@ -414,14 +401,6 @@ html, body {
 .gondola-1 { bottom: 8%; left: 8%; }
 .gondola-2 { top: 56%; left: 48%; transform: translate(-50%, -50%); }
 .gondola-3 { top: 36%; left: 68%; transform: translate(-50%, -50%); }
-@media (max-width: 768px) {
-  .gondola { width: 55px; }
-  .gondola-icon { font-size: 1.8rem; }
-  .gondola-label { font-size: 0.55rem; }
-  .gondola-1 { bottom: 5%; left: 5%; }
-  .gondola-2 { top: 52%; left: 44%; }
-  .gondola-3 { top: 32%; left: 72%; }
-}
 
 /* ========== МОДАЛЬНЫЕ ОКНА ========== */
 .gondola-modal {
@@ -454,9 +433,9 @@ html, body {
   margin: auto;
 }
 .gondola-modal-close {
-  position: sticky;
-  top: 10px;
-  float: right;
+  position: absolute;
+  top: 12px;
+  right: 12px;
   background: rgba(0,0,0,0.6);
   border: none;
   border-radius: 50%;
@@ -466,7 +445,6 @@ html, body {
   color: white;
   cursor: pointer;
   z-index: 10;
-  margin-bottom: 10px;
 }
 .gondola-modal-flex {
   display: flex;
@@ -475,7 +453,6 @@ html, body {
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 10px;
-  clear: both;
 }
 .gondola-modal-photo {
   width: 280px;
@@ -497,7 +474,7 @@ html, body {
 }
 .gondola-modal-text {
   font-family: 'Caveat', cursive;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--text);
   margin-bottom: 20px;
@@ -506,24 +483,59 @@ html, body {
   background: linear-gradient(135deg, #2d6a4f, #1e7e5e);
   border: none;
   border-radius: 60px;
-  padding: 12px 28px;
+  padding: 10px 24px;
   font-family: 'Pacifico', cursive;
   font-size: 1rem;
   color: #fff9e6;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
-.binocular-emoji { font-size: 1.4rem; }
+.binocular-emoji { font-size: 1.3rem; }
 
+/* МОБИЛЬНАЯ ВЕРСИЯ МОДАЛЬНЫХ ОКОН */
 @media (max-width: 768px) {
-  .gondola-modal-content { width: 92%; padding: 16px; max-height: 90vh; }
-  .gondola-modal-flex { flex-direction: column; }
-  .gondola-modal-photo { width: 100%; max-width: 260px; }
-  .gondola-modal-title { font-size: 1.2rem; }
-  .gondola-modal-text { font-size: 1rem; }
-  .binocular-btn { padding: 10px 20px; font-size: 0.9rem; }
+  .gondola-modal-content {
+    width: 92%;
+    padding: 20px 16px;
+    max-height: 80vh;
+    border-radius: 24px;
+  }
+  .gondola-modal-flex {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .gondola-modal-photo {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 4/3;
+  }
+  .gondola-modal-title {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+  .gondola-modal-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .gondola-modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    top: 10px;
+    right: 10px;
+  }
+  .binocular-btn {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+  }
+  .gondola { width: 55px; }
+  .gondola-icon { font-size: 1.8rem; }
+  .gondola-label { font-size: 0.55rem; }
+  .gondola-1 { bottom: 5%; left: 5%; }
+  .gondola-2 { top: 52%; left: 44%; transform: translate(-50%, -50%); }
+  .gondola-3 { top: 32%; left: 72%; transform: translate(-50%, -50%); }
 }
 
 /* ========== ВИДЕО ========== */
@@ -553,52 +565,58 @@ html, body {
   padding: 20px;
   backdrop-filter: blur(8px);
 }
-.video-container-small video { width: 100%; max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 24px; }
+.video-container-small video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 24px;
+}
 .video-close-btn {
   position: absolute;
-  top: -15px;
-  right: -15px;
+  top: -12px;
+  right: -12px;
   background: white;
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 1.3rem;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
   color: #333;
   cursor: pointer;
   z-index: 40001;
 }
 @media (max-width: 768px) {
-  .video-close-btn { top: -10px; right: -10px; width: 36px; height: 36px; font-size: 1.1rem; }
+  .video-close-btn { top: -10px; right: -10px; width: 32px; height: 32px; font-size: 1rem; }
   .video-container-small { padding: 15px; }
 }
 
 /* ========== ЛАЙКИ ========== */
-.video-likes-section { text-align: center; margin-top: 20px; padding: 15px 0; }
+.video-likes-section { text-align: center; margin-top: 20px; padding: 10px 0; }
 .likes-container { display: flex; justify-content: center; align-items: center; }
 .like-button-wrapper {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
   background: rgba(0,0,0,0.3);
   backdrop-filter: blur(8px);
-  padding: 8px 25px;
+  padding: 6px 20px;
   border-radius: 60px;
 }
 .heart-like-btn { background: none; border: none; cursor: pointer; padding: 0; }
-.like-heart-icon { font-size: 2rem; transition: all 0.2s ease; }
-.like-count { font-family: 'Pacifico', cursive; font-size: 1.1rem; font-weight: bold; color: #fff9e6; }
-.like-label { font-family: 'Caveat', cursive; font-size: 0.85rem; color: #ffefcf; }
+.like-heart-icon { font-size: 1.8rem; transition: all 0.2s ease; }
+.like-count { font-family: 'Pacifico', cursive; font-size: 1rem; font-weight: bold; color: #fff9e6; }
+.like-label { font-family: 'Caveat', cursive; font-size: 0.8rem; color: #ffefcf; }
 
 /* ========== СТИКЕРЫ ========== */
-.stickers-section { padding: 30px 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 35px; }
+.stickers-section { padding: 30px 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
 .note-sticker {
   width: 260px;
-  padding: 25px 18px;
+  padding: 20px 15px;
   font-family: 'Pacifico', cursive;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   text-align: center;
-  position: relative;
   border-radius: 15px 8px 20px 8px;
 }
 .sticker-green { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
@@ -606,34 +624,34 @@ html, body {
 .sticker-sand { background: #fff8e1; color: #b95f2e; border: 1px solid #ffe082; }
 @media (max-width: 700px) {
   .note-sticker { width: 180px; font-size: 0.7rem; padding: 12px 10px; }
-  .stickers-section { gap: 15px; }
+  .stickers-section { gap: 15px; padding: 20px 15px; }
 }
 
 /* ========== БИЛЕТ ========== */
 .ticket-wrapper { display: flex; justify-content: flex-end; margin: 5px 20px 20px 0; }
-.ticket-corner { width: 85px; transition: width 0.4s; cursor: pointer; }
+.ticket-corner { width: auto; cursor: pointer; border-radius: 60px; }
 .ticket-inner {
   background: var(--info-panel-bg);
-  border-left: 5px solid #ffaa33;
-  border-radius: 40px 0 0 40px;
-  padding: 12px 16px 12px 20px;
+  border-radius: 60px;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
-.ticket-icon { font-size: 1.9rem; transform: scaleX(-1); }
+.ticket-icon { font-size: 1.6rem; transform: scaleX(-1); }
 .ticket-invite {
   font-family: 'Caveat', cursive;
   font-size: 0.9rem;
   background: #ffaa33;
   color: #2a1a0a;
-  padding: 5px 14px;
+  padding: 4px 12px;
   border-radius: 50px;
+  white-space: nowrap;
 }
-@media (max-width: 768px) {
-  .ticket-corner { width: auto; border-radius: 60px; }
-  .ticket-inner { border-radius: 60px; }
-  .ticket-invite { font-size: 0.9rem; }
+.ticket-spin { animation: ticketSpin 5s ease-out forwards !important; pointer-events: none; }
+@keyframes ticketSpin {
+  0% { transform: rotate(0deg); opacity: 1; }
+  100% { transform: rotate(360deg); opacity: 0; visibility: hidden; }
 }
 
 /* ========== ЛИАНА ========== */
@@ -669,8 +687,9 @@ html, body {
   align-items: center;
   justify-content: center;
   font-size: 1.6rem;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.knot-item:active { transform: translateY(-50%) scale(1.1); }
+.knot-item:active { transform: translateY(-50%) scale(1.1); box-shadow: 0 0 18px rgba(255,215,0,0.7); }
 .bubble-menu {
   position: absolute;
   left: 52px;
@@ -685,6 +704,7 @@ html, body {
   color: #ffefcf;
   pointer-events: none;
   opacity: 0;
+  transition: 0.2s;
 }
 .knot-item:hover .bubble-menu { opacity: 1; }
 .subknots {
@@ -702,6 +722,7 @@ html, body {
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
 }
 .knot-item:hover .subknots { opacity: 1; visibility: visible; }
 .subknot-link {
@@ -714,6 +735,7 @@ html, body {
   text-decoration: none;
   padding: 8px 16px;
   border-radius: 20px;
+  transition: background 0.2s;
 }
 .subknot-link:active { background: rgba(255,215,150,0.3); }
 .subknot-title {
@@ -727,6 +749,7 @@ html, body {
   border-radius: 20px;
   margin-bottom: 4px;
   background: rgba(255,215,150,0.15);
+  pointer-events: none;
 }
 .rope-anchor {
   position: fixed;
@@ -746,9 +769,9 @@ html, body {
 }
 @media (max-width: 1060px) {
   .rope-anchor { left: 2px; width: 44px; height: 44px; font-size: 1.8rem; }
-  .knot-item { width: 42px; height: 42px; left: -12px; font-size: 1.4rem; }
-  .bubble-menu { left: 44px; font-size: 0.8rem; padding: 4px 10px; }
-  .subknots { left: 44px; padding: 6px 12px; }
+  .knot-item { width: 42px; height: 42px; left: -14px; font-size: 1.4rem; }
+  .bubble-menu { left: 46px; font-size: 0.8rem; padding: 4px 10px; }
+  .subknots { left: 46px; padding: 6px 12px; }
 }
 
 /* ========== ФУТЕР ========== */
@@ -762,14 +785,31 @@ html, body {
 }
 .footer a { color: var(--accent); text-decoration: none; font-family: 'Pacifico', cursive; }
 
+/* ========== МОБИЛЬНЫЕ ДОРАБОТКИ ========== */
+@media (max-width: 700px) {
+  .container { width: 96%; margin: 12px auto; border-radius: 20px; }
+  .title { font-size: 1rem; }
+  .header { padding: 10px 16px; }
+  .hero-photo { height: 220px; }
+  .photo-caption { font-size: 1.2rem; top: 10px; right: 12px; padding: 4px 12px; }
+  .gondola-title { font-size: 1.3rem; }
+  .weather-title-center { font-size: 1.2rem; }
+  .weather-item .item-value { font-size: 1.2rem; }
+  .weather-item .item-icon { font-size: 1.5rem; }
+  .weather-item { padding: 5px 12px; }
+  .verdict-good, .verdict-bad, .verdict-warning { font-size: 0.9rem; padding: 5px 12px; }
+}
+
 /* ========== ТЁМНАЯ ТЕМА ========== */
 [data-theme="dark"] .sticker-clock {
   background: rgba(0,0,0,0.7);
   color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.3);
 }
 [data-theme="dark"] .icon-btn {
   background: rgba(0,0,0,0.6);
   color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 [data-theme="dark"] .photo-caption {
   background: rgba(0,0,0,0.6);
@@ -777,22 +817,25 @@ html, body {
 }
 [data-theme="dark"] .weather-widget {
   background: rgba(0,0,0,0.6);
+  border-color: rgba(255,255,255,0.2);
 }
 [data-theme="dark"] .weather-title-center,
-[data-theme="dark"] .weather-item .item-value {
-  color: #ffffff;
-}
-[data-theme="dark"] .gondola-title {
-  color: #ffffff;
+[data-theme="dark"] .weather-item .item-value { color: #ffffff; }
+[data-theme="dark"] .gondola-title { color: #ffffff; text-shadow: 0 1px 2px black; }
+[data-theme="dark"] .ticket-inner {
+  background: rgba(0,0,0,0.7);
 }
 [data-theme="dark"] .note-sticker {
   background: rgba(0,0,0,0.6);
   color: #ffffff;
+  border-color: rgba(255,255,255,0.2);
 }
 [data-theme="dark"] .footer {
   background: rgba(0,0,0,0.5);
   color: #cccccc;
 }
-[data-theme="dark"] .footer a {
-  color: #ffcc66;
+[data-theme="dark"] .footer a { color: #ffcc66; }
+[data-theme="dark"] .gondola-modal-content {
+  background: #1a2a1a;
+  border-color: #a7d489;
 }
