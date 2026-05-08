@@ -3,44 +3,35 @@ const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 const musicIcon = document.getElementById('musicIcon');
 let musicPlaying = true;
+let musicStarted = false;
 
-// Пытаемся запустить музыку при первом касании пользователя
-function initMusic() {
-    if (bgMusic) {
+function startMusicOnFirstTouch() {
+    if (!musicStarted && bgMusic) {
         bgMusic.volume = 0.3;
-        bgMusic.play().catch(e => console.log('Автовоспроизведение заблокировано, нажмите на музыку'));
+        bgMusic.play().catch(e => console.log('Автовоспроизведение заблокировано'));
+        musicStarted = true;
     }
 }
 
 if (musicToggle) {
-    musicToggle.addEventListener('click', (e) => {
+    const toggleMusic = (e) => {
         e.stopPropagation();
+        e.preventDefault();
         if (musicPlaying) {
             if (bgMusic) bgMusic.pause();
             if (musicIcon) musicIcon.textContent = '🔇';
             musicPlaying = false;
         } else {
-            if (bgMusic) bgMusic.play().catch(e => console.log('Ошибка воспроизведения'));
+            if (bgMusic) bgMusic.play().catch(e => console.log('Ошибка'));
             if (musicIcon) musicIcon.textContent = '🎵';
             musicPlaying = true;
         }
-    });
-    musicToggle.addEventListener('touchstart', (e) => {
-        e.stopPropagation();
-        if (musicPlaying) {
-            if (bgMusic) bgMusic.pause();
-            if (musicIcon) musicIcon.textContent = '🔇';
-            musicPlaying = false;
-        } else {
-            if (bgMusic) bgMusic.play().catch(e => console.log('Ошибка воспроизведения'));
-            if (musicIcon) musicIcon.textContent = '🎵';
-            musicPlaying = true;
-        }
-    });
+    };
+    musicToggle.addEventListener('click', toggleMusic);
+    musicToggle.addEventListener('touchstart', toggleMusic, { passive: false });
 }
 
-// Пробуем запустить музыку при первой загрузке
-setTimeout(initMusic, 1000);
+document.body.addEventListener('touchstart', startMusicOnFirstTouch, { once: true });
 
 // ========== СЧЁТЧИК ПРОСМОТРОВ ==========
 let siteViews = localStorage.getItem('siteTotalViews');
@@ -70,14 +61,14 @@ applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
 
 const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
+    const toggleTheme = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         applyTheme(next);
-    });
-    themeToggle.addEventListener('touchstart', () => {
-        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-    });
+    };
+    themeToggle.addEventListener('click', toggleTheme);
+    themeToggle.addEventListener('touchstart', toggleTheme, { passive: false });
 }
 
 // ========== ВРЕМЯ И ПОГОДА ==========
@@ -106,7 +97,7 @@ async function fetchWeather() {
 }
 fetchWeather();
 
-// ========== ОТВЕТ НА ВОПРОС "С ЧЕГО НАЧИНАЕТСЯ ЛЕТО" ==========
+// ========== ОТВЕТ НА ВОПРОС ==========
 const answerResult = document.getElementById('answerResult');
 const optionCards = document.querySelectorAll('.option-card');
 
@@ -119,7 +110,8 @@ function showToast(msg) {
 }
 
 optionCards.forEach(card => {
-    const clickHandler = () => {
+    const clickHandler = (e) => {
+        e.stopPropagation();
         const option = card.getAttribute('data-option');
         let message = '';
         switch (option) {
@@ -127,10 +119,10 @@ optionCards.forEach(card => {
                 message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. Желаю золотистого загара и кристально чистой воды! 🌊✨';
                 break;
             case 'актив в горах':
-                message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды, чистый воздух и заряд бодрости. Пусть вершины покоряются легко! 🏔️💪';
+                message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды, чистый воздух и заряд бодрости. 🏔️💪';
                 break;
             case 'прогулки по паркам':
-                message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония с природой. Желаю ярких впечатлений и красивых фото! 📸✨';
+                message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония с природой. 📸✨';
                 break;
             default:
                 message = '✨ Отличный выбор! Пусть ваше лето будет незабываемым! ✨';
@@ -138,12 +130,11 @@ optionCards.forEach(card => {
         if (answerResult) {
             answerResult.style.display = 'block';
             answerResult.innerHTML = message;
-            answerResult.style.opacity = '1';
         }
         showToast(`✨ Вы выбрали: ${card.querySelector('.option-label')?.textContent || option} ✨`);
     };
     card.addEventListener('click', clickHandler);
-    card.addEventListener('touchstart', clickHandler);
+    card.addEventListener('touchstart', clickHandler, { passive: false });
 });
 
 // ========== ЧЕК-ЛИСТ ==========
@@ -191,15 +182,13 @@ function openPanel() {
 function closePanel() { if (panelDiv) panelDiv.classList.remove('visible'); }
 
 if (remind) {
-    remind.addEventListener('click', () => { panelDiv.classList.contains('visible') ? closePanel() : openPanel(); });
-    remind.addEventListener('touchstart', () => { panelDiv.classList.contains('visible') ? closePanel() : openPanel(); });
+    const panelToggle = (e) => {
+        e.stopPropagation();
+        panelDiv.classList.contains('visible') ? closePanel() : openPanel();
+    };
+    remind.addEventListener('click', panelToggle);
+    remind.addEventListener('touchstart', panelToggle, { passive: false });
 }
-document.addEventListener('click', (e) => {
-    if (panelDiv && panelDiv.classList.contains('visible') && remind && !remind.contains(e.target) && !panelDiv.contains(e.target)) closePanel();
-});
-document.addEventListener('touchstart', (e) => {
-    if (panelDiv && panelDiv.classList.contains('visible') && remind && !remind.contains(e.target) && !panelDiv.contains(e.target)) closePanel();
-});
 
 // ========== СМЕНА ФОТО МОРЯ ==========
 const changeSeaBtn = document.getElementById('changeSeaBtn');
@@ -243,37 +232,41 @@ if (aboutPhoto) {
 const modalOverlay = document.getElementById('introModal');
 const aboutFloat = document.getElementById('about-float');
 const closeModalBtn = document.getElementById('closeModalBtn');
+let savedScrollYModal = 0;
 
-if (aboutFloat && modalOverlay) {
-    aboutFloat.addEventListener('click', () => {
-        modalOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-    aboutFloat.addEventListener('touchstart', () => {
-        modalOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
+function openModalWindow() {
+    if (!modalOverlay) return;
+    savedScrollYModal = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${savedScrollYModal}px`;
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+    modalOverlay.classList.add('active');
 }
-if (closeModalBtn && modalOverlay) {
-    closeModalBtn.addEventListener('click', () => {
-        modalOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-    closeModalBtn.addEventListener('touchstart', () => {
-        modalOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    });
+
+function closeModalWindow() {
+    if (!modalOverlay) return;
+    modalOverlay.classList.remove('active');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, savedScrollYModal);
+}
+
+if (aboutFloat) {
+    aboutFloat.addEventListener('click', (e) => { e.stopPropagation(); openModalWindow(); });
+    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); }, { passive: false });
+}
+if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModalWindow(); });
+    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); }, { passive: false });
 }
 if (modalOverlay) {
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
+    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
 }
 
-// ========== КАРУСЕЛЬ МОИХ МАРШРУТОВ ==========
+// ========== КАРУСЕЛЬ МАРШРУТОВ ==========
 const routesTrack = document.getElementById('routesTrack');
 const routeCards = document.querySelectorAll('.route-card');
 const routesDots = document.getElementById('routesDots');
@@ -297,16 +290,8 @@ function createRouteDots() {
         const dot = document.createElement('div');
         dot.classList.add('dot');
         if (i === currentRoute) dot.classList.add('active');
-        dot.addEventListener('click', () => {
-            clearInterval(autoRouteInterval);
-            goToRouteSlide(i);
-            startAutoRoutes();
-        });
-        dot.addEventListener('touchstart', () => {
-            clearInterval(autoRouteInterval);
-            goToRouteSlide(i);
-            startAutoRoutes();
-        });
+        dot.addEventListener('click', () => { clearInterval(autoRouteInterval); goToRouteSlide(i); startAutoRoutes(); });
+        dot.addEventListener('touchstart', () => { clearInterval(autoRouteInterval); goToRouteSlide(i); startAutoRoutes(); });
         routesDots.appendChild(dot);
     });
 }
@@ -316,26 +301,20 @@ function startAutoRoutes() {
     autoRouteInterval = setInterval(() => goToRouteSlide(currentRoute + 1), 4000);
 }
 
-// ПЕРЕХОД ПО КАРТОЧКАМ МАРШРУТОВ (ВАЖНО ДЛЯ МОБИЛЬНЫХ)
 routeCards.forEach(card => {
-    const clickHandler = () => {
+    const cardHandler = (e) => {
+        e.stopPropagation();
         const page = card.getAttribute('data-page');
         if (page) window.location.href = page;
     };
-    card.addEventListener('click', clickHandler);
-    card.addEventListener('touchstart', clickHandler);
+    card.addEventListener('click', cardHandler);
+    card.addEventListener('touchstart', cardHandler, { passive: false });
 });
 
 if (routeCards.length > 0) {
     createRouteDots();
     goToRouteSlide(0);
     startAutoRoutes();
-}
-
-const routesCarousel = document.getElementById('routesCarousel');
-if (routesCarousel) {
-    routesCarousel.addEventListener('mouseenter', () => clearInterval(autoRouteInterval));
-    routesCarousel.addEventListener('mouseleave', startAutoRoutes);
 }
 
 // ========== КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" ==========
@@ -361,16 +340,8 @@ function createPlaceDots() {
     placeCards.forEach((_, i) => {
         const dot = document.createElement('div');
         dot.classList.add('dot');
-        dot.addEventListener('click', () => {
-            clearInterval(autoPlaceInterval);
-            goToPlaceSlide(i);
-            startAutoPlaces();
-        });
-        dot.addEventListener('touchstart', () => {
-            clearInterval(autoPlaceInterval);
-            goToPlaceSlide(i);
-            startAutoPlaces();
-        });
+        dot.addEventListener('click', () => { clearInterval(autoPlaceInterval); goToPlaceSlide(i); startAutoPlaces(); });
+        dot.addEventListener('touchstart', () => { clearInterval(autoPlaceInterval); goToPlaceSlide(i); startAutoPlaces(); });
         placesDots.appendChild(dot);
     });
 }
@@ -386,23 +357,18 @@ if (placeCards.length > 0) {
     startAutoPlaces();
 }
 
-const placesCarousel = document.getElementById('placesCarousel');
-if (placesCarousel) {
-    placesCarousel.addEventListener('mouseenter', () => clearInterval(autoPlaceInterval));
-    placesCarousel.addEventListener('mouseleave', startAutoPlaces);
-}
-
 // ========== ЗВЁЗДЫ ДЛЯ ОТЗЫВОВ ==========
 let currentRating = 0;
 const stars = document.querySelectorAll('.star');
 
 stars.forEach(star => {
-    const clickHandler = () => {
+    const starHandler = (e) => {
+        e.stopPropagation();
         currentRating = parseInt(star.dataset.value);
         stars.forEach((s, i) => s.classList.toggle('active', i < currentRating));
     };
-    star.addEventListener('click', clickHandler);
-    star.addEventListener('touchstart', clickHandler);
+    star.addEventListener('click', starHandler);
+    star.addEventListener('touchstart', starHandler, { passive: false });
 });
 
 // ========== ОТПРАВКА ОТЗЫВА ==========
@@ -433,10 +399,7 @@ if (reviewForm) {
 
         if (navigator.share) {
             try {
-                await navigator.share({
-                    title: 'Отзыв о сайте Мой юг',
-                    text: message,
-                });
+                await navigator.share({ title: 'Отзыв о сайте Мой юг', text: message });
                 showToast('✅ Спасибо! Отзыв отправлен');
                 resetForm();
                 return;
@@ -449,96 +412,59 @@ if (reviewForm) {
             resetForm();
         } catch (err) {
             showToast('⚠️ Не удалось скопировать, но отзыв сохранён');
-            console.log(message);
             resetForm();
         }
     });
 }
 
-// ========== ШЕРИНГ (ПОДЕЛИТЬСЯ) ==========
+// ========== КНОПКИ ШЕРИНГА (БЕЗ ПОЧТЫ) ==========
 const shareUrl = encodeURIComponent(window.location.href);
 const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
 
 document.querySelectorAll('.share-btn').forEach(btn => {
-    const clickHandler = () => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const type = btn.dataset.share;
-        let url = '';
-        if (type === 'email') {
-            // Открытие почты - мобильная версия
-            window.location.href = `mailto:?subject=${shareTitle}&body=${shareUrl}`;
-        } else if (type === 'vk') {
-            url = `https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`;
-            window.open(url, '_blank', 'width=600,height=400');
+        if (type === 'vk') {
+            window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
         } else if (type === 'ok') {
-            url = `https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`;
-            window.open(url, '_blank', 'width=600,height=400');
+            window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
         } else if (type === 'max') {
             navigator.clipboard.writeText(window.location.href);
             showToast('🔗 Ссылка скопирована! Поделитесь с друзьями');
         }
-    };
-    btn.addEventListener('click', clickHandler);
-    btn.addEventListener('touchstart', clickHandler);
+    });
+    btn.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+        const type = btn.dataset.share;
+        if (type === 'vk') {
+            window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank');
+        } else if (type === 'ok') {
+            window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank');
+        } else if (type === 'max') {
+            navigator.clipboard.writeText(window.location.href);
+            showToast('🔗 Ссылка скопирована!');
+        }
+    }, { passive: false });
 });
 
-// ========== ССЫЛКА В ФУТЕРЕ (ПОЧТА) ==========
+// ========== ССЫЛКА В ФУТЕРЕ ==========
 const footerLink = document.querySelector('.footer a');
 if (footerLink) {
     footerLink.addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
     });
-    footerLink.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
-    });
 }
-
-// ========== ДВИЖЕНИЕ ЯКОРЯ ==========
-function initRopeAnchor() {
-    const ropeAnchor = document.getElementById('ropeAnchor');
-    if (!ropeAnchor) return;
-
-    function updateAnchorPosition() {
-        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-        const minTop = 80;
-        const maxTop = window.innerHeight - 100;
-        let newTop = minTop + (maxTop - minTop) * scrollPercent;
-        newTop = Math.min(maxTop, Math.max(minTop, newTop));
-        ropeAnchor.style.top = newTop + 'px';
-    }
-
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                updateAnchorPosition();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-    window.addEventListener('resize', () => updateAnchorPosition());
-    updateAnchorPosition();
-}
-initRopeAnchor();
 
 // ========== КНОПКА НАВЕРХ ==========
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 if (scrollTopBtn) {
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            scrollTopBtn.classList.add('show');
-        } else {
-            scrollTopBtn.classList.remove('show');
-        }
+        if (window.scrollY > 300) scrollTopBtn.classList.add('show');
+        else scrollTopBtn.classList.remove('show');
     });
-    scrollTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    scrollTopBtn.addEventListener('touchstart', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
 // ========== МОБИЛЬНОЕ МЕНЮ ==========
@@ -563,41 +489,30 @@ function openMobileMenu() {
 }
 
 if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', openMobileMenu);
-    mobileMenuBtn.addEventListener('touchstart', openMobileMenu);
+    mobileMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); openMobileMenu(); });
+    mobileMenuBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); openMobileMenu(); }, { passive: false });
 }
 if (mobileMenuClose) {
-    mobileMenuClose.addEventListener('click', closeMobileMenu);
-    mobileMenuClose.addEventListener('touchstart', closeMobileMenu);
+    mobileMenuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMobileMenu(); });
+    mobileMenuClose.addEventListener('touchstart', (e) => { e.stopPropagation(); closeMobileMenu(); }, { passive: false });
 }
 if (mobileMenuOverlay) {
-    mobileMenuOverlay.addEventListener('click', (e) => {
-        if (e.target === mobileMenuOverlay) closeMobileMenu();
-    });
+    mobileMenuOverlay.addEventListener('click', (e) => { if (e.target === mobileMenuOverlay) closeMobileMenu(); });
 }
 
 if (mobileRoutesBtn && mobileRoutesSub) {
-    mobileRoutesBtn.addEventListener('click', (e) => {
+    const toggleSubmenu = (e) => {
         e.stopPropagation();
-        if (mobileRoutesSub.style.display === 'none') {
-            mobileRoutesSub.style.display = 'flex';
-        } else {
-            mobileRoutesSub.style.display = 'none';
-        }
-    });
-    mobileRoutesBtn.addEventListener('touchstart', (e) => {
-        e.stopPropagation();
-        if (mobileRoutesSub.style.display === 'none') {
-            mobileRoutesSub.style.display = 'flex';
-        } else {
-            mobileRoutesSub.style.display = 'none';
-        }
-    });
+        mobileRoutesSub.style.display = mobileRoutesSub.style.display === 'none' ? 'flex' : 'none';
+    };
+    mobileRoutesBtn.addEventListener('click', toggleSubmenu);
+    mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu, { passive: false });
 }
 
 const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
 menuItems.forEach(item => {
-    const clickHandler = () => {
+    const menuHandler = (e) => {
+        e.stopPropagation();
         const target = item.getAttribute('data-target');
         if (target === 'section-main') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -610,24 +525,45 @@ menuItems.forEach(item => {
         }
         closeMobileMenu();
     };
-    item.addEventListener('click', clickHandler);
-    item.addEventListener('touchstart', clickHandler);
+    item.addEventListener('click', menuHandler);
+    item.addEventListener('touchstart', menuHandler, { passive: false });
 });
 
-// ========== ПК ЛИАНА (УЗЛЫ) ==========
+// ========== ПК ЛИАНА ==========
 const knotItems = document.querySelectorAll('.knot-item[data-target]');
 knotItems.forEach(knot => {
-    const clickHandler = () => {
+    const knotHandler = (e) => {
+        e.stopPropagation();
         const targetId = knot.getAttribute('data-target');
         if (targetId) {
             const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
-    knot.addEventListener('click', clickHandler);
-    knot.addEventListener('touchstart', clickHandler);
+    knot.addEventListener('click', knotHandler);
+    knot.addEventListener('touchstart', knotHandler, { passive: false });
 });
 
-console.log('index.js загружен - все функции для мобильных работают');
+// ========== ДВИЖЕНИЕ ЯКОРЯ ==========
+function initRopeAnchor() {
+    const ropeAnchor = document.getElementById('ropeAnchor');
+    if (!ropeAnchor) return;
+    function updateAnchorPosition() {
+        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        const minTop = 80, maxTop = window.innerHeight - 100;
+        let newTop = minTop + (maxTop - minTop) * Math.min(1, Math.max(0, scrollPercent));
+        ropeAnchor.style.top = Math.min(maxTop, Math.max(minTop, newTop)) + 'px';
+    }
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => { updateAnchorPosition(); ticking = false; });
+            ticking = true;
+        }
+    });
+    window.addEventListener('resize', updateAnchorPosition);
+    updateAnchorPosition();
+}
+initRopeAnchor();
+
+console.log('index.js загружен');
