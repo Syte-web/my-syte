@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <!-- ========== МОБИЛЬНОЕ МЕНЮ (HTML-структура) ========== -->
+  <!-- ========== МОБИЛЬНОЕ МЕНЮ ========== -->
   <div class="mobile-menu-overlay" id="mobileMenuOverlay">
     <div class="mobile-menu-container">
       <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
@@ -125,28 +125,27 @@
     <div class="dots" id="placesDots"></div>
   </div>
 
-  <!-- ========== ФОРМА ОТЗЫВА ========== -->
-  <div class="survey-section" id="section-review" data-section="review" style="margin-top:0;">
+  <!-- ========== ФОРМА ОТЗЫВА (ИСПРАВЛЕННАЯ) ========== -->
+  <div class="survey-section" id="section-review" data-section="review" style="margin-top:0; overflow:visible; position:relative; z-index:100;">
     <div class="question-text">✨ Если вы тут были, поделитесь впечатлением ✨</div>
-    <div class="star-rating" id="starRating">
-      <span class="star clickable" data-value="1">★</span>
-      <span class="star clickable" data-value="2">★</span>
-      <span class="star clickable" data-value="3">★</span>
-      <span class="star clickable" data-value="4">★</span>
-      <span class="star clickable" data-value="5">★</span>
+    <div class="star-rating" id="starRating" style="position:relative; z-index:101;">
+      <span class="star clickable" data-value="1" style="font-size: 2.5rem; cursor:pointer;">★</span>
+      <span class="star clickable" data-value="2" style="font-size: 2.5rem; cursor:pointer;">★</span>
+      <span class="star clickable" data-value="3" style="font-size: 2.5rem; cursor:pointer;">★</span>
+      <span class="star clickable" data-value="4" style="font-size: 2.5rem; cursor:pointer;">★</span>
+      <span class="star clickable" data-value="5" style="font-size: 2.5rem; cursor:pointer;">★</span>
     </div>
-    <form id="reviewForm" class="review-form">
-      <input type="text" id="reviewerName" placeholder="Ваше имя" required>
-      <input type="email" id="reviewerEmail" placeholder="Ваша почта" required>
-      <textarea id="reviewText" placeholder="Ваш отзыв..." required></textarea>
-      <button type="submit" class="clickable">Поделиться впечатлением</button>
+    <form id="reviewForm" class="review-form" style="position:relative; z-index:102;">
+      <input type="text" id="reviewerName" placeholder="📝 Ваше имя" autocomplete="off" style="pointer-events:auto; opacity:1; background:white; color:#000;">
+      <input type="email" id="reviewerEmail" placeholder="📧 Ваша почта" autocomplete="off" style="pointer-events:auto; opacity:1; background:white; color:#000;">
+      <textarea id="reviewText" placeholder="💬 Ваш отзыв..." style="pointer-events:auto; opacity:1; background:white; color:#000; min-height:100px;"></textarea>
+      <button type="submit" class="clickable" style="pointer-events:auto; opacity:1;">📨 Поделиться впечатлением</button>
     </form>
   </div>
 
   <!-- ========== ФУТЕР ========== -->
   <div class="footer">
     <div class="share-buttons">
-   
       <button class="share-btn clickable" data-share="vk">📱 ВКонтакте</button>
       <button class="share-btn clickable" data-share="ok">👥 Одноклассники</button>
       <button class="share-btn clickable" data-share="max">💬 Мессенджер Max</button>
@@ -182,7 +181,6 @@
 
 <audio id="bgMusic" src="Audio.Index/chai.mp3" loop></audio>
 
-<!-- ========== ПОДКЛЮЧЕНИЕ СКРИПТОВ ========== -->
 <script src="menu.js"></script>
 <script src="index.js"></script>
 </body>

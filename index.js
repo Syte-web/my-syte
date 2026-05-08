@@ -357,7 +357,7 @@ if (placeCards.length > 0) {
     startAutoPlaces();
 }
 
-// ========== ЗВЁЗДЫ ДЛЯ ОТЗЫВОВ (ИСПРАВЛЕННЫЕ) ==========
+// ========== ЗВЁЗДЫ ДЛЯ ОТЗЫВОВ ==========
 let currentRating = 0;
 const stars = document.querySelectorAll('.star');
 
@@ -386,7 +386,7 @@ stars.forEach(star => {
     star.addEventListener('touchstart', starHandler, { passive: false });
 });
 
-// ========== ОТПРАВКА ОТЗЫВА (ИСПРАВЛЕННАЯ) ==========
+// ========== ОТПРАВКА ОТЗЫВА ==========
 const reviewForm = document.getElementById('reviewForm');
 const reviewerName = document.getElementById('reviewerName');
 const reviewerEmail = document.getElementById('reviewerEmail');
@@ -402,6 +402,7 @@ function showFieldError(field, message) {
     showToast(message);
 }
 
+// Очистка ошибок при фокусе
 if (reviewerName) {
     reviewerName.addEventListener('focus', () => {
         reviewerName.style.border = '1px solid rgba(0,0,0,0.15)';
@@ -637,5 +638,21 @@ function initRopeAnchor() {
     updateAnchorPosition();
 }
 initRopeAnchor();
+
+// Принудительно делаем поля формы активными
+(function ensureFormWorks() {
+    console.log('🔧 Активация формы отзыва...');
+    const inputs = document.querySelectorAll('#reviewForm input, #reviewForm textarea, #reviewForm button');
+    inputs.forEach(el => {
+        el.style.pointerEvents = 'auto';
+        el.style.opacity = '1';
+        el.style.visibility = 'visible';
+        if (el.tagName !== 'BUTTON') {
+            el.removeAttribute('disabled');
+            el.readOnly = false;
+        }
+    });
+    console.log('✅ Форма активирована, найдено элементов:', inputs.length);
+})();
 
 console.log('index.js загружен');
