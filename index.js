@@ -357,46 +357,115 @@ if (placeCards.length > 0) {
     startAutoPlaces();
 }
 
-// ========== ЗВЁЗДЫ ДЛЯ ОТЗЫВОВ ==========
+// ========== ЗВЁЗДЫ ДЛЯ ОТЗЫВОВ (ИСПРАВЛЕННЫЕ) ==========
 let currentRating = 0;
 const stars = document.querySelectorAll('.star');
+
+function updateStars(rating) {
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add('active');
+            star.style.color = '#ffc107';
+        } else {
+            star.classList.remove('active');
+            star.style.color = '#f5e6b0';
+        }
+    });
+}
 
 stars.forEach(star => {
     const starHandler = (e) => {
         e.stopPropagation();
-        currentRating = parseInt(star.dataset.value);
-        stars.forEach((s, i) => s.classList.toggle('active', i < currentRating));
+        e.preventDefault();
+        const value = parseInt(star.getAttribute('data-value'));
+        currentRating = value;
+        updateStars(currentRating);
+        showToast(`⭐ Оценка: ${currentRating} звезды`);
     };
     star.addEventListener('click', starHandler);
     star.addEventListener('touchstart', starHandler, { passive: false });
 });
 
-// ========== ОТПРАВКА ОТЗЫВА ==========
+// ========== ОТПРАВКА ОТЗЫВА (ИСПРАВЛЕННАЯ) ==========
 const reviewForm = document.getElementById('reviewForm');
+const reviewerName = document.getElementById('reviewerName');
+const reviewerEmail = document.getElementById('reviewerEmail');
+const reviewText = document.getElementById('reviewText');
+
+function showFieldError(field, message) {
+    field.style.border = '2px solid #ff4444';
+    field.style.backgroundColor = 'rgba(255,68,68,0.1)';
+    setTimeout(() => {
+        field.style.border = '1px solid rgba(0,0,0,0.15)';
+        field.style.backgroundColor = '';
+    }, 3000);
+    showToast(message);
+}
+
+if (reviewerName) {
+    reviewerName.addEventListener('focus', () => {
+        reviewerName.style.border = '1px solid rgba(0,0,0,0.15)';
+        reviewerName.style.backgroundColor = '';
+    });
+}
+if (reviewerEmail) {
+    reviewerEmail.addEventListener('focus', () => {
+        reviewerEmail.style.border = '1px solid rgba(0,0,0,0.15)';
+        reviewerEmail.style.backgroundColor = '';
+    });
+}
+if (reviewText) {
+    reviewText.addEventListener('focus', () => {
+        reviewText.style.border = '1px solid rgba(0,0,0,0.15)';
+        reviewText.style.backgroundColor = '';
+    });
+}
+
 if (reviewForm) {
-    reviewForm.addEventListener('submit', async (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
-        const name = document.getElementById('reviewerName')?.value.trim() || '';
-        const email = document.getElementById('reviewerEmail')?.value.trim() || '';
-        const text = document.getElementById('reviewText')?.value.trim() || '';
-
-        if (!name || !email || !text) {
-            showToast('📝 Пожалуйста, заполните все поля');
-            return;
+        e.stopPropagation();
+        
+        const name = reviewerName?.value.trim() || '';
+        const email = reviewerEmail?.value.trim() || '';
+        const text = reviewText?.value.trim() || '';
+        
+        let hasError = false;
+        
+        if (!name) {
+            showFieldError(reviewerName, '📝 Пожалуйста, введите ваше имя');
+            hasError = true;
         }
+        if (!email) {
+            showFieldError(reviewerEmail, '📧 Пожалуйста, введите вашу почту');
+            hasError = true;
+        } else if (!email.includes('@') || !email.includes('.')) {
+            showFieldError(reviewerEmail, '📧 Введите корректный email');
+            hasError = true;
+        }
+        if (!text) {
+            showFieldError(reviewText, '💬 Пожалуйста, напишите ваш отзыв');
+            hasError = true;
+        }
+        
+        if (hasError) return;
+        
         if (currentRating === 0) {
-            showToast('⭐ Поставьте оценку звёздами');
+            showToast('⭐ Поставьте оценку звёздами!');
             return;
         }
-
+        
         const message = `🌟 ОТЗЫВ 🌟\n\n👤 Имя: ${name}\n📧 Почта: ${email}\n⭐ Оценка: ${currentRating}★\n📝 Отзыв: ${text}`;
-
+        
         function resetForm() {
             if (reviewForm) reviewForm.reset();
-            stars.forEach(s => s.classList.remove('active'));
             currentRating = 0;
+            updateStars(0);
+            if (reviewerName) reviewerName.style.border = '';
+            if (reviewerEmail) reviewerEmail.style.border = '';
+            if (reviewText) reviewText.style.border = '';
         }
-
+        
         if (navigator.share) {
             try {
                 await navigator.share({ title: 'Отзыв о сайте Мой юг', text: message });
@@ -405,19 +474,22 @@ if (reviewForm) {
                 return;
             } catch (err) { }
         }
-
+        
         try {
             await navigator.clipboard.writeText(message + '\n\nОтправьте это сообщение: angelina.chernovalova@yandex.ru');
             showToast('📋 Отзыв скопирован! Отправьте его мне любым способом');
             resetForm();
         } catch (err) {
             showToast('⚠️ Не удалось скопировать, но отзыв сохранён');
+            console.log(message);
             resetForm();
         }
-    });
+    };
+    
+    reviewForm.addEventListener('submit', submitHandler);
 }
 
-// ========== КНОПКИ ШЕРИНГА (БЕЗ ПОЧТЫ) ==========
+// ========== КНОПКИ ШЕРИНГА ==========
 const shareUrl = encodeURIComponent(window.location.href);
 const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
 
@@ -431,7 +503,7 @@ document.querySelectorAll('.share-btn').forEach(btn => {
             window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
         } else if (type === 'max') {
             navigator.clipboard.writeText(window.location.href);
-            showToast('🔗 Ссылка скопирована! Поделитесь с друзьями');
+            showToast('🔗 Ссылка скопирована!');
         }
     });
     btn.addEventListener('touchstart', (e) => {
