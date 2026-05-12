@@ -1,4 +1,4 @@
-// ========== ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ ОПРОСА (КРАСИВЫЕ СООБЩЕНИЯ, БЕЗ TOAST) ==========
+// ========== ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ ОПРОСА ==========
 function handleOptionClick(card) {
     const option = card.getAttribute('data-option');
     const answerResult = document.getElementById('answerResult');
@@ -36,7 +36,6 @@ function handleOptionClick(card) {
             answerResult.style.transform = 'translateY(0)';
         }, 10);
         
-        // Автоматически скрываем через 5 секунд
         setTimeout(() => {
             answerResult.style.opacity = '0';
             answerResult.style.transform = 'translateY(10px)';
@@ -49,7 +48,7 @@ function handleOptionClick(card) {
     }
 }
 
-// ========== TOAST (только для важных уведомлений) ==========
+// ========== TOAST ==========
 function showToast(msg) {
     const toast = document.getElementById('toastMsg');
     if (!toast) return;
@@ -63,40 +62,59 @@ function showSoonToast() {
     showToast('🔜 Скоро здесь появится подробный маршрут! Следите за обновлениями.');
 }
 
-// ========== МУЗЫКА ==========
+// ========== МУЗЫКА (ИСПРАВЛЕНА) ==========
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 const musicIcon = document.getElementById('musicIcon');
 let musicPlaying = true;
-let musicStarted = false;
 
-function startMusicOnFirstTouch() {
-    if (!musicStarted && bgMusic) {
-        bgMusic.volume = 0.3;
-        bgMusic.play().catch(e => console.log('Автовоспроизведение заблокировано'));
-        musicStarted = true;
+function initMusic() {
+    if (!bgMusic) return;
+    bgMusic.volume = 0.3;
+    bgMusic.loop = true;
+    bgMusic.play().catch(e => console.log('Автовоспроизведение заблокировано'));
+}
+
+function toggleMusic() {
+    if (!bgMusic) return;
+    if (musicPlaying) {
+        bgMusic.pause();
+        if (musicIcon) musicIcon.textContent = '🔇';
+        musicPlaying = false;
+    } else {
+        bgMusic.play().catch(e => console.log('Ошибка:', e));
+        if (musicIcon) musicIcon.textContent = '🎵';
+        musicPlaying = true;
     }
 }
 
 if (musicToggle) {
-    const toggleMusic = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        if (musicPlaying) {
-            if (bgMusic) bgMusic.pause();
-            if (musicIcon) musicIcon.textContent = '🔇';
-            musicPlaying = false;
-        } else {
-            if (bgMusic) bgMusic.play().catch(e => console.log('Ошибка'));
-            if (musicIcon) musicIcon.textContent = '🎵';
-            musicPlaying = true;
-        }
-    };
     musicToggle.addEventListener('click', toggleMusic);
     musicToggle.addEventListener('touchstart', toggleMusic, { passive: false });
 }
 
-document.body.addEventListener('touchstart', startMusicOnFirstTouch, { once: true });
+document.body.addEventListener('touchstart', function firstTouch() {
+    initMusic();
+    document.body.removeEventListener('touchstart', firstTouch);
+}, { once: true });
+
+document.body.addEventListener('click', function firstClick() {
+    initMusic();
+    document.body.removeEventListener('click', firstClick);
+}, { once: true });
+
+// ========== СВЯЗАТЬСЯ СО МНОЙ ==========
+const contactLink = document.querySelector('.footer-contact a');
+if (contactLink) {
+    contactLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
+    });
+    contactLink.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
+    });
+}
 
 // ========== СЧЁТЧИК ПРОСМОТРОВ ==========
 let siteViews = localStorage.getItem('siteTotalViews');
@@ -126,14 +144,11 @@ applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
 
 const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
-    const toggleTheme = (e) => {
+    themeToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        e.preventDefault();
         const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         applyTheme(next);
-    };
-    themeToggle.addEventListener('click', toggleTheme);
-    themeToggle.addEventListener('touchstart', toggleTheme, { passive: false });
+    });
 }
 
 // ========== ВРЕМЯ ==========
@@ -206,12 +221,10 @@ function openPanel() {
 function closePanel() { if (panelDiv) panelDiv.classList.remove('visible'); }
 
 if (remind) {
-    const panelToggle = (e) => {
+    remind.addEventListener('click', (e) => {
         e.stopPropagation();
         panelDiv.classList.contains('visible') ? closePanel() : openPanel();
-    };
-    remind.addEventListener('click', panelToggle);
-    remind.addEventListener('touchstart', panelToggle, { passive: false });
+    });
 }
 
 // ========== СМЕНА ФОТО МОРЯ ==========
@@ -280,11 +293,9 @@ function closeModalWindow() {
 
 if (aboutFloat) {
     aboutFloat.addEventListener('click', (e) => { e.stopPropagation(); openModalWindow(); });
-    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); }, { passive: false });
 }
 if (closeModalBtn) {
     closeModalBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModalWindow(); });
-    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); }, { passive: false });
 }
 if (modalOverlay) {
     modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
@@ -315,7 +326,6 @@ function createRouteDots() {
         dot.classList.add('dot');
         if (i === currentRoute) dot.classList.add('active');
         dot.addEventListener('click', () => { clearInterval(autoRouteInterval); goToRouteSlide(i); startAutoRoutes(); });
-        dot.addEventListener('touchstart', () => { clearInterval(autoRouteInterval); goToRouteSlide(i); startAutoRoutes(); });
         routesDots.appendChild(dot);
     });
 }
@@ -326,13 +336,11 @@ function startAutoRoutes() {
 }
 
 routeCards.forEach(card => {
-    const cardHandler = (e) => {
+    card.addEventListener('click', (e) => {
         e.stopPropagation();
         const page = card.getAttribute('data-page');
         if (page) window.location.href = page;
-    };
-    card.addEventListener('click', cardHandler);
-    card.addEventListener('touchstart', cardHandler, { passive: false });
+    });
 });
 
 if (routeCards.length > 0) {
@@ -365,7 +373,6 @@ function createPlaceDots() {
         const dot = document.createElement('div');
         dot.classList.add('dot');
         dot.addEventListener('click', () => { clearInterval(autoPlaceInterval); goToPlaceSlide(i); startAutoPlaces(); });
-        dot.addEventListener('touchstart', () => { clearInterval(autoPlaceInterval); goToPlaceSlide(i); startAutoPlaces(); });
         placesDots.appendChild(dot);
     });
 }
@@ -398,16 +405,13 @@ function updateStars(rating) {
 }
 
 stars.forEach(star => {
-    const starHandler = (e) => {
+    star.addEventListener('click', (e) => {
         e.stopPropagation();
-        e.preventDefault();
         const value = parseInt(star.getAttribute('data-value'));
         currentRating = value;
         updateStars(currentRating);
         showToast(`⭐ Оценка: ${currentRating} звезды`);
-    };
-    star.addEventListener('click', starHandler);
-    star.addEventListener('touchstart', starHandler, { passive: false });
+    });
 });
 
 // ========== ОТПРАВКА ОТЗЫВА ==========
@@ -426,29 +430,9 @@ function showFieldError(field, message) {
     showToast(message);
 }
 
-if (reviewerName) {
-    reviewerName.addEventListener('focus', () => {
-        reviewerName.style.border = '2px solid var(--accent)';
-        reviewerName.style.backgroundColor = '';
-    });
-}
-if (reviewerEmail) {
-    reviewerEmail.addEventListener('focus', () => {
-        reviewerEmail.style.border = '2px solid var(--accent)';
-        reviewerEmail.style.backgroundColor = '';
-    });
-}
-if (reviewText) {
-    reviewText.addEventListener('focus', () => {
-        reviewText.style.border = '2px solid var(--accent)';
-        reviewText.style.backgroundColor = '';
-    });
-}
-
 if (reviewForm) {
-    const submitHandler = async (e) => {
+    reviewForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        e.stopPropagation();
         
         const name = reviewerName?.value.trim() || '';
         const email = reviewerEmail?.value.trim() || '';
@@ -473,7 +457,6 @@ if (reviewForm) {
         }
         
         if (hasError) return;
-        
         if (currentRating === 0) {
             showToast('⭐ Поставьте оценку звёздами!');
             return;
@@ -485,9 +468,6 @@ if (reviewForm) {
             if (reviewForm) reviewForm.reset();
             currentRating = 0;
             updateStars(0);
-            if (reviewerName) reviewerName.style.border = '';
-            if (reviewerEmail) reviewerEmail.style.border = '';
-            if (reviewText) reviewText.style.border = '';
         }
         
         if (navigator.share) {
@@ -508,9 +488,7 @@ if (reviewForm) {
             console.log(message);
             resetForm();
         }
-    };
-    
-    reviewForm.addEventListener('submit', submitHandler);
+    });
 }
 
 // ========== КНОПКИ ШЕРИНГА ==========
@@ -518,7 +496,7 @@ const shareUrl = encodeURIComponent(window.location.href);
 const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
 
 document.querySelectorAll('.share-btn').forEach(btn => {
-    const clickHandler = (e) => {
+    btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const type = btn.dataset.share;
         if (type === 'vk') {
@@ -529,9 +507,7 @@ document.querySelectorAll('.share-btn').forEach(btn => {
             navigator.clipboard.writeText(window.location.href);
             showToast('🔗 Ссылка скопирована!');
         }
-    };
-    btn.addEventListener('click', clickHandler);
-    btn.addEventListener('touchstart', clickHandler, { passive: false });
+    });
 });
 
 // ========== КНОПКА НАВЕРХ ==========
@@ -567,28 +543,24 @@ function openMobileMenu() {
 
 if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); openMobileMenu(); });
-    mobileMenuBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); openMobileMenu(); }, { passive: false });
 }
 if (mobileMenuClose) {
     mobileMenuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMobileMenu(); });
-    mobileMenuClose.addEventListener('touchstart', (e) => { e.stopPropagation(); closeMobileMenu(); }, { passive: false });
 }
 if (mobileMenuOverlay) {
     mobileMenuOverlay.addEventListener('click', (e) => { if (e.target === mobileMenuOverlay) closeMobileMenu(); });
 }
 
 if (mobileRoutesBtn && mobileRoutesSub) {
-    const toggleSubmenu = (e) => {
+    mobileRoutesBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         mobileRoutesSub.style.display = mobileRoutesSub.style.display === 'none' ? 'flex' : 'none';
-    };
-    mobileRoutesBtn.addEventListener('click', toggleSubmenu);
-    mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu, { passive: false });
+    });
 }
 
 const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
 menuItems.forEach(item => {
-    const menuHandler = (e) => {
+    item.addEventListener('click', (e) => {
         e.stopPropagation();
         const target = item.getAttribute('data-target');
         if (target === 'section-main') {
@@ -601,24 +573,20 @@ menuItems.forEach(item => {
             if (reviewSection) reviewSection.scrollIntoView({ behavior: 'smooth' });
         }
         closeMobileMenu();
-    };
-    item.addEventListener('click', menuHandler);
-    item.addEventListener('touchstart', menuHandler, { passive: false });
+    });
 });
 
 // ========== ПК ЛИАНА ==========
 const knotItems = document.querySelectorAll('.knot-item[data-target]');
 knotItems.forEach(knot => {
-    const knotHandler = (e) => {
+    knot.addEventListener('click', (e) => {
         e.stopPropagation();
         const targetId = knot.getAttribute('data-target');
         if (targetId) {
             const targetElement = document.getElementById(targetId);
             if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    };
-    knot.addEventListener('click', knotHandler);
-    knot.addEventListener('touchstart', knotHandler, { passive: false });
+    });
 });
 
 // ========== ДВИЖЕНИЕ ЯКОРЯ ==========
@@ -642,16 +610,5 @@ function initRopeAnchor() {
     updateAnchorPosition();
 }
 initRopeAnchor();
-
-// Принудительная активация полей формы
-(function ensureFormWorks() {
-    const inputs = document.querySelectorAll('.form-field-wrapper input, .form-field-wrapper textarea');
-    inputs.forEach(el => {
-        el.style.pointerEvents = 'auto';
-        el.style.opacity = '1';
-        el.removeAttribute('disabled');
-        el.readOnly = false;
-    });
-})();
 
 console.log('index.js загружен');
