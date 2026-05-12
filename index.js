@@ -110,13 +110,19 @@ function showToast(msg) {
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// ========== ОТВЕТ НА ВОПРОС ==========
+// ========== ОТВЕТ НА ВОПРОС (КНОПКИ ПЛЯЖНЫЙ РЕЛАКС, АКТИВ В ГОРАХ, ПРОГУЛКИ ПО ПАРКАМ) ==========
 const answerResult = document.getElementById('answerResult');
 const optionCards = document.querySelectorAll('.option-card');
 
-optionCards.forEach(card => {
+console.log('Найдено карточек опроса:', optionCards.length);
+
+optionCards.forEach((card, index) => {
     const clickHandler = (e) => {
         e.stopPropagation();
+        e.preventDefault();
+        
+        console.log('Клик по карточке', index);
+        
         const option = card.getAttribute('data-option');
         let message = '';
         switch (option) {
@@ -138,151 +144,92 @@ optionCards.forEach(card => {
         }
         showToast(`✨ Вы выбрали: ${card.querySelector('.option-label')?.textContent || option} ✨`);
     };
+    
     card.addEventListener('click', clickHandler);
     card.addEventListener('touchstart', clickHandler, { passive: false });
 });
 
-// ========== ЧЕК-ЛИСТ ==========
-const checklistItems = ['Паспорт 📄', 'Деньги и карты 💰', 'Документы на авто 🚗', 'Купальник 🩱', 'Аптечка 💊', 'Солнцезащитный крем 🧴', 'Головной убор 👒', 'Солнцезащитные очки 🕶️', 'Полотенце 🏖️', 'Зарядка и пауэрбанк 🔋', 'Наушники 🎧', 'Бутылка для воды 💧'];
-
-function loadChecklist() {
-    try { return JSON.parse(localStorage.getItem('checklist_popup') || '[]'); } catch { return []; }
-}
-function saveChecklist(arr) { localStorage.setItem('checklist_popup', JSON.stringify(arr)); }
-function renderChecklist() {
-    const saved = loadChecklist();
-    const container = document.getElementById('checklist');
-    if (!container) return;
-    container.innerHTML = checklistItems.map(text => `<label class="checkrow"><input type="checkbox" ${saved.includes(text) ? 'checked' : ''}> ${text}</label>`).join('');
-    document.querySelectorAll('#checklist input').forEach(cb => {
-        cb.addEventListener('change', () => {
-            let cur = loadChecklist();
-            const text = cb.parentElement.textContent.trim();
-            if (cb.checked) {
-                if (!cur.includes(text)) cur.push(text);
-            } else {
-                const idx = cur.indexOf(text);
-                if (idx !== -1) cur.splice(idx, 1);
-            }
-            saveChecklist(cur);
-        });
+// ========== КНОПКА НАВЕРХ ==========
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+if (scrollTopBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollTopBtn.classList.add('show');
+        } else {
+            scrollTopBtn.classList.remove('show');
+        }
     });
-}
-renderChecklist();
-
-// ========== ПАНЕЛЬ ==========
-const remind = document.getElementById('remind-area');
-const panelDiv = document.getElementById('panel');
-let isPanelOpen = false;
-
-function openPanel() {
-    if (!panelDiv) return;
-    panelDiv.classList.add('visible');
-    isPanelOpen = true;
-    if (remind) {
-        const btnRect = remind.getBoundingClientRect();
-        let left = window.scrollX + btnRect.left - panelDiv.offsetWidth - 12;
-        if (left < 12) left = 12;
-        panelDiv.style.left = left + 'px';
-        panelDiv.style.top = window.scrollY + btnRect.top + 'px';
-    }
-}
-function closePanel() { 
-    if (panelDiv) {
-        panelDiv.classList.remove('visible');
-        isPanelOpen = false;
-    }
+    
+    const scrollToTop = (e) => {
+        e.stopPropagation();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    scrollTopBtn.addEventListener('click', scrollToTop);
+    scrollTopBtn.addEventListener('touchstart', scrollToTop, { passive: false });
 }
 
-if (remind) {
-    const panelToggle = (e) => {
+// ========== КНОПКИ ШЕРИНГА (ВК, ОК, MAX) ==========
+const shareUrl = encodeURIComponent(window.location.href);
+const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
+
+// Кнопка ВКонтакте
+const vkBtn = document.getElementById('vkShareBtn');
+if (vkBtn) {
+    const shareVK = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        if (isPanelOpen) closePanel();
-        else openPanel();
+        window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
+        return false;
     };
-    remind.addEventListener('click', panelToggle);
-    remind.addEventListener('touchstart', panelToggle, { passive: false });
+    vkBtn.addEventListener('click', shareVK);
+    vkBtn.addEventListener('touchstart', shareVK, { passive: false });
+    console.log('✅ Кнопка ВК активирована');
 }
 
-document.addEventListener('click', (e) => {
-    if (isPanelOpen && panelDiv && remind && !remind.contains(e.target) && !panelDiv.contains(e.target)) closePanel();
-});
-
-// ========== СМЕНА ФОТО ==========
-const changeSeaBtn = document.getElementById('changeSeaBtn');
-if (changeSeaBtn) {
-    changeSeaBtn.addEventListener('click', () => {
-        const inp = document.createElement('input');
-        inp.type = 'file';
-        inp.accept = 'image/*';
-        inp.onchange = (e) => {
-            if (e.target.files[0]) {
-                const seaPhoto = document.getElementById('seaPhoto');
-                if (seaPhoto) seaPhoto.src = URL.createObjectURL(e.target.files[0]);
-                showToast('🌊 Фото моря обновлено!');
-            }
-        };
-        inp.click();
-    });
+// Кнопка Одноклассники
+const okBtn = document.getElementById('okShareBtn');
+if (okBtn) {
+    const shareOK = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
+        return false;
+    };
+    okBtn.addEventListener('click', shareOK);
+    okBtn.addEventListener('touchstart', shareOK, { passive: false });
+    console.log('✅ Кнопка ОК активирована');
 }
 
-// ========== АВАТАР ==========
-const aboutPhoto = document.getElementById('about-photo');
-const modalUserPhoto = document.getElementById('modalUserPhoto');
-if (aboutPhoto) {
-    aboutPhoto.addEventListener('click', () => {
-        const inp = document.createElement('input');
-        inp.type = 'file';
-        inp.accept = 'image/*';
-        inp.onchange = () => {
-            if (inp.files[0]) {
-                const url = URL.createObjectURL(inp.files[0]);
-                aboutPhoto.src = url;
-                if (modalUserPhoto) modalUserPhoto.src = url;
-                showToast('🖼️ Аватар обновлён');
-            }
-        };
-        inp.click();
-    });
+// Кнопка Мессенджер Max (копирование ссылки)
+const maxBtn = document.getElementById('maxShareBtn');
+if (maxBtn) {
+    const shareMax = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            showToast('🔗 Ссылка скопирована! Поделитесь с друзьями');
+        }).catch(() => {
+            showToast('⚠️ Не удалось скопировать ссылку');
+        });
+        return false;
+    };
+    maxBtn.addEventListener('click', shareMax);
+    maxBtn.addEventListener('touchstart', shareMax, { passive: false });
+    console.log('✅ Кнопка MAX активирована');
 }
 
-// ========== МОДАЛЬНОЕ ОКНО ==========
-const modalOverlay = document.getElementById('introModal');
-const aboutFloat = document.getElementById('about-float');
-const closeModalBtn = document.getElementById('closeModalBtn');
-let savedScrollYModal = 0;
-
-function openModalWindow() {
-    if (!modalOverlay) return;
-    savedScrollYModal = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${savedScrollYModal}px`;
-    document.body.style.width = '100%';
-    document.body.style.overflow = 'hidden';
-    modalOverlay.classList.add('active');
-}
-
-function closeModalWindow() {
-    if (!modalOverlay) return;
-    modalOverlay.classList.remove('active');
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    document.body.style.overflow = '';
-    window.scrollTo(0, savedScrollYModal);
-}
-
-if (aboutFloat) {
-    aboutFloat.addEventListener('click', (e) => { e.stopPropagation(); openModalWindow(); });
-    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); });
-}
-if (closeModalBtn) {
-    closeModalBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModalWindow(); });
-    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); });
-}
-if (modalOverlay) {
-    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
+// ========== ССЫЛКА "СВЯЗАТЬСЯ СО МНОЙ" В ФУТЕРЕ ==========
+const footerMailLink = document.getElementById('footerMailLink');
+if (footerMailLink) {
+    const openMail = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
+        return false;
+    };
+    footerMailLink.addEventListener('click', openMail);
+    footerMailLink.addEventListener('touchstart', openMail, { passive: false });
+    console.log('✅ Ссылка "Связаться со мной" активирована');
 }
 
 // ========== КАРУСЕЛЬ МАРШРУТОВ ==========
@@ -502,80 +449,6 @@ if (reviewForm) {
     reviewForm.addEventListener('submit', submitHandler);
 }
 
-// ========== КНОПКИ ШЕРИНГА (ВК, ОК, MAX) - ИСПРАВЛЕНЫ ==========
-const shareUrl = encodeURIComponent(window.location.href);
-const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
-
-// Кнопка ВКонтакте
-const vkBtn = document.getElementById('vkShareBtn');
-if (vkBtn) {
-    const shareVK = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
-        return false;
-    };
-    vkBtn.addEventListener('click', shareVK);
-    vkBtn.addEventListener('touchstart', shareVK, { passive: false });
-    console.log('✅ Кнопка ВК активирована');
-}
-
-// Кнопка Одноклассники
-const okBtn = document.getElementById('okShareBtn');
-if (okBtn) {
-    const shareOK = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
-        return false;
-    };
-    okBtn.addEventListener('click', shareOK);
-    okBtn.addEventListener('touchstart', shareOK, { passive: false });
-    console.log('✅ Кнопка ОК активирована');
-}
-
-// Кнопка Мессенджер Max (копирование ссылки)
-const maxBtn = document.getElementById('maxShareBtn');
-if (maxBtn) {
-    const shareMax = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        navigator.clipboard.writeText(window.location.href).then(() => {
-            showToast('🔗 Ссылка скопирована! Поделитесь с друзьями');
-        }).catch(() => {
-            showToast('⚠️ Не удалось скопировать ссылку');
-        });
-        return false;
-    };
-    maxBtn.addEventListener('click', shareMax);
-    maxBtn.addEventListener('touchstart', shareMax, { passive: false });
-    console.log('✅ Кнопка MAX активирована');
-}
-
-// ========== ССЫЛКА "СВЯЗАТЬСЯ СО МНОЙ" В ФУТЕРЕ ==========
-const footerMailLink = document.getElementById('footerMailLink');
-if (footerMailLink) {
-    const openMail = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
-        return false;
-    };
-    footerMailLink.addEventListener('click', openMail);
-    footerMailLink.addEventListener('touchstart', openMail, { passive: false });
-    console.log('✅ Ссылка "Связаться со мной" активирована');
-}
-
-// ========== КНОПКА НАВЕРХ ==========
-const scrollTopBtn = document.getElementById('scrollTopBtn');
-if (scrollTopBtn) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) scrollTopBtn.classList.add('show');
-        else scrollTopBtn.classList.remove('show');
-    });
-    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-}
-
 // ========== МОБИЛЬНОЕ МЕНЮ ==========
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
@@ -683,5 +556,91 @@ function initRopeAnchor() {
     updateAnchorPosition();
 }
 initRopeAnchor();
+
+// ========== АВАТАР ==========
+const aboutPhoto = document.getElementById('about-photo');
+const modalUserPhoto = document.getElementById('modalUserPhoto');
+if (aboutPhoto) {
+    aboutPhoto.addEventListener('click', () => {
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/*';
+        inp.onchange = () => {
+            if (inp.files[0]) {
+                const url = URL.createObjectURL(inp.files[0]);
+                aboutPhoto.src = url;
+                if (modalUserPhoto) modalUserPhoto.src = url;
+                showToast('🖼️ Аватар обновлён');
+            }
+        };
+        inp.click();
+    });
+}
+
+// ========== МОДАЛЬНОЕ ОКНО ==========
+const modalOverlay = document.getElementById('introModal');
+const aboutFloat = document.getElementById('about-float');
+const closeModalBtn = document.getElementById('closeModalBtn');
+let savedScrollYModal = 0;
+
+function openModalWindow() {
+    if (!modalOverlay) return;
+    savedScrollYModal = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${savedScrollYModal}px`;
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+    modalOverlay.classList.add('active');
+}
+
+function closeModalWindow() {
+    if (!modalOverlay) return;
+    modalOverlay.classList.remove('active');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, savedScrollYModal);
+}
+
+if (aboutFloat) {
+    aboutFloat.addEventListener('click', (e) => { e.stopPropagation(); openModalWindow(); });
+    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); });
+}
+if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModalWindow(); });
+    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); });
+}
+if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
+}
+
+// ========== ЧЕК-ЛИСТ (УДАЛЁН, НО ОСТАВЛЯЕМ ФУНКЦИЮ) ==========
+const checklistItems = ['Паспорт 📄', 'Деньги и карты 💰', 'Документы на авто 🚗', 'Купальник 🩱', 'Аптечка 💊', 'Солнцезащитный крем 🧴', 'Головной убор 👒', 'Солнцезащитные очки 🕶️', 'Полотенце 🏖️', 'Зарядка и пауэрбанк 🔋', 'Наушники 🎧', 'Бутылка для воды 💧'];
+
+function loadChecklist() {
+    try { return JSON.parse(localStorage.getItem('checklist_popup') || '[]'); } catch { return []; }
+}
+function saveChecklist(arr) { localStorage.setItem('checklist_popup', JSON.stringify(arr)); }
+function renderChecklist() {
+    const saved = loadChecklist();
+    const container = document.getElementById('checklist');
+    if (!container) return;
+    container.innerHTML = checklistItems.map(text => `<label class="checkrow"><input type="checkbox" ${saved.includes(text) ? 'checked' : ''}> ${text}</label>`).join('');
+    document.querySelectorAll('#checklist input').forEach(cb => {
+        cb.addEventListener('change', () => {
+            let cur = loadChecklist();
+            const text = cb.parentElement.textContent.trim();
+            if (cb.checked) {
+                if (!cur.includes(text)) cur.push(text);
+            } else {
+                const idx = cur.indexOf(text);
+                if (idx !== -1) cur.splice(idx, 1);
+            }
+            saveChecklist(cur);
+        });
+    });
+}
+renderChecklist();
 
 console.log('index.js загружен - все кнопки работают');

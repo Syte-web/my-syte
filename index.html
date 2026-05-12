@@ -62,7 +62,7 @@
   <div class="photo-wrap">
     <img src="Img.Index/m.avif" alt="Море и пляж" class="photo" id="seaPhoto">
     <div class="photo-overlay">
-      <div class="remind-wrap" id="remind-area"><div class="remind-text">🧳 Не забудь чемодан!</div></div>
+      <!-- Кнопка "Не забудь чемодан" УДАЛЕНА -->
     </div>
     <button class="change-bg-btn" id="changeSeaBtn">🌊 Сменить фото моря</button>
     <div class="about-float" id="about-float">
@@ -110,15 +110,23 @@
     <div class="dots" id="routesDots"></div>
   </div>
 
-  <!-- КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" -->
+  <!-- КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" - затемнённые картинки -->
   <div class="places-section" id="section-places">
     <div class="places-title">🏝️ Планирую посетить... 🏝️</div>
     <div class="carousel-container" id="placesCarousel">
       <div class="carousel-track" id="placesTrack">
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/laz.jpg"><div class="place-title-overlay">Лазаревское</div><div class="place-desc-overlay">Водопады и голубое море.</div></div></div>
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/dgub.jpg"><div class="place-title-overlay">Джугба</div><div class="place-desc-overlay">Дикие пляжи и реликтовый лес.</div></div></div>
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/kabard.jpg"><div class="place-title-overlay">Кабардинка</div><div class="place-desc-overlay">Чистые пляжи, Старый парк у моря.</div></div></div>
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/novoros.jpg"><div class="place-title-overlay">Новороссийск</div><div class="place-desc-overlay">Герой-город, морской порт.</div></div></div>
+        <div class="place-card" data-place="lazarevskoe">
+          <div class="card-inner"><img class="place-img" src="Img.Index/laz.jpg"><div class="place-title-overlay">Лазаревское</div><div class="place-desc-overlay">Водопады и голубое море.</div></div>
+        </div>
+        <div class="place-card" data-place="dzhugba">
+          <div class="card-inner"><img class="place-img" src="Img.Index/dgub.jpg"><div class="place-title-overlay">Джугба</div><div class="place-desc-overlay">Дикие пляжи и реликтовый лес.</div></div>
+        </div>
+        <div class="place-card" data-place="kabardinka">
+          <div class="card-inner"><img class="place-img" src="Img.Index/kabard.jpg"><div class="place-title-overlay">Кабардинка</div><div class="place-desc-overlay">Чистые пляжи, Старый парк у моря.</div></div>
+        </div>
+        <div class="place-card" data-place="novorossiysk">
+          <div class="card-inner"><img class="place-img" src="Img.Index/novoros.jpg"><div class="place-title-overlay">Новороссийск</div><div class="place-desc-overlay">Герой-город, морской порт.</div></div>
+        </div>
       </div>
     </div>
     <div class="dots" id="placesDots"></div>
@@ -151,16 +159,17 @@
     </form>
   </div>
 
-    <!-- ========== ФУТЕР ========== -->
+  <!-- ФУТЕР -->
   <div class="footer">
     <div class="share-buttons">
-      <button class="share-btn" data-share="vk" id="vkShareBtn">📱 ВКонтакте</button>
-      <button class="share-btn" data-share="ok" id="okShareBtn">👥 Одноклассники</button>
-      <button class="share-btn" data-share="max" id="maxShareBtn">💬 Мессенджер Max</button>
+      <button class="share-btn" id="vkShareBtn">📱 ВКонтакте</button>
+      <button class="share-btn" id="okShareBtn">👥 Одноклассники</button>
+      <button class="share-btn" id="maxShareBtn">💬 Мессенджер Max</button>
     </div>
-    <div><a href="javascript:void(0);" id="footerMailLink" style="cursor:pointer;">📧 Связаться со мной</a></div>
+    <div><a href="javascript:void(0);" id="footerMailLink">📧 Связаться со мной</a></div>
     <div style="margin-top:10px; font-size:0.7rem;">👁️ Просмотрено раз: <span id="siteViewsCounter">0</span></div>
   </div>
+</div>
 
 <!-- ПК ЛИАНА -->
 <div class="rope-container">
