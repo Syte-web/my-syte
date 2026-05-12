@@ -1,29 +1,55 @@
-// ========== ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ ОПРОСА ==========
+// ========== ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ ОПРОСА (КРАСИВЫЕ СООБЩЕНИЯ, БЕЗ TOAST) ==========
 function handleOptionClick(card) {
     const option = card.getAttribute('data-option');
     const answerResult = document.getElementById('answerResult');
     let message = '';
+    
     switch (option) {
         case 'пляжный релакс':
-            message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. 🌊✨';
+            message = '🏖️✨ <strong>Пляжный релакс</strong> — отличный выбор! ✨🏖️<br><br>' +
+                      'Представьте: теплое море, мягкий песок, шезлонг под пальмой и легкий бриз... 🌊<br>' +
+                      'Идеальное лето начинается с расслабления на побережье! ☀️🍹';
             break;
         case 'актив в горах':
-            message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды и заряд бодрости. 🏔️💪';
+            message = '⛰️💪 <strong>Активный отдых в горах</strong> — великолепный выбор! 💪⛰️<br><br>' +
+                      'Свежий горный воздух, захватывающие дух пейзажи, треккинги и водопады... 🏔️🌲<br>' +
+                      'Вас ждут незабываемые приключения и заряд бодрости на всё лето! ✨';
             break;
         case 'прогулки по паркам':
-            message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония. 📸✨';
+            message = '🌳📸 <strong>Прогулки по паркам</strong> — прекрасный выбор! 📸🌳<br><br>' +
+                      'Тенистые аллеи, пение птиц, уютные скамейки и красивые фонтаны... 🦆🌺<br>' +
+                      'Лето — идеальное время для вдохновения и гармонии с природой! ✨';
             break;
         default:
-            message = '✨ Отличный выбор! Пусть ваше лето будет незабываемым! ✨';
+            message = '✨🌟 <strong>Прекрасный выбор!</strong> 🌟✨<br><br>' +
+                      'Пусть ваше лето будет наполнено солнцем, радостью и незабываемыми моментами! ☀️🎉';
     }
+    
     if (answerResult) {
         answerResult.style.display = 'block';
         answerResult.innerHTML = message;
+        answerResult.style.opacity = '0';
+        answerResult.style.transform = 'translateY(10px)';
+        setTimeout(() => {
+            answerResult.style.transition = 'all 0.3s ease';
+            answerResult.style.opacity = '1';
+            answerResult.style.transform = 'translateY(0)';
+        }, 10);
+        
+        // Автоматически скрываем через 5 секунд
+        setTimeout(() => {
+            answerResult.style.opacity = '0';
+            answerResult.style.transform = 'translateY(10px)';
+            setTimeout(() => {
+                answerResult.style.display = 'none';
+                answerResult.style.opacity = '';
+                answerResult.style.transform = '';
+            }, 300);
+        }, 5000);
     }
-    showToast(`✨ Вы выбрали: ${card.querySelector('.option-label')?.textContent || option} ✨`);
 }
 
-// ========== TOAST ==========
+// ========== TOAST (только для важных уведомлений) ==========
 function showToast(msg) {
     const toast = document.getElementById('toastMsg');
     if (!toast) return;
