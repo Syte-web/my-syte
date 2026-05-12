@@ -1179,3 +1179,89 @@ html, body {
   filter: brightness(0.6);
   transform: scale(0.98);
 }
+
+
+/* ========== УВЕДОМЛЕНИЯ - ПОДСВЕЧИВАЮЩИЕСЯ, ПОЛУКРУГЛЫЕ, КРУПНЫЙ ТЕКСТ ========== */
+.toast-message {
+  background: #ffffff !important;
+  color: #0077cc !important;
+  border: 2px solid #0077cc !important;
+  border-radius: 60px !important;
+  box-shadow: 0 0 20px rgba(0,119,204,0.4), 0 4px 20px rgba(0,0,0,0.1) !important;
+  font-size: 1.2rem !important;
+  padding: 16px 32px !important;
+  font-weight: bold !important;
+  text-shadow: 0 0 2px rgba(0,119,204,0.3) !important;
+}
+
+[data-theme="dark"] .toast-message {
+  background: #1a2a3a !important;
+  color: #7ab8e8 !important;
+  border-color: #7ab8e8 !important;
+  box-shadow: 0 0 20px rgba(122,184,232,0.4) !important;
+}
+
+/* ========== СООБЩЕНИЕ ОПРОСА - ПОДСВЕЧИВАЮЩЕЕСЯ, ПОЛУКРУГЛОЕ, КРУПНЫЙ ТЕКСТ ========== */
+.answer-result {
+  background: #ffffff !important;
+  color: #0077cc !important;
+  border: 2px solid #0077cc !important;
+  border-radius: 60px !important;
+  box-shadow: 0 0 20px rgba(0,119,204,0.4), 0 4px 15px rgba(0,0,0,0.08) !important;
+  font-size: 1.4rem !important;
+  padding: 20px 28px !important;
+  font-weight: bold !important;
+  text-shadow: 0 0 2px rgba(0,119,204,0.3) !important;
+}
+
+[data-theme="dark"] .answer-result {
+  background: #1a2a3a !important;
+  color: #7ab8e8 !important;
+  border-color: #7ab8e8 !important;
+  box-shadow: 0 0 20px rgba(122,184,232,0.4) !important;
+}
+
+/* ========== ШАПКА - ДЕНЬ/НОЧЬ НЕ ПРЫГАЕТ ========== */
+.header-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.stickers {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+/* Мобильная версия - всё в строку */
+@media (max-width: 768px) {
+  .header-right {
+    width: auto;
+    justify-content: flex-end;
+  }
+  
+  .stickers {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .stickers::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .sticker {
+    flex-shrink: 0;
+  }
+  
+  .icon-btn {
+    flex-shrink: 0;
+  }
+  
+  .music-player {
+    flex-shrink: 0;
+  }
+}
