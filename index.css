@@ -74,7 +74,7 @@ html, body {
   box-shadow: 0 8px 30px rgba(0,0,0,.12);
 }
 
-/* ========== ШАПКА (ПК) ========== */
+/* ========== ШАПКА ========== */
 .header {
   background: linear-gradient(135deg, var(--header-grad-start), var(--header-grad-end));
   backdrop-filter: blur(12px);
@@ -194,7 +194,7 @@ html, body {
   color: #eef4ff;
 }
 
-/* ========== МОБИЛЬНАЯ ШАПКА (2 СТРОКИ) ========== */
+/* ========== МОБИЛЬНАЯ ШАПКА ========== */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
@@ -515,7 +515,7 @@ html, body {
   white-space: nowrap;
 }
 
-/* ========== ЛИАНА (ПК) - ИСПРАВЛЕНА ========== */
+/* ========== ЛИАНА ========== */
 .rope-container {
   position: fixed;
   left: calc(50% - var(--site-width)/2 - 30px);
@@ -541,8 +541,8 @@ html, body {
 .knot-item {
   position: absolute;
   left: -18px;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   background: radial-gradient(circle at 30% 30%, var(--knot-color), #8B5A2B);
   border-radius: 50%;
   transform: translateY(-50%);
@@ -550,16 +550,10 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 24px;
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.knot-item span,
-.knot-item div:not(.subknots-right):not(.bubble-menu-right) {
-  font-size: 28px;
-  line-height: 1;
 }
 
 .knot-item:active { 
@@ -575,10 +569,10 @@ html, body {
   background: var(--bubble-bg);
   backdrop-filter: blur(12px);
   border-radius: 30px;
-  padding: 8px 20px;
+  padding: 6px 18px;
   white-space: nowrap;
   font-family: 'Pacifico', cursive;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 500;
   color: #ffefcf;
   pointer-events: none;
@@ -612,10 +606,10 @@ html, body {
   align-items: center;
   gap: 10px;
   font-family: 'Pacifico', cursive;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 600;
   color: #ffefcf;
-  padding: 8px 18px;
+  padding: 6px 16px;
   background: rgba(0,0,0,0.7);
   backdrop-filter: blur(10px);
   border-radius: 40px;
@@ -628,15 +622,15 @@ html, body {
   align-items: center;
   gap: 8px;
   font-family: 'Pacifico', cursive;
-  font-size: 18px;
+  font-size: 15px;
   color: #ffefcf;
   text-decoration: none;
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 30px;
   background: rgba(0,0,0,0.5);
   backdrop-filter: blur(8px);
   white-space: nowrap;
-  min-height: 44px;
+  min-height: 40px;
 }
 
 .subknot-link:active { 
@@ -674,44 +668,46 @@ html, body {
   color: #9ec8e0;
 }
 
-/* ========== ОПЦИИ ОПРОСА - УВЕЛИЧЕННАЯ ОБЛАСТЬ ========== */
+/* ========== ОПЦИИ ОПРОСА ========== */
 .options-row { 
   display: flex; 
   flex-wrap: wrap; 
   justify-content: center; 
-  gap: 28px; 
+  gap: 20px; 
 }
 
 .option-card {
   background: rgba(255,255,245,0.9);
   backdrop-filter: blur(4px);
   border-radius: 48px;
-  padding: 18px 24px;
+  padding: 20px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  min-width: 150px;
-  min-height: 130px;
+  min-width: 160px;
+  min-height: 140px;
   cursor: pointer;
   transition: all 0.1s ease;
 }
+
 .option-card:active { 
   transform: scale(0.96);
   background: rgba(255,255,245,1);
 }
+
 [data-theme="dark"] .option-card { 
   background: rgba(0,30,50,0.7);
 }
 
 .option-emoji { 
-  font-size: 3rem; 
+  font-size: 3.5rem; 
   pointer-events: none;
 }
 
 .option-label { 
   font-family: 'Pacifico', cursive; 
-  font-size: 1.1rem; 
+  font-size: 1.2rem; 
   color: #3c5a7d;
   pointer-events: none;
 }
@@ -722,15 +718,22 @@ html, body {
 
 .answer-result {
   margin-top: 20px;
-  padding: 15px 20px;
-  background: rgba(0,119,204,0.1);
+  padding: 18px 24px;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
   border-radius: 60px;
   font-family: 'Caveat', cursive;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  color: var(--accent);
+  color: #ffffff;
   text-align: center;
-  border: 1px solid rgba(0,119,204,0.2);
+  border: 1px solid rgba(255,215,150,0.6);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .answer-result {
+  background: rgba(0,0,0,0.9);
+  color: #ffefcf;
 }
 
 /* ========== КАРУСЕЛИ ========== */
@@ -988,7 +991,7 @@ html, body {
   border-radius: 60px;
   transition: background 0.2s;
   background: rgba(0,0,0,0.03);
-  min-width: 200px;
+  min-width: 220px;
   font-size: 1.1rem;
 }
 
@@ -1069,11 +1072,12 @@ html, body {
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%) scale(0.9);
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.9);
   backdrop-filter: blur(20px);
   color: #ffefcf;
   font-family: 'Pacifico', cursive;
-  padding: 12px 24px;
+  font-weight: bold;
+  padding: 14px 28px;
   border-radius: 60px;
   z-index: 20000;
   opacity: 0;
@@ -1123,9 +1127,12 @@ html, body {
 @media (max-width: 700px) {
   .container { margin: 10px; border-radius: 20px; width: auto; }
   .question-text, .routes-title, .places-title { font-size: 1.2rem; }
-  .option-card { min-width: 110px; padding: 12px 16px; }
+  .option-card { min-width: 130px; padding: 16px 20px; }
+  .option-emoji { font-size: 2.5rem; }
+  .option-label { font-size: 1rem; }
   .survey-section, .routes-section, .places-section { margin: 12px 16px; padding: 20px 16px; }
   .submit-review-btn { padding: 16px 28px; font-size: 1.1rem; }
+  .answer-result { font-size: 1rem; padding: 12px 16px; }
 }
 
 /* ========== ТЁМНАЯ ТЕМА ========== */
@@ -1133,122 +1140,3 @@ html, body {
 [data-theme="dark"] .footer a { color: #ffcc66; }
 [data-theme="dark"] .form-field-wrapper input,
 [data-theme="dark"] .form-field-wrapper textarea { background: #1a2a3a; color: #e6f0ff; border-color: #7ab8e8; }
-
-/* ========== УВЕЛИЧЕННАЯ ОБЛАСТЬ НАЖАТИЯ ДЛЯ ВСЕХ КНОПОК ========== */
-.option-card,
-.share-btn,
-.submit-review-btn,
-.mobile-menu-btn,
-.icon-btn,
-.music-player,
-.change-bg-btn,
-.about-float,
-.remind-wrap,
-.modal-close,
-.star,
-.knot-item,
-.subknot-link,
-.dot,
-.footer a,
-.mobile-menu-item,
-.mobile-sub-link,
-.route-card,
-.place-card,
-.place-future {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-/* Расширенная область для карточек "Планирую посетить" */
-.place-card.place-future {
-  display: block;
-  cursor: pointer;
-}
-
-.place-card.place-future:active {
-  filter: brightness(0.55);
-  transform: scale(0.98);
-}
-
-/* Сообщение ответа - читаемое и днём и ночью */
-.answer-result {
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(12px);
-  color: #ffffff;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  border: 1px solid rgba(255,215,150,0.5);
-}
-
-[data-theme="dark"] .answer-result {
-  background: rgba(0,0,0,0.9);
-  color: #ffefcf;
-}
-
-/* Toast - читаемый */
-.toast-message {
-  background: rgba(0,0,0,0.9);
-  color: #ffefcf;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-/* ========== УВЕЛИЧЕННАЯ ОБЛАСТЬ НАЖАТИЯ ========== */
-.option-card,
-.share-btn,
-.submit-review-btn,
-.mobile-menu-btn,
-.icon-btn,
-.music-player,
-.change-bg-btn,
-.about-float,
-.remind-wrap,
-.modal-close,
-.star,
-.knot-item,
-.subknot-link,
-.footer a,
-.mobile-menu-item,
-.mobile-sub-link,
-.place-card,
-.route-card {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-/* Вся карточка опроса кликабельна */
-.option-card {
-  padding: 20px 24px !important;
-  min-width: 140px !important;
-  min-height: 120px !important;
-}
-
-/* Вся карточка "Планирую посетить" кликабельна */
-.place-card.place-future {
-  cursor: pointer !important;
-  display: block !important;
-}
-
-/* Кнопки соцсетей - шире */
-.share-btn {
-  padding: 14px 28px !important;
-  min-width: 130px !important;
-}
-
-/* Связаться со мной - шире */
-.footer a {
-  padding: 14px 28px !important;
-  min-width: 220px !important;
-  display: inline-block !important;
-}
-
-/* Сообщение ответа - читаемое */
-.answer-result {
-  background: rgba(0,0,0,0.85) !important;
-  color: white !important;
-  border-radius: 60px !important;
-  padding: 15px 20px !important;
-}
