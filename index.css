@@ -1310,3 +1310,127 @@ html, body {
 .review-form button {
   pointer-events: auto !important;
 }
+
+/* ========== КЛИКАБЕЛЬНЫЕ ОВАЛЫ ДЛЯ ФОРМЫ ========== */
+.form-field-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 5px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.form-field-wrapper input,
+.form-field-wrapper textarea {
+  width: 100%;
+  padding: 18px 20px 8px 20px;
+  font-size: 16px;
+  border-radius: 60px !important;
+  border: 2px solid #c9772e;
+  background: white;
+  color: #1a2a3a;
+  font-family: 'Caveat', cursive;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-field-wrapper textarea {
+  border-radius: 30px !important;
+  resize: vertical;
+  min-height: 100px;
+  padding-top: 22px;
+}
+
+.form-field-wrapper label {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  color: #888;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  background: transparent;
+  padding: 0 5px;
+}
+
+.form-field-wrapper textarea ~ label {
+  top: 22px;
+  transform: none;
+}
+
+.form-field-wrapper input:focus ~ label,
+.form-field-wrapper input:not(:placeholder-shown) ~ label,
+.form-field-wrapper textarea:focus ~ label,
+.form-field-wrapper textarea:not(:placeholder-shown) ~ label {
+  top: 5px;
+  transform: translateY(0);
+  font-size: 11px;
+  color: #c9772e;
+  background: white;
+  padding: 0 5px;
+  border-radius: 20px;
+}
+
+.submit-review-btn {
+  background: #c9772e;
+  border: none;
+  border-radius: 60px;
+  padding: 14px 28px;
+  font-family: 'Pacifico', cursive;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: 10px;
+}
+.submit-review-btn:active { transform: scale(0.97); }
+
+/* ========== ИСПРАВЛЕНИЕ ДЛЯ МОБИЛЬНОГО МЕНЮ ========== */
+.mobile-menu-overlay {
+  transition: visibility 0.2s ease, opacity 0.2s ease;
+}
+
+.mobile-menu-container {
+  transition: transform 0.25s ease-out;
+}
+
+.mobile-menu-item,
+.mobile-sub-link,
+.mobile-menu-close {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ========== ПРЕДОТВРАЩАЕМ ДЁРГАНИЯ ========== */
+button, .icon-btn, .mobile-menu-btn, .share-btn, .submit-review-btn, .option-card, .route-card, .star {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ========== АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ ========== */
+@media (max-width: 768px) {
+  .form-field-wrapper input,
+  .form-field-wrapper textarea {
+    font-size: 18px !important;
+    padding: 20px 20px 10px 20px !important;
+    min-height: 55px !important;
+  }
+  .form-field-wrapper textarea {
+    min-height: 120px !important;
+  }
+  .form-field-wrapper label {
+    font-size: 18px;
+    left: 25px;
+  }
+  .submit-review-btn {
+    padding: 16px 28px;
+    font-size: 1.2rem;
+  }
+  .star {
+    font-size: 2rem !important;
+    padding: 8px;
+  }
+}

@@ -4,7 +4,6 @@ const musicToggle = document.getElementById('musicToggle');
 const musicIcon = document.getElementById('musicIcon');
 let musicPlaying = true;
 let musicStarted = false;
-let isMusicToggling = false;
 
 function startMusicOnFirstTouch() {
     if (!musicStarted && bgMusic) {
@@ -18,9 +17,6 @@ if (musicToggle) {
     const toggleMusic = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        if (isMusicToggling) return;
-        isMusicToggling = true;
-        
         if (musicPlaying) {
             if (bgMusic) bgMusic.pause();
             if (musicIcon) musicIcon.textContent = '🔇';
@@ -30,8 +26,6 @@ if (musicToggle) {
             if (musicIcon) musicIcon.textContent = '🎵';
             musicPlaying = true;
         }
-        
-        setTimeout(() => { isMusicToggling = false; }, 300);
     };
     musicToggle.addEventListener('click', toggleMusic);
     musicToggle.addEventListener('touchstart', toggleMusic, { passive: false });
@@ -46,7 +40,7 @@ localStorage.setItem('siteTotalViews', siteViews);
 const viewsCounter = document.getElementById('siteViewsCounter');
 if (viewsCounter) viewsCounter.textContent = siteViews;
 
-// ========== ТЕМА (ДЕНЬ/НОЧЬ) ==========
+// ========== ТЕМА ==========
 function applyTheme(t) {
     const themeIcon = document.getElementById('themeIcon');
     const themeText = document.getElementById('themeText');
@@ -65,20 +59,17 @@ function applyTheme(t) {
 const savedTheme = localStorage.getItem('siteTheme');
 applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
 
+let isThemeChanging = false;
 const themeToggle = document.getElementById('theme-toggle');
-let isThemeToggling = false;
-
 if (themeToggle) {
     const toggleTheme = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        if (isThemeToggling) return;
-        isThemeToggling = true;
-        
+        if (isThemeChanging) return;
+        isThemeChanging = true;
         const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         applyTheme(next);
-        
-        setTimeout(() => { isThemeToggling = false; }, 300);
+        setTimeout(() => { isThemeChanging = false; }, 200);
     };
     themeToggle.addEventListener('click', toggleTheme);
     themeToggle.addEventListener('touchstart', toggleTheme, { passive: false });
@@ -113,7 +104,6 @@ fetchWeather();
 // ========== ОТВЕТ НА ВОПРОС ==========
 const answerResult = document.getElementById('answerResult');
 const optionCards = document.querySelectorAll('.option-card');
-let isAnswerProcessing = false;
 
 function showToast(msg) {
     const toast = document.getElementById('toastMsg');
@@ -126,9 +116,6 @@ function showToast(msg) {
 optionCards.forEach(card => {
     const clickHandler = (e) => {
         e.stopPropagation();
-        if (isAnswerProcessing) return;
-        isAnswerProcessing = true;
-        
         const option = card.getAttribute('data-option');
         let message = '';
         switch (option) {
@@ -149,8 +136,6 @@ optionCards.forEach(card => {
             answerResult.innerHTML = message;
         }
         showToast(`✨ Вы выбрали: ${card.querySelector('.option-label')?.textContent || option} ✨`);
-        
-        setTimeout(() => { isAnswerProcessing = false; }, 500);
     };
     card.addEventListener('click', clickHandler);
     card.addEventListener('touchstart', clickHandler, { passive: false });
@@ -184,13 +169,15 @@ function renderChecklist() {
 }
 renderChecklist();
 
+// ========== ПАНЕЛЬ ЧЕК-ЛИСТА ==========
 const remind = document.getElementById('remind-area');
 const panelDiv = document.getElementById('panel');
-let isPanelProcessing = false;
+let isPanelOpen = false;
 
 function openPanel() {
     if (!panelDiv) return;
     panelDiv.classList.add('visible');
+    isPanelOpen = true;
     if (remind) {
         const btnRect = remind.getBoundingClientRect();
         let left = window.scrollX + btnRect.left - panelDiv.offsetWidth - 12;
@@ -199,23 +186,40 @@ function openPanel() {
         panelDiv.style.top = window.scrollY + btnRect.top + 'px';
     }
 }
-function closePanel() { if (panelDiv) panelDiv.classList.remove('visible'); }
+function closePanel() { 
+    if (panelDiv) {
+        panelDiv.classList.remove('visible');
+        isPanelOpen = false;
+    }
+}
 
 if (remind) {
     const panelToggle = (e) => {
         e.stopPropagation();
-        if (isPanelProcessing) return;
-        isPanelProcessing = true;
-        
-        panelDiv.classList.contains('visible') ? closePanel() : openPanel();
-        
-        setTimeout(() => { isPanelProcessing = false; }, 300);
+        e.preventDefault();
+        if (isPanelOpen) {
+            closePanel();
+        } else {
+            openPanel();
+        }
     };
     remind.addEventListener('click', panelToggle);
     remind.addEventListener('touchstart', panelToggle, { passive: false });
 }
 
-// ========== СМЕНА ФОТО МОРЯ ==========
+// Закрытие панели при клике вне её
+document.addEventListener('click', (e) => {
+    if (isPanelOpen && panelDiv && remind && !remind.contains(e.target) && !panelDiv.contains(e.target)) {
+        closePanel();
+    }
+});
+document.addEventListener('touchstart', (e) => {
+    if (isPanelOpen && panelDiv && remind && !remind.contains(e.target) && !panelDiv.contains(e.target)) {
+        closePanel();
+    }
+});
+
+// ========== СМЕНА ФОТО ==========
 const changeSeaBtn = document.getElementById('changeSeaBtn');
 if (changeSeaBtn) {
     changeSeaBtn.addEventListener('click', () => {
@@ -258,7 +262,6 @@ const modalOverlay = document.getElementById('introModal');
 const aboutFloat = document.getElementById('about-float');
 const closeModalBtn = document.getElementById('closeModalBtn');
 let savedScrollYModal = 0;
-let isModalProcessing = false;
 
 function openModalWindow() {
     if (!modalOverlay) return;
@@ -281,26 +284,18 @@ function closeModalWindow() {
 }
 
 if (aboutFloat) {
-    const modalHandler = (e) => {
-        e.stopPropagation();
-        openModalWindow();
-    };
-    aboutFloat.addEventListener('click', modalHandler);
-    aboutFloat.addEventListener('touchstart', modalHandler, { passive: false });
+    aboutFloat.addEventListener('click', (e) => { e.stopPropagation(); openModalWindow(); });
+    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); }, { passive: false });
 }
 if (closeModalBtn) {
-    const closeHandler = (e) => {
-        e.stopPropagation();
-        closeModalWindow();
-    };
-    closeModalBtn.addEventListener('click', closeHandler);
-    closeModalBtn.addEventListener('touchstart', closeHandler, { passive: false });
+    closeModalBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModalWindow(); });
+    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); }, { passive: false });
 }
 if (modalOverlay) {
     modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
 }
 
-// ========== КАРУСЕЛЬ МАРШРУТОВ ==========
+// ========== КАРУСЕЛИ ==========
 const routesTrack = document.getElementById('routesTrack');
 const routeCards = document.querySelectorAll('.route-card');
 const routesDots = document.getElementById('routesDots');
@@ -391,7 +386,7 @@ if (placeCards.length > 0) {
     startAutoPlaces();
 }
 
-// ========== ЗВЁЗДЫ ДЛЯ ОТЗЫВОВ ==========
+// ========== ЗВЁЗДЫ ==========
 let currentRating = 0;
 const stars = document.querySelectorAll('.star');
 
@@ -420,7 +415,7 @@ stars.forEach(star => {
     star.addEventListener('touchstart', starHandler, { passive: false });
 });
 
-// ========== ОТПРАВКА ОТЗЫВА (БЕЗ ALERT) ==========
+// ========== ОТПРАВКА ОТЗЫВА - ОТКРЫТИЕ ПОЧТЫ ==========
 const reviewForm = document.getElementById('reviewForm');
 const reviewerName = document.getElementById('reviewerName');
 const reviewerEmail = document.getElementById('reviewerEmail');
@@ -437,19 +432,23 @@ function showFieldError(field, message) {
     showToast(message);
 }
 
-function clearFieldError(field) {
-    field.style.border = '2px solid #c9772e';
-    field.style.backgroundColor = '';
-}
-
 if (reviewerName) {
-    reviewerName.addEventListener('focus', () => clearFieldError(reviewerName));
+    reviewerName.addEventListener('focus', () => {
+        reviewerName.style.border = '2px solid #c9772e';
+        reviewerName.style.backgroundColor = '';
+    });
 }
 if (reviewerEmail) {
-    reviewerEmail.addEventListener('focus', () => clearFieldError(reviewerEmail));
+    reviewerEmail.addEventListener('focus', () => {
+        reviewerEmail.style.border = '2px solid #c9772e';
+        reviewerEmail.style.backgroundColor = '';
+    });
 }
 if (reviewText) {
-    reviewText.addEventListener('focus', () => clearFieldError(reviewText));
+    reviewText.addEventListener('focus', () => {
+        reviewText.style.border = '2px solid #c9772e';
+        reviewText.style.backgroundColor = '';
+    });
 }
 
 if (reviewForm) {
@@ -492,27 +491,25 @@ if (reviewForm) {
             return;
         }
         
-        const message = `🌟 ОТЗЫВ 🌟\n\n👤 Имя: ${name}\n📧 Почта: ${email}\n⭐ Оценка: ${currentRating}★\n📝 Отзыв: ${text}`;
+        // ФОРМИРУЕМ ПИСЬМО - ОТКРЫВАЕТСЯ ПОЧТОВЫЙ КЛИЕНТ С ЗАПОЛНЕННЫМ АДРЕСОМ
+        const subject = encodeURIComponent(`Отзыв от ${name} - Мой юг`);
+        const body = encodeURIComponent(
+            `Имя: ${name}\n` +
+            `Почта для ответа: ${email}\n` +
+            `Оценка: ${currentRating}★\n\n` +
+            `Отзыв:\n${text}\n\n` +
+            `---\nОтправлено с сайта "Мой юг: от Анапы до Сочи"`
+        );
         
-        function resetForm() {
-            if (reviewForm) reviewForm.reset();
-            currentRating = 0;
-            updateStars(0);
-            if (reviewerName) reviewerName.style.border = '';
-            if (reviewerEmail) reviewerEmail.style.border = '';
-            if (reviewText) reviewText.style.border = '';
-        }
+        // Открываем почтовый клиент с моим адресом
+        window.location.href = `mailto:angelina.chernovalova@yandex.ru?subject=${subject}&body=${body}`;
         
-        try {
-            await navigator.clipboard.writeText(message + '\n\nОтправьте это сообщение: angelina.chernovalova@yandex.ru');
-            showToast('📋 Отзыв скопирован! Отправьте его мне');
-            resetForm();
-        } catch (err) {
-            showToast('⚠️ Не удалось скопировать, но отзыв сохранён');
-            console.log(message);
-            resetForm();
-        }
+        showToast('📧 Открывается почта! Отправьте письмо мне');
         
+        // Сбрасываем форму
+        reviewForm.reset();
+        currentRating = 0;
+        updateStars(0);
         isSubmitting = false;
     };
     
@@ -541,9 +538,9 @@ document.querySelectorAll('.share-btn').forEach(btn => {
 });
 
 // ========== ССЫЛКА В ФУТЕРЕ ==========
-const footerLink = document.querySelector('.footer a');
-if (footerLink) {
-    footerLink.addEventListener('click', (e) => {
+const footerMailLink = document.getElementById('footerMailLink');
+if (footerMailLink) {
+    footerMailLink.addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
     });
@@ -565,18 +562,23 @@ const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
 const mobileMenuClose = document.getElementById('mobileMenuClose');
 const mobileRoutesBtn = document.getElementById('mobileRoutesBtn');
 const mobileRoutesSub = document.getElementById('mobileRoutesSub');
+let isMenuAnimating = false;
 
 function closeMobileMenu() {
-    if (mobileMenuOverlay) {
+    if (mobileMenuOverlay && !isMenuAnimating) {
+        isMenuAnimating = true;
         mobileMenuOverlay.classList.remove('active');
         document.body.style.overflow = '';
+        setTimeout(() => { isMenuAnimating = false; }, 250);
     }
 }
 
 function openMobileMenu() {
-    if (mobileMenuOverlay) {
+    if (mobileMenuOverlay && !isMenuAnimating) {
+        isMenuAnimating = true;
         mobileMenuOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        setTimeout(() => { isMenuAnimating = false; }, 250);
     }
 }
 
@@ -595,12 +597,17 @@ if (mobileMenuOverlay) {
 if (mobileRoutesBtn && mobileRoutesSub) {
     const toggleSubmenu = (e) => {
         e.stopPropagation();
-        mobileRoutesSub.style.display = mobileRoutesSub.style.display === 'none' ? 'flex' : 'none';
+        if (mobileRoutesSub.style.display === 'flex') {
+            mobileRoutesSub.style.display = 'none';
+        } else {
+            mobileRoutesSub.style.display = 'flex';
+        }
     };
     mobileRoutesBtn.addEventListener('click', toggleSubmenu);
     mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu, { passive: false });
 }
 
+// Пункты меню
 const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
 menuItems.forEach(item => {
     const menuHandler = (e) => {
@@ -657,20 +664,5 @@ function initRopeAnchor() {
     updateAnchorPosition();
 }
 initRopeAnchor();
-
-// Принудительная активация полей формы
-(function ensureFormWorks() {
-    const inputs = document.querySelectorAll('#reviewForm input, #reviewForm textarea, #reviewForm button');
-    inputs.forEach(el => {
-        el.style.pointerEvents = 'auto';
-        el.style.opacity = '1';
-        el.style.visibility = 'visible';
-        if (el.tagName !== 'BUTTON') {
-            el.removeAttribute('disabled');
-            el.readOnly = false;
-        }
-    });
-    console.log('✅ Форма активирована');
-})();
 
 console.log('index.js загружен');

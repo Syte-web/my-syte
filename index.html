@@ -6,7 +6,6 @@
 <meta name="theme-color" content="#008080">
 <title>Мой юг: от Анапы до Сочи</title>
 
-<!-- ========== ИКОНКА САЙТА (favicon) ДЛЯ ГЛАВНОЙ ========== -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
 
@@ -25,9 +24,9 @@
     <div class="title">Мой юг: от Анапы до Сочи</div>
     <div class="header-right">
       <div class="stickers">
-        <div class="sticker" id="st-weather">🌥️<span id="st-weather-txt">Загрузка</span></div>
-        <div class="sticker" id="st-time">⏱️<span id="st-time-txt">--:--</span></div>
-        <div class="music-player clickable" id="musicToggle">
+        <div class="sticker">🌥️<span id="st-weather-txt">Загрузка</span></div>
+        <div class="sticker">⏱️<span id="st-time-txt">--:--</span></div>
+        <div class="music-player" id="musicToggle">
           <span id="musicIcon">🎵</span>
         </div>
         <button id="theme-toggle" class="icon-btn">
@@ -63,28 +62,28 @@
   <div class="photo-wrap">
     <img src="Img.Index/m.avif" alt="Море и пляж" class="photo" id="seaPhoto">
     <div class="photo-overlay">
-      <div class="remind-wrap clickable" id="remind-area"><div class="remind-text">🧳 Не забудь чемодан!</div></div>
+      <div class="remind-wrap" id="remind-area"><div class="remind-text">🧳 Не забудь чемодан!</div></div>
     </div>
-    <button class="change-bg-btn clickable" id="changeSeaBtn">🌊 Сменить фото моря</button>
-    <div class="about-float clickable" id="about-float">
+    <button class="change-bg-btn" id="changeSeaBtn">🌊 Сменить фото моря</button>
+    <div class="about-float" id="about-float">
       <img src="Img.Index/i.jpg" class="about-photo" id="about-photo" alt="avatar">
       <div class="about-desc">Давайте знакомиться</div>
     </div>
   </div>
 
-  <!-- ========== ОПРОС: С ЧЕГО НАЧИНАЕТСЯ ЛЕТО ========== -->
-  <div class="survey-section" id="section-main" data-section="main">
+  <!-- ========== ОПРОС ========== -->
+  <div class="survey-section" id="section-main">
     <div class="question-text">С чего начинается ваше лето?</div>
     <div class="options-row">
-      <div class="option-card clickable" data-option="пляжный релакс" data-value="пляжный релакс">
+      <div class="option-card" data-option="пляжный релакс">
         <div class="option-emoji">🏖️</div>
         <div class="option-label">Пляжный релакс</div>
       </div>
-      <div class="option-card clickable" data-option="актив в горах" data-value="актив в горах">
+      <div class="option-card" data-option="актив в горах">
         <div class="option-emoji">⛰️</div>
         <div class="option-label">Актив в горах</div>
       </div>
-      <div class="option-card clickable" data-option="прогулки по паркам" data-value="прогулки по паркам">
+      <div class="option-card" data-option="прогулки по паркам">
         <div class="option-emoji">🌳</div>
         <div class="option-label">Прогулки по паркам</div>
       </div>
@@ -92,18 +91,18 @@
     <div id="answerResult" class="answer-result" style="display: none;"></div>
   </div>
 
-  <!-- ========== КАРУСЕЛЬ МОИХ МАРШРУТОВ ========== -->
-  <div class="routes-section" id="section-routes" data-section="routes">
+  <!-- ========== КАРУСЕЛЬ МАРШРУТОВ ========== -->
+  <div class="routes-section" id="section-routes">
     <div class="routes-title">🚗 Проверено на себе: мои маршруты 🚗</div>
     <div class="carousel-container" id="routesCarousel">
       <div class="carousel-track" id="routesTrack">
-        <div class="route-card clickable" data-page="Anapa/Anapa.html">
+        <div class="route-card" data-page="Anapa/Anapa.html">
           <div class="card-inner"><img class="route-img" src="Img.Index/anapa.jpeg" alt="Анапа"><div class="route-title-overlay">Анапа</div><div class="route-desc-overlay">Песчаные пляжи, ласковое море и семейный уют.</div></div>
         </div>
-        <div class="route-card clickable" data-page="Gelendzhik/Gelendzhik.html">
+        <div class="route-card" data-page="Gelendzhik/Gelendzhik.html">
           <div class="card-inner"><img class="route-img" src="Img.Index/gelend.jpg" alt="Геленджик"><div class="route-title-overlay">Геленджик</div><div class="route-desc-overlay">Набережная, бухта и живописные горы.</div></div>
         </div>
-        <div class="route-card clickable" data-page="Sochi/Sochi.html">
+        <div class="route-card" data-page="Sochi/Sochi.html">
           <div class="card-inner"><img class="route-img" src="Img.Index/sohi.jpg" alt="Сочи"><div class="route-title-overlay">Сочи</div><div class="route-desc-overlay">Субтропики, горы и вечное лето.</div></div>
         </div>
       </div>
@@ -112,51 +111,60 @@
   </div>
 
   <!-- ========== КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" ========== -->
-  <div class="places-section" id="section-places" data-section="places">
+  <div class="places-section" id="section-places">
     <div class="places-title">🏝️ Планирую посетить... 🏝️</div>
     <div class="carousel-container" id="placesCarousel">
       <div class="carousel-track" id="placesTrack">
         <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/laz.jpg"><div class="place-title-overlay">Лазаревское</div><div class="place-desc-overlay">Водопады и голубое море.</div></div></div>
         <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/dgub.jpg"><div class="place-title-overlay">Джугба</div><div class="place-desc-overlay">Дикие пляжи и реликтовый лес.</div></div></div>
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/kabard.jpg" alt="Кабардинка"><div class="place-title-overlay">Кабардинка</div><div class="place-desc-overlay">Чистые пляжи, Старый парк у моря.</div></div></div>
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/novoros.jpg" alt="Новороссийск"><div class="place-title-overlay">Новороссийск</div><div class="place-desc-overlay">Герой-город, морской порт.</div></div></div>
+        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/kabard.jpg"><div class="place-title-overlay">Кабардинка</div><div class="place-desc-overlay">Чистые пляжи, Старый парк у моря.</div></div></div>
+        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/novoros.jpg"><div class="place-title-overlay">Новороссийск</div><div class="place-desc-overlay">Герой-город, морской порт.</div></div></div>
       </div>
     </div>
     <div class="dots" id="placesDots"></div>
   </div>
 
-  <!-- ========== ФОРМА ОТЗЫВА (ИСПРАВЛЕННАЯ) ========== -->
-  <div class="survey-section" id="section-review" data-section="review" style="margin-top:0; overflow:visible; position:relative; z-index:100;">
+  <!-- ========== ФОРМА ОТЗЫВА ========== -->
+  <div class="survey-section" id="section-review" style="margin-top:0; overflow:visible;">
     <div class="question-text">✨ Если вы тут были, поделитесь впечатлением ✨</div>
-    <div class="star-rating" id="starRating" style="position:relative; z-index:101;">
-      <span class="star clickable" data-value="1" style="font-size: 2.5rem; cursor:pointer;">★</span>
-      <span class="star clickable" data-value="2" style="font-size: 2.5rem; cursor:pointer;">★</span>
-      <span class="star clickable" data-value="3" style="font-size: 2.5rem; cursor:pointer;">★</span>
-      <span class="star clickable" data-value="4" style="font-size: 2.5rem; cursor:pointer;">★</span>
-      <span class="star clickable" data-value="5" style="font-size: 2.5rem; cursor:pointer;">★</span>
+    <div class="star-rating" id="starRating">
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="5">★</span>
     </div>
-    <form id="reviewForm" class="review-form" style="position:relative; z-index:102;">
-      <input type="text" id="reviewerName" placeholder="📝 Ваше имя" autocomplete="off" style="pointer-events:auto; opacity:1; background:white; color:#000;">
-      <input type="email" id="reviewerEmail" placeholder="📧 Ваша почта" autocomplete="off" style="pointer-events:auto; opacity:1; background:white; color:#000;">
-      <textarea id="reviewText" placeholder="💬 Ваш отзыв..." style="pointer-events:auto; opacity:1; background:white; color:#000; min-height:100px;"></textarea>
-      <button type="submit" class="clickable" style="pointer-events:auto; opacity:1;">📨 Поделиться впечатлением</button>
+    <form id="reviewForm" class="review-form">
+      <div class="form-field-wrapper">
+        <input type="text" id="reviewerName" name="reviewerName" autocomplete="off">
+        <label>📝 Ваше имя</label>
+      </div>
+      <div class="form-field-wrapper">
+        <input type="email" id="reviewerEmail" name="reviewerEmail" autocomplete="off">
+        <label>📧 Ваша почта</label>
+      </div>
+      <div class="form-field-wrapper">
+        <textarea id="reviewText" name="reviewText"></textarea>
+        <label>💬 Ваш отзыв</label>
+      </div>
+      <button type="submit" class="submit-review-btn">📨 Поделиться впечатлением</button>
     </form>
   </div>
 
   <!-- ========== ФУТЕР ========== -->
   <div class="footer">
     <div class="share-buttons">
-      <button class="share-btn clickable" data-share="vk">📱 ВКонтакте</button>
-      <button class="share-btn clickable" data-share="ok">👥 Одноклассники</button>
-      <button class="share-btn clickable" data-share="max">💬 Мессенджер Max</button>
+      <button class="share-btn" data-share="vk">📱 ВКонтакте</button>
+      <button class="share-btn" data-share="ok">👥 Одноклассники</button>
+      <button class="share-btn" data-share="max">💬 Мессенджер Max</button>
     </div>
-    <div><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
+    <div><a href="mailto:angelina.chernovalova@yandex.ru" id="footerMailLink">📧 Связаться со мной</a></div>
     <div style="margin-top:10px; font-size:0.7rem;">👁️ Просмотрено раз: <span id="siteViewsCounter">0</span></div>
   </div>
 </div>
 
 <!-- ========== ПК ЛИАНА ========== -->
-<div class="rope-container" id="ropeContainer">
+<div class="rope-container">
   <div class="rope-line"></div>
   <div class="knot-item" data-target="section-main" style="top: 5%;">⛵<div class="bubble-menu-right">⚓ Главная</div></div>
   <div class="knot-item" data-target="section-routes" style="top: 28%;">🗺️
@@ -177,7 +185,7 @@
 <!-- ========== ДОПОЛНИТЕЛЬНЫЕ ЭЛЕМЕНТЫ ========== -->
 <div class="side-panel" id="panel"><div class="checklist" id="checklist"></div></div>
 <div id="toastMsg" class="toast-message"></div>
-<div id="introModal" class="modal-overlay"><div class="modal-card"><img src="Img.Index/i.jpg" class="modal-photo" id="modalUserPhoto"><div class="modal-text">Давайте знакомиться!<br><br>Меня зовут Черновалова Ангелина Алексеевна, я студентка ПИ-3,6-2024-2УД. Я объединила знания интернет-технологий и свою страсть к путешествиям, чтобы создать удобный интерфейс для планирования отдыха.</div><button class="modal-close clickable" id="closeModalBtn">Закрыть</button></div></div>
+<div id="introModal" class="modal-overlay"><div class="modal-card"><img src="Img.Index/i.jpg" class="modal-photo" id="modalUserPhoto"><div class="modal-text">Давайте знакомиться!<br><br>Меня зовут Черновалова Ангелина Алексеевна, я студентка ПИ-3,6-2024-2УД. Я объединила знания интернет-технологий и свою страсть к путешествиям, чтобы создать удобный интерфейс для планирования отдыха.</div><button class="modal-close" id="closeModalBtn">Закрыть</button></div></div>
 
 <audio id="bgMusic" src="Audio.Index/chai.mp3" loop></audio>
 

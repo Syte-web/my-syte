@@ -1,19 +1,16 @@
 /**
  * menu.js — универсальное меню для всех страниц
- * Работает на главной и в папках городов
  */
 
 (function() {
     "use strict";
 
-    // Автоматически определяем глубину вложенности
     const path = window.location.pathname;
     const isInCityFolder = path.includes('/') && 
                            !path.endsWith('index.html') && 
                            path !== '/' &&
                            !path.endsWith('/');
     
-    // Базовый путь к главной странице
     const basePath = isInCityFolder ? '../' : '';
 
     // ========== МОБИЛЬНОЕ МЕНЮ ==========
@@ -23,22 +20,27 @@
     const mobileRoutesBtn = document.getElementById('mobileRoutesBtn');
     const mobileRoutesSub = document.getElementById('mobileRoutesSub');
     let mobileRoutesOpen = false;
+    let isAnimating = false;
 
     function openMobileMenu() {
-        if (mobileMenuOverlay) {
+        if (mobileMenuOverlay && !isAnimating) {
+            isAnimating = true;
             mobileMenuOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+            setTimeout(() => { isAnimating = false; }, 250);
         }
     }
 
     function closeMobileMenu() {
-        if (mobileMenuOverlay) {
+        if (mobileMenuOverlay && !isAnimating) {
+            isAnimating = true;
             mobileMenuOverlay.classList.remove('active');
             document.body.style.overflow = '';
-        }
-        if (mobileRoutesOpen && mobileRoutesSub) {
-            mobileRoutesSub.style.display = 'none';
-            mobileRoutesOpen = false;
+            if (mobileRoutesOpen && mobileRoutesSub) {
+                mobileRoutesSub.style.display = 'none';
+                mobileRoutesOpen = false;
+            }
+            setTimeout(() => { isAnimating = false; }, 250);
         }
     }
 
@@ -50,7 +52,7 @@
         mobileMenuBtn.addEventListener('touchstart', (e) => {
             e.stopPropagation();
             openMobileMenu();
-        }, { passive: false });
+        });
     }
     
     if (mobileMenuClose) {
@@ -61,7 +63,7 @@
         mobileMenuClose.addEventListener('touchstart', (e) => {
             e.stopPropagation();
             closeMobileMenu();
-        }, { passive: false });
+        });
     }
 
     if (mobileMenuOverlay) {
@@ -82,10 +84,10 @@
             }
         };
         mobileRoutesBtn.addEventListener('click', toggleSubmenu);
-        mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu, { passive: false });
+        mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu);
     }
 
-    // ========== ПЕРЕХОДЫ ПО ПУНКТАМ МОБИЛЬНОГО МЕНЮ ==========
+    // ========== ПЕРЕХОДЫ ==========
     document.querySelectorAll('.mobile-menu-item[data-target]').forEach(item => {
         const clickHandler = (e) => {
             e.stopPropagation();
@@ -113,7 +115,7 @@
             }
         };
         item.addEventListener('click', clickHandler);
-        item.addEventListener('touchstart', clickHandler, { passive: false });
+        item.addEventListener('touchstart', clickHandler);
     });
 
     // ========== ПК ЛИАНА ==========
@@ -138,7 +140,7 @@
         knotReview.addEventListener('touchstart', navigateToReview);
     }
 
-    // ========== ДВИЖЕНИЕ ЯКОРЯ НА ГЛАВНОЙ СТРАНИЦЕ ==========
+    // ========== ЯКОРЬ ==========
     const ropeAnchor = document.getElementById('ropeAnchor');
     if (ropeAnchor && !isInCityFolder) {
         let ticking = false;
