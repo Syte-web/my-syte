@@ -96,7 +96,7 @@ async function fetchWeather() {
 }
 fetchWeather();
 
-// ========== ОТВЕТ НА ВОПРОС ==========
+// ========== ОТВЕТ НА ВОПРОС (ТОСТ УДАЛЁН) ==========
 const answerResult = document.getElementById('answerResult');
 const optionCards = document.querySelectorAll('.option-card');
 
@@ -115,13 +115,13 @@ optionCards.forEach(card => {
         let message = '';
         switch (option) {
             case 'пляжный релакс':
-                message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. 🌊✨';
+                message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. Желаю золотистого загара и кристально чистой воды! 🌊✨';
                 break;
             case 'актив в горах':
-                message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды и заряд бодрости. 🏔️💪';
+                message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды, чистый воздух и заряд бодрости. Пусть вершины покоряются легко! 🏔️💪';
                 break;
             case 'прогулки по паркам':
-                message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония. 📸✨';
+                message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония с природой. Желаю ярких впечатлений и красивых фото! 📸✨';
                 break;
             default:
                 message = '✨ Отличный выбор! Пусть ваше лето будет незабываемым! ✨';
@@ -129,8 +129,10 @@ optionCards.forEach(card => {
         if (answerResult) {
             answerResult.style.display = 'block';
             answerResult.innerHTML = message;
+            answerResult.style.opacity = '0';
+            setTimeout(() => { answerResult.style.opacity = '1'; }, 10);
         }
-        showToast(`✨ Вы выбрали: ${card.querySelector('.option-label')?.textContent || option} ✨`);
+        // ТОСТ С "ВЫ ВЫБРАЛИ" УДАЛЁН
     };
     card.addEventListener('click', clickHandler);
     card.addEventListener('touchstart', clickHandler, { passive: false });
@@ -401,7 +403,6 @@ function showFieldError(field, message) {
     showToast(message);
 }
 
-// Очистка ошибок при фокусе
 if (reviewerName) {
     reviewerName.addEventListener('focus', () => {
         reviewerName.style.border = '2px solid var(--accent)';

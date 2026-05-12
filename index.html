@@ -124,7 +124,7 @@
     <div class="dots" id="placesDots"></div>
   </div>
 
-  <!-- ========== ФОРМА ОТЗЫВА (КЛИКАБЕЛЬНЫЕ ОВАЛЫ) ========== -->
+  <!-- ========== ФОРМА ОТЗЫВА ========== -->
   <div class="survey-section" id="section-review" style="margin-top:0; overflow:visible; position:relative; z-index:100;">
     <div class="question-text">✨ Если вы тут были, поделитесь впечатлением ✨</div>
     <div class="star-rating" id="starRating" style="position:relative; z-index:101;">
@@ -135,19 +135,16 @@
       <span class="star" data-value="5">★</span>
     </div>
     <form id="reviewForm" class="review-form" style="position:relative; z-index:102;">
-      <!-- Поле "Ваше имя" - кликабельный овал -->
-      <div class="form-field-wrapper" onclick="document.getElementById('reviewerName').focus();">
-        <input type="text" id="reviewerName" name="reviewerName" autocomplete="off">
+      <div class="form-field-wrapper">
+        <input type="text" id="reviewerName" name="reviewerName" placeholder=" " autocomplete="off">
         <label>📝 Ваше имя</label>
       </div>
-      <!-- Поле "Ваша почта" - кликабельный овал -->
-      <div class="form-field-wrapper" onclick="document.getElementById('reviewerEmail').focus();">
-        <input type="email" id="reviewerEmail" name="reviewerEmail" autocomplete="off">
+      <div class="form-field-wrapper">
+        <input type="email" id="reviewerEmail" name="reviewerEmail" placeholder=" " autocomplete="off">
         <label>📧 Ваша почта</label>
       </div>
-      <!-- Поле "Ваш отзыв" - кликабельный овал -->
-      <div class="form-field-wrapper" onclick="document.getElementById('reviewText').focus();">
-        <textarea id="reviewText" name="reviewText"></textarea>
+      <div class="form-field-wrapper">
+        <textarea id="reviewText" name="reviewText" placeholder=" "></textarea>
         <label>💬 Ваш отзыв</label>
       </div>
       <button type="submit" class="submit-review-btn">📨 Поделиться впечатлением</button>

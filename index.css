@@ -336,8 +336,17 @@ html, body {
 }
 
 /* ========== ГЛАВНОЕ ФОТО ========== */
-.photo { width: 100%; height: 420px; object-fit: cover; display: block; position: relative; }
-.photo-wrap { position: relative; }
+.photo {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+  position: relative;
+}
+
+.photo-wrap {
+  position: relative;
+}
 
 .photo-overlay {
   position: absolute;
@@ -363,6 +372,7 @@ html, body {
   border-radius: 28px;
   box-shadow: 0 6px 18px rgba(0,0,0,.2);
   border: 1px solid rgba(255,215,150,0.3);
+  transition: transform 0.2s;
 }
 
 .remind-wrap:active { transform: scale(0.98); }
@@ -379,6 +389,7 @@ html, body {
   border-radius: 40px;
   padding: 8px 16px;
   font-size: 0.8rem;
+  font-weight: 500;
   z-index: 20;
 }
 .change-bg-btn:active { transform: scale(0.92); }
@@ -585,6 +596,7 @@ html, body {
   color: var(--accent);
   text-align: center;
   border: 1px solid rgba(0,119,204,0.2);
+  transition: opacity 0.3s ease;
 }
 
 /* ========== КАРУСЕЛИ ========== */
@@ -663,7 +675,7 @@ html, body {
 .dot.active { background: #c9772e; transform: scale(1.2); }
 .dot:active { transform: scale(0.9); }
 
-/* ========== ФОРМА ОТЗЫВА - КЛИКАБЕЛЬНЫЕ ОВАЛЫ ========== */
+/* ========== ФОРМА ОТЗЫВА ========== */
 .review-form {
   max-width: 500px;
   margin: 20px auto 0;
@@ -727,7 +739,6 @@ html, body {
   transform: none;
 }
 
-/* Эффект при фокусе или когда поле заполнено */
 .form-field-wrapper input:focus ~ label,
 .form-field-wrapper input:not(:placeholder-shown) ~ label,
 .form-field-wrapper textarea:focus ~ label,
@@ -901,28 +912,87 @@ html, body {
 .side-panel.visible { opacity: 1; transform: translateX(0); }
 .checkrow { display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 6px; }
 
-/* ========== АДАПТАЦИЯ ========== */
-@media (max-width: 700px) {
-  .container { margin: 10px; border-radius: 20px; width: auto; }
-  .title { font-size: 1.2rem; }
-  .header { padding: 8px 12px; }
-  .sticker { padding: 5px 10px; font-size: 0.9rem; }
-  .question-text, .routes-title, .places-title { font-size: 1.2rem; }
-  .option-card { min-width: 100px; padding: 8px 12px; }
-  .star { font-size: 1.6rem; }
-  .modal-card { padding: 24px 16px; }
-  .modal-text { font-size: 1rem; }
-  .survey-section, .routes-section, .places-section { margin: 12px 16px; padding: 20px 16px; }
-  
+/* ========== АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ (ТОЛЬКО ЗДЕСЬ, ПК НЕ ТРОГАЮ) ========== */
+@media (max-width: 768px) {
+  /* Увеличиваем поля формы для удобного нажатия на мобильных */
   .form-field-wrapper input,
   .form-field-wrapper textarea {
-    font-size: 18px;
-    padding: 20px 20px 10px 20px;
+    font-size: 16px !important;
+    padding: 14px 16px !important;
+    min-height: 48px !important;
   }
-  .form-field-wrapper textarea { min-height: 110px; }
-  .form-field-wrapper label { font-size: 18px; left: 25px; }
-  .submit-review-btn { padding: 16px 28px; font-size: 1.2rem; }
-  .star { font-size: 2rem !important; padding: 5px; }
+  
+  .form-field-wrapper textarea {
+    min-height: 100px !important;
+  }
+  
+  .submit-review-btn {
+    padding: 12px 20px !important;
+    font-size: 1rem !important;
+  }
+  
+  /* Звёзды на мобильных - больше */
+  .star {
+    font-size: 1.8rem !important;
+    padding: 5px !important;
+  }
+  
+  /* Ячейки опроса */
+  .option-card {
+    min-width: 100px !important;
+    padding: 8px 12px !important;
+  }
+  
+  .option-emoji {
+    font-size: 2rem !important;
+  }
+  
+  .option-label {
+    font-size: 0.8rem !important;
+  }
+  
+  /* Контейнер */
+  .container {
+    margin: 10px !important;
+    width: auto !important;
+  }
+  
+  /* Заголовок */
+  .title {
+    font-size: 1rem !important;
+  }
+  
+  /* Стикеры */
+  .sticker {
+    padding: 4px 8px !important;
+    font-size: 0.7rem !important;
+  }
+  
+  /* Главное фото */
+  .photo {
+    height: 220px !important;
+  }
+  
+  .photo-caption {
+    font-size: 1.2rem !important;
+  }
+  
+  /* Секции */
+  .survey-section, .routes-section, .places-section {
+    margin: 12px 16px !important;
+    padding: 16px !important;
+  }
+  
+  .question-text, .routes-title, .places-title {
+    font-size: 1.2rem !important;
+    margin-bottom: 16px !important;
+  }
+  
+  /* Кнопки */
+  .share-btn {
+    padding: 6px 12px !important;
+    font-size: 0.8rem !important;
+  }
 }
 
 /* ========== ТЁМНАЯ ТЕМА ========== */
@@ -930,3 +1000,6 @@ html, body {
 [data-theme="dark"] .footer a { color: #ffcc66; }
 [data-theme="dark"] .form-field-wrapper input,
 [data-theme="dark"] .form-field-wrapper textarea { background: #1a2a3a; color: #e6f0ff; border-color: #7ab8e8; }
+[data-theme="dark"] .about-float { background: #1a2a3a; border: 1px solid #7ab8e8; }
+[data-theme="dark"] .about-desc { background: #0a1a3a; color: #7ab8e8; }
+[data-theme="dark"] .change-bg-btn { background: rgba(0,0,0,0.7); }
