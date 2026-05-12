@@ -20,27 +20,27 @@
     const mobileRoutesBtn = document.getElementById('mobileRoutesBtn');
     const mobileRoutesSub = document.getElementById('mobileRoutesSub');
     let mobileRoutesOpen = false;
-    let isAnimating = false;
+    let isMenuAnimating = false;
 
     function openMobileMenu() {
-        if (mobileMenuOverlay && !isAnimating) {
-            isAnimating = true;
+        if (mobileMenuOverlay && !isMenuAnimating) {
+            isMenuAnimating = true;
             mobileMenuOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
-            setTimeout(() => { isAnimating = false; }, 250);
+            setTimeout(() => { isMenuAnimating = false; }, 250);
         }
     }
 
     function closeMobileMenu() {
-        if (mobileMenuOverlay && !isAnimating) {
-            isAnimating = true;
+        if (mobileMenuOverlay && !isMenuAnimating) {
+            isMenuAnimating = true;
             mobileMenuOverlay.classList.remove('active');
             document.body.style.overflow = '';
             if (mobileRoutesOpen && mobileRoutesSub) {
                 mobileRoutesSub.style.display = 'none';
                 mobileRoutesOpen = false;
             }
-            setTimeout(() => { isAnimating = false; }, 250);
+            setTimeout(() => { isMenuAnimating = false; }, 250);
         }
     }
 

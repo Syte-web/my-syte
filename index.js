@@ -33,7 +33,7 @@ if (musicToggle) {
 
 document.body.addEventListener('touchstart', startMusicOnFirstTouch, { once: true });
 
-// ========== СЧЁТЧИК ПРОСМОТРОВ ==========
+// ========== СЧЁТЧИК ==========
 let siteViews = localStorage.getItem('siteTotalViews');
 siteViews = siteViews ? Number(siteViews) + 1 : 1;
 localStorage.setItem('siteTotalViews', siteViews);
@@ -41,6 +41,8 @@ const viewsCounter = document.getElementById('siteViewsCounter');
 if (viewsCounter) viewsCounter.textContent = siteViews;
 
 // ========== ТЕМА ==========
+let isThemeChanging = false;
+
 function applyTheme(t) {
     const themeIcon = document.getElementById('themeIcon');
     const themeText = document.getElementById('themeText');
@@ -59,7 +61,6 @@ function applyTheme(t) {
 const savedTheme = localStorage.getItem('siteTheme');
 applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
 
-let isThemeChanging = false;
 const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
     const toggleTheme = (e) => {
@@ -75,16 +76,15 @@ if (themeToggle) {
     themeToggle.addEventListener('touchstart', toggleTheme, { passive: false });
 }
 
-// ========== ВРЕМЯ И ПОГОДА ==========
+// ========== ВРЕМЯ ==========
 function updateTime() {
     const timeElem = document.getElementById('st-time-txt');
-    if (timeElem) {
-        timeElem.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
+    if (timeElem) timeElem.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 updateTime();
 setInterval(updateTime, 60000);
 
+// ========== ПОГОДА ==========
 async function fetchWeather() {
     try {
         const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.8953&longitude=37.3167&current_weather=true');
@@ -101,10 +101,7 @@ async function fetchWeather() {
 }
 fetchWeather();
 
-// ========== ОТВЕТ НА ВОПРОС ==========
-const answerResult = document.getElementById('answerResult');
-const optionCards = document.querySelectorAll('.option-card');
-
+// ========== TOAST ==========
 function showToast(msg) {
     const toast = document.getElementById('toastMsg');
     if (!toast) return;
@@ -112,6 +109,10 @@ function showToast(msg) {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
+
+// ========== ОТВЕТ НА ВОПРОС ==========
+const answerResult = document.getElementById('answerResult');
+const optionCards = document.querySelectorAll('.option-card');
 
 optionCards.forEach(card => {
     const clickHandler = (e) => {
@@ -169,7 +170,7 @@ function renderChecklist() {
 }
 renderChecklist();
 
-// ========== ПАНЕЛЬ ЧЕК-ЛИСТА ==========
+// ========== ПАНЕЛЬ ==========
 const remind = document.getElementById('remind-area');
 const panelDiv = document.getElementById('panel');
 let isPanelOpen = false;
@@ -197,26 +198,15 @@ if (remind) {
     const panelToggle = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        if (isPanelOpen) {
-            closePanel();
-        } else {
-            openPanel();
-        }
+        if (isPanelOpen) closePanel();
+        else openPanel();
     };
     remind.addEventListener('click', panelToggle);
     remind.addEventListener('touchstart', panelToggle, { passive: false });
 }
 
-// Закрытие панели при клике вне её
 document.addEventListener('click', (e) => {
-    if (isPanelOpen && panelDiv && remind && !remind.contains(e.target) && !panelDiv.contains(e.target)) {
-        closePanel();
-    }
-});
-document.addEventListener('touchstart', (e) => {
-    if (isPanelOpen && panelDiv && remind && !remind.contains(e.target) && !panelDiv.contains(e.target)) {
-        closePanel();
-    }
+    if (isPanelOpen && panelDiv && remind && !remind.contains(e.target) && !panelDiv.contains(e.target)) closePanel();
 });
 
 // ========== СМЕНА ФОТО ==========
@@ -285,17 +275,17 @@ function closeModalWindow() {
 
 if (aboutFloat) {
     aboutFloat.addEventListener('click', (e) => { e.stopPropagation(); openModalWindow(); });
-    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); }, { passive: false });
+    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); });
 }
 if (closeModalBtn) {
     closeModalBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModalWindow(); });
-    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); }, { passive: false });
+    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); });
 }
 if (modalOverlay) {
     modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
 }
 
-// ========== КАРУСЕЛИ ==========
+// ========== КАРУСЕЛЬ МАРШРУТОВ ==========
 const routesTrack = document.getElementById('routesTrack');
 const routeCards = document.querySelectorAll('.route-card');
 const routesDots = document.getElementById('routesDots');
@@ -415,7 +405,7 @@ stars.forEach(star => {
     star.addEventListener('touchstart', starHandler, { passive: false });
 });
 
-// ========== ОТПРАВКА ОТЗЫВА - ОТКРЫТИЕ ПОЧТЫ ==========
+// ========== ОТПРАВКА ОТЗЫВА ==========
 const reviewForm = document.getElementById('reviewForm');
 const reviewerName = document.getElementById('reviewerName');
 const reviewerEmail = document.getElementById('reviewerEmail');
@@ -491,7 +481,6 @@ if (reviewForm) {
             return;
         }
         
-        // ФОРМИРУЕМ ПИСЬМО - ОТКРЫВАЕТСЯ ПОЧТОВЫЙ КЛИЕНТ С ЗАПОЛНЕННЫМ АДРЕСОМ
         const subject = encodeURIComponent(`Отзыв от ${name} - Мой юг`);
         const body = encodeURIComponent(
             `Имя: ${name}\n` +
@@ -501,12 +490,9 @@ if (reviewForm) {
             `---\nОтправлено с сайта "Мой юг: от Анапы до Сочи"`
         );
         
-        // Открываем почтовый клиент с моим адресом
         window.location.href = `mailto:angelina.chernovalova@yandex.ru?subject=${subject}&body=${body}`;
-        
         showToast('📧 Открывается почта! Отправьте письмо мне');
         
-        // Сбрасываем форму
         reviewForm.reset();
         currentRating = 0;
         updateStars(0);
@@ -516,26 +502,41 @@ if (reviewForm) {
     reviewForm.addEventListener('submit', submitHandler);
 }
 
-// ========== КНОПКИ ШЕРИНГА ==========
+// ========== КНОПКИ ШЕРИНГА (РАБОТАЮТ) ==========
 const shareUrl = encodeURIComponent(window.location.href);
 const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
 
-document.querySelectorAll('.share-btn').forEach(btn => {
-    const shareHandler = (e) => {
+const vkBtn = document.getElementById('vkShareBtn');
+const okBtn = document.getElementById('okShareBtn');
+const maxBtn = document.getElementById('maxShareBtn');
+
+if (vkBtn) {
+    const shareVK = (e) => {
         e.stopPropagation();
-        const type = btn.dataset.share;
-        if (type === 'vk') {
-            window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank');
-        } else if (type === 'ok') {
-            window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank');
-        } else if (type === 'max') {
-            navigator.clipboard.writeText(window.location.href);
-            showToast('🔗 Ссылка скопирована!');
-        }
+        window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
     };
-    btn.addEventListener('click', shareHandler);
-    btn.addEventListener('touchstart', shareHandler, { passive: false });
-});
+    vkBtn.addEventListener('click', shareVK);
+    vkBtn.addEventListener('touchstart', shareVK, { passive: false });
+}
+
+if (okBtn) {
+    const shareOK = (e) => {
+        e.stopPropagation();
+        window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
+    };
+    okBtn.addEventListener('click', shareOK);
+    okBtn.addEventListener('touchstart', shareOK, { passive: false });
+}
+
+if (maxBtn) {
+    const shareMax = (e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(window.location.href);
+        showToast('🔗 Ссылка скопирована!');
+    };
+    maxBtn.addEventListener('click', shareMax);
+    maxBtn.addEventListener('touchstart', shareMax, { passive: false });
+}
 
 // ========== ССЫЛКА В ФУТЕРЕ ==========
 const footerMailLink = document.getElementById('footerMailLink');
@@ -584,11 +585,11 @@ function openMobileMenu() {
 
 if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); openMobileMenu(); });
-    mobileMenuBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); openMobileMenu(); }, { passive: false });
+    mobileMenuBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); openMobileMenu(); });
 }
 if (mobileMenuClose) {
     mobileMenuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMobileMenu(); });
-    mobileMenuClose.addEventListener('touchstart', (e) => { e.stopPropagation(); closeMobileMenu(); }, { passive: false });
+    mobileMenuClose.addEventListener('touchstart', (e) => { e.stopPropagation(); closeMobileMenu(); });
 }
 if (mobileMenuOverlay) {
     mobileMenuOverlay.addEventListener('click', (e) => { if (e.target === mobileMenuOverlay) closeMobileMenu(); });
@@ -604,10 +605,9 @@ if (mobileRoutesBtn && mobileRoutesSub) {
         }
     };
     mobileRoutesBtn.addEventListener('click', toggleSubmenu);
-    mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu, { passive: false });
+    mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu);
 }
 
-// Пункты меню
 const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
 menuItems.forEach(item => {
     const menuHandler = (e) => {
@@ -625,7 +625,7 @@ menuItems.forEach(item => {
         closeMobileMenu();
     };
     item.addEventListener('click', menuHandler);
-    item.addEventListener('touchstart', menuHandler, { passive: false });
+    item.addEventListener('touchstart', menuHandler);
 });
 
 // ========== ПК ЛИАНА ==========
@@ -640,10 +640,10 @@ knotItems.forEach(knot => {
         }
     };
     knot.addEventListener('click', knotHandler);
-    knot.addEventListener('touchstart', knotHandler, { passive: false });
+    knot.addEventListener('touchstart', knotHandler);
 });
 
-// ========== ДВИЖЕНИЕ ЯКОРЯ ==========
+// ========== ЯКОРЬ ==========
 function initRopeAnchor() {
     const ropeAnchor = document.getElementById('ropeAnchor');
     if (!ropeAnchor) return;

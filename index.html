@@ -16,7 +16,7 @@
 <body>
 
 <div class="container">
-  <!-- ========== ШАПКА ========== -->
+  <!-- ШАПКА -->
   <div class="header">
     <div class="header-left">
       <div class="mobile-menu-btn" id="mobileMenuBtn">⛵</div>
@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <!-- ========== МОБИЛЬНОЕ МЕНЮ ========== -->
+  <!-- МОБИЛЬНОЕ МЕНЮ -->
   <div class="mobile-menu-overlay" id="mobileMenuOverlay">
     <div class="mobile-menu-container">
       <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
@@ -58,7 +58,7 @@
   <!-- Кнопка наверх -->
   <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
 
-  <!-- ========== ГЛАВНОЕ ФОТО ========== -->
+  <!-- ГЛАВНОЕ ФОТО -->
   <div class="photo-wrap">
     <img src="Img.Index/m.avif" alt="Море и пляж" class="photo" id="seaPhoto">
     <div class="photo-overlay">
@@ -71,7 +71,7 @@
     </div>
   </div>
 
-  <!-- ========== ОПРОС ========== -->
+  <!-- ОПРОС -->
   <div class="survey-section" id="section-main">
     <div class="question-text">С чего начинается ваше лето?</div>
     <div class="options-row">
@@ -91,7 +91,7 @@
     <div id="answerResult" class="answer-result" style="display: none;"></div>
   </div>
 
-  <!-- ========== КАРУСЕЛЬ МАРШРУТОВ ========== -->
+  <!-- КАРУСЕЛЬ МАРШРУТОВ -->
   <div class="routes-section" id="section-routes">
     <div class="routes-title">🚗 Проверено на себе: мои маршруты 🚗</div>
     <div class="carousel-container" id="routesCarousel">
@@ -110,7 +110,7 @@
     <div class="dots" id="routesDots"></div>
   </div>
 
-  <!-- ========== КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" ========== -->
+  <!-- КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" -->
   <div class="places-section" id="section-places">
     <div class="places-title">🏝️ Планирую посетить... 🏝️</div>
     <div class="carousel-container" id="placesCarousel">
@@ -124,7 +124,7 @@
     <div class="dots" id="placesDots"></div>
   </div>
 
-  <!-- ========== ФОРМА ОТЗЫВА ========== -->
+  <!-- ФОРМА ОТЗЫВА -->
   <div class="survey-section" id="section-review" style="margin-top:0; overflow:visible;">
     <div class="question-text">✨ Если вы тут были, поделитесь впечатлением ✨</div>
     <div class="star-rating" id="starRating">
@@ -135,15 +135,15 @@
       <span class="star" data-value="5">★</span>
     </div>
     <form id="reviewForm" class="review-form">
-      <div class="form-field-wrapper">
+      <div class="form-field-wrapper" onclick="document.getElementById('reviewerName').focus();">
         <input type="text" id="reviewerName" name="reviewerName" autocomplete="off">
         <label>📝 Ваше имя</label>
       </div>
-      <div class="form-field-wrapper">
+      <div class="form-field-wrapper" onclick="document.getElementById('reviewerEmail').focus();">
         <input type="email" id="reviewerEmail" name="reviewerEmail" autocomplete="off">
         <label>📧 Ваша почта</label>
       </div>
-      <div class="form-field-wrapper">
+      <div class="form-field-wrapper" onclick="document.getElementById('reviewText').focus();">
         <textarea id="reviewText" name="reviewText"></textarea>
         <label>💬 Ваш отзыв</label>
       </div>
@@ -151,19 +151,19 @@
     </form>
   </div>
 
-  <!-- ========== ФУТЕР ========== -->
+  <!-- ФУТЕР -->
   <div class="footer">
     <div class="share-buttons">
-      <button class="share-btn" data-share="vk">📱 ВКонтакте</button>
-      <button class="share-btn" data-share="ok">👥 Одноклассники</button>
-      <button class="share-btn" data-share="max">💬 Мессенджер Max</button>
+      <button class="share-btn" data-share="vk" id="vkShareBtn">📱 ВКонтакте</button>
+      <button class="share-btn" data-share="ok" id="okShareBtn">👥 Одноклассники</button>
+      <button class="share-btn" data-share="max" id="maxShareBtn">💬 Мессенджер Max</button>
     </div>
     <div><a href="mailto:angelina.chernovalova@yandex.ru" id="footerMailLink">📧 Связаться со мной</a></div>
     <div style="margin-top:10px; font-size:0.7rem;">👁️ Просмотрено раз: <span id="siteViewsCounter">0</span></div>
   </div>
 </div>
 
-<!-- ========== ПК ЛИАНА ========== -->
+<!-- ПК ЛИАНА -->
 <div class="rope-container">
   <div class="rope-line"></div>
   <div class="knot-item" data-target="section-main" style="top: 5%;">⛵<div class="bubble-menu-right">⚓ Главная</div></div>
@@ -182,7 +182,7 @@
 </div>
 <div class="rope-anchor" id="ropeAnchor">⚓</div>
 
-<!-- ========== ДОПОЛНИТЕЛЬНЫЕ ЭЛЕМЕНТЫ ========== -->
+<!-- ДОПОЛНИТЕЛЬНЫЕ ЭЛЕМЕНТЫ -->
 <div class="side-panel" id="panel"><div class="checklist" id="checklist"></div></div>
 <div id="toastMsg" class="toast-message"></div>
 <div id="introModal" class="modal-overlay"><div class="modal-card"><img src="Img.Index/i.jpg" class="modal-photo" id="modalUserPhoto"><div class="modal-text">Давайте знакомиться!<br><br>Меня зовут Черновалова Ангелина Алексеевна, я студентка ПИ-3,6-2024-2УД. Я объединила знания интернет-технологий и свою страсть к путешествиям, чтобы создать удобный интерфейс для планирования отдыха.</div><button class="modal-close" id="closeModalBtn">Закрыть</button></div></div>
