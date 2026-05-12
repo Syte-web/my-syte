@@ -106,7 +106,12 @@ html, body {
 
 .header-left { display: flex; align-items: center; gap: 12px; }
 .header-right { display: flex; gap: 12px; align-items: center; }
-.stickers { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.stickers { 
+  display: flex; 
+  gap: 8px; 
+  align-items: center; 
+  flex-wrap: nowrap; /* ИСПРАВЛЕНО: чтобы кнопки были в ряд */
+}
 
 .sticker {
   display: inline-flex;
@@ -285,7 +290,8 @@ html, body {
   .rope-container { display: none !important; }
   .rope-anchor { display: none !important; }
   .mobile-menu-btn { display: flex; }
-  .remind-wrap { display: flex !important; }
+  /* ИСПРАВЛЕНО: Скрываем "Не забудь чемодан" в мобильной версии */
+  .remind-wrap { display: none !important; }
 }
 
 /* ========== КНОПКА НАВЕРХ ========== */
@@ -443,6 +449,7 @@ html, body {
   border-radius: 4px;
 }
 
+/* ИСПРАВЛЕНО: Единый стиль для всех узлов лианы */
 .knot-item {
   position: absolute;
   left: -18px;
@@ -455,9 +462,15 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem;
+  font-size: 1.6rem; /* Базовый размер иконок */
   transition: transform 0.2s, box-shadow 0.2s;
 }
+/* Текст внутри узлов (если есть) - делаем одного размера */
+.knot-item, .knot-item div, .knot-item span {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
 .knot-item:active { transform: translateY(-50%) scale(1.1); box-shadow: 0 0 18px rgba(255,215,0,0.7); }
 
 .bubble-menu-right {
@@ -471,6 +484,7 @@ html, body {
   padding: 6px 20px;
   white-space: nowrap;
   font-family: 'Caveat', cursive;
+  font-size: 1.2rem; /* Увеличен для читаемости */
   color: #ffefcf;
   pointer-events: none;
   opacity: 0;
@@ -566,6 +580,8 @@ html, body {
   align-items: center;
   gap: 10px;
   min-width: 130px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
 }
 .option-card:active { transform: scale(0.96); }
 [data-theme="dark"] .option-card { background: rgba(0,30,50,0.7); }
@@ -652,6 +668,16 @@ html, body {
 .route-card:hover .route-desc-overlay { opacity: 1; transform: translateY(0); }
 .place-desc-overlay { opacity: 1; }
 
+/* ИСПРАВЛЕНО: Стили для затемнения карточек "Планирую посетить" */
+.place-future {
+  filter: brightness(0.85);
+  transition: filter 0.2s, transform 0.2s;
+}
+.place-future:active {
+  filter: brightness(0.6);
+  transform: scale(0.98);
+}
+
 .dots { display: flex; justify-content: center; gap: 14px; margin-top: 24px; }
 .dot {
   width: 12px;
@@ -663,7 +689,7 @@ html, body {
 .dot.active { background: #c9772e; transform: scale(1.2); }
 .dot:active { transform: scale(0.9); }
 
-/* ========== ФОРМА ОТЗЫВА - КЛИКАБЕЛЬНЫЕ ОВАЛЫ ========== */
+/* ========== ФОРМА ОТЗЫВА ========== */
 .review-form {
   max-width: 500px;
   margin: 20px auto 0;
@@ -727,7 +753,6 @@ html, body {
   transform: none;
 }
 
-/* Эффект при фокусе или когда поле заполнено */
 .form-field-wrapper input:focus ~ label,
 .form-field-wrapper input:not(:placeholder-shown) ~ label,
 .form-field-wrapper textarea:focus ~ label,
@@ -799,8 +824,23 @@ html, body {
 }
 .share-btn:active { transform: scale(0.96); }
 
-.footer a { color: #c9772e; text-decoration: none; font-family: 'Pacifico', cursive; }
-.footer a:active { transform: scale(0.96); }
+/* ИСПРАВЛЕНО: Увеличен хитбокс для ссылки в футере в мобильной версии */
+.footer a { 
+  color: #c9772e; 
+  text-decoration: none; 
+  font-family: 'Pacifico', cursive;
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 40px;
+  transition: background 0.2s;
+}
+.footer a:active { 
+  transform: scale(0.96);
+  background: rgba(0,0,0,0.05);
+}
+.footer-contact {
+  margin: 5px 0;
+}
 
 /* ========== МОДАЛЬНОЕ ОКНО ========== */
 .modal-overlay {

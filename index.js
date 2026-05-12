@@ -1,3 +1,42 @@
+// ========== ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ ОПРОСА ==========
+function handleOptionClick(card) {
+    const option = card.getAttribute('data-option');
+    const answerResult = document.getElementById('answerResult');
+    let message = '';
+    switch (option) {
+        case 'пляжный релакс':
+            message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. 🌊✨';
+            break;
+        case 'актив в горах':
+            message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды и заряд бодрости. 🏔️💪';
+            break;
+        case 'прогулки по паркам':
+            message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония. 📸✨';
+            break;
+        default:
+            message = '✨ Отличный выбор! Пусть ваше лето будет незабываемым! ✨';
+    }
+    if (answerResult) {
+        answerResult.style.display = 'block';
+        answerResult.innerHTML = message;
+    }
+    showToast(`✨ Вы выбрали: ${card.querySelector('.option-label')?.textContent || option} ✨`);
+}
+
+// ========== TOAST ==========
+function showToast(msg) {
+    const toast = document.getElementById('toastMsg');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ========== УВЕДОМЛЕНИЕ ДЛЯ "ПЛАНИРУЮ ПОСЕТИТЬ" ==========
+function showSoonToast() {
+    showToast('🔜 Скоро здесь появится подробный маршрут! Следите за обновлениями.');
+}
+
 // ========== МУЗЫКА ==========
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
@@ -95,46 +134,6 @@ async function fetchWeather() {
     }
 }
 fetchWeather();
-
-// ========== ОТВЕТ НА ВОПРОС ==========
-const answerResult = document.getElementById('answerResult');
-const optionCards = document.querySelectorAll('.option-card');
-
-function showToast(msg) {
-    const toast = document.getElementById('toastMsg');
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-optionCards.forEach(card => {
-    const clickHandler = (e) => {
-        e.stopPropagation();
-        const option = card.getAttribute('data-option');
-        let message = '';
-        switch (option) {
-            case 'пляжный релакс':
-                message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. 🌊✨';
-                break;
-            case 'актив в горах':
-                message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды и заряд бодрости. 🏔️💪';
-                break;
-            case 'прогулки по паркам':
-                message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония. 📸✨';
-                break;
-            default:
-                message = '✨ Отличный выбор! Пусть ваше лето будет незабываемым! ✨';
-        }
-        if (answerResult) {
-            answerResult.style.display = 'block';
-            answerResult.innerHTML = message;
-        }
-        showToast(`✨ Вы выбрали: ${card.querySelector('.option-label')?.textContent || option} ✨`);
-    };
-    card.addEventListener('click', clickHandler);
-    card.addEventListener('touchstart', clickHandler, { passive: false });
-});
 
 // ========== ЧЕК-ЛИСТ ==========
 const checklistItems = ['Паспорт 📄', 'Деньги и карты 💰', 'Документы на авто 🚗', 'Купальник 🩱', 'Аптечка 💊', 'Солнцезащитный крем 🧴', 'Головной убор 👒', 'Солнцезащитные очки 🕶️', 'Полотенце 🏖️', 'Зарядка и пауэрбанк 🔋', 'Наушники 🎧', 'Бутылка для воды 💧'];
@@ -401,7 +400,6 @@ function showFieldError(field, message) {
     showToast(message);
 }
 
-// Очистка ошибок при фокусе
 if (reviewerName) {
     reviewerName.addEventListener('focus', () => {
         reviewerName.style.border = '2px solid var(--accent)';
@@ -509,15 +507,6 @@ document.querySelectorAll('.share-btn').forEach(btn => {
     btn.addEventListener('click', clickHandler);
     btn.addEventListener('touchstart', clickHandler, { passive: false });
 });
-
-// ========== ССЫЛКА В ФУТЕРЕ ==========
-const footerLink = document.querySelector('.footer a');
-if (footerLink) {
-    footerLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
-    });
-}
 
 // ========== КНОПКА НАВЕРХ ==========
 const scrollTopBtn = document.getElementById('scrollTopBtn');

@@ -23,6 +23,7 @@
     </div>
     <div class="title">Мой юг: от Анапы до Сочи</div>
     <div class="header-right">
+      <!-- ИСПРАВЛЕНО: День/Ночь и Музыка в одной строке (flex row) -->
       <div class="stickers">
         <div class="sticker">🌥️<span id="st-weather-txt">Загрузка</span></div>
         <div class="sticker">⏱️<span id="st-time-txt">--:--</span></div>
@@ -62,6 +63,7 @@
   <div class="photo-wrap">
     <img src="Img.Index/m.avif" alt="Море и пляж" class="photo" id="seaPhoto">
     <div class="photo-overlay">
+      <!-- ИСПРАВЛЕНО: В мобильной версии блок remind-wrap скрыт через CSS -->
       <div class="remind-wrap" id="remind-area"><div class="remind-text">🧳 Не забудь чемодан!</div></div>
     </div>
     <button class="change-bg-btn" id="changeSeaBtn">🌊 Сменить фото моря</button>
@@ -75,15 +77,16 @@
   <div class="survey-section" id="section-main">
     <div class="question-text">С чего начинается ваше лето?</div>
     <div class="options-row">
-      <div class="option-card" data-option="пляжный релакс">
+      <!-- ИСПРАВЛЕНО: Добавлены onclick напрямую для гарантии работы на мобильных -->
+      <div class="option-card" data-option="пляжный релакс" onclick="handleOptionClick(this)">
         <div class="option-emoji">🏖️</div>
         <div class="option-label">Пляжный релакс</div>
       </div>
-      <div class="option-card" data-option="актив в горах">
+      <div class="option-card" data-option="актив в горах" onclick="handleOptionClick(this)">
         <div class="option-emoji">⛰️</div>
         <div class="option-label">Актив в горах</div>
       </div>
-      <div class="option-card" data-option="прогулки по паркам">
+      <div class="option-card" data-option="прогулки по паркам" onclick="handleOptionClick(this)">
         <div class="option-emoji">🌳</div>
         <div class="option-label">Прогулки по паркам</div>
       </div>
@@ -115,16 +118,24 @@
     <div class="places-title">🏝️ Планирую посетить... 🏝️</div>
     <div class="carousel-container" id="placesCarousel">
       <div class="carousel-track" id="placesTrack">
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/laz.jpg"><div class="place-title-overlay">Лазаревское</div><div class="place-desc-overlay">Водопады и голубое море.</div></div></div>
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/dgub.jpg"><div class="place-title-overlay">Джугба</div><div class="place-desc-overlay">Дикие пляжи и реликтовый лес.</div></div></div>
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/kabard.jpg"><div class="place-title-overlay">Кабардинка</div><div class="place-desc-overlay">Чистые пляжи, Старый парк у моря.</div></div></div>
-        <div class="place-card"><div class="card-inner"><img class="place-img" src="Img.Index/novoros.jpg"><div class="place-title-overlay">Новороссийск</div><div class="place-desc-overlay">Герой-город, морской порт.</div></div></div>
+        <div class="place-card place-future" onclick="showSoonToast()">
+          <div class="card-inner"><img class="place-img" src="Img.Index/laz.jpg"><div class="place-title-overlay">Лазаревское</div><div class="place-desc-overlay">Водопады и голубое море.</div></div>
+        </div>
+        <div class="place-card place-future" onclick="showSoonToast()">
+          <div class="card-inner"><img class="place-img" src="Img.Index/dgub.jpg"><div class="place-title-overlay">Джугба</div><div class="place-desc-overlay">Дикие пляжи и реликтовый лес.</div></div>
+        </div>
+        <div class="place-card place-future" onclick="showSoonToast()">
+          <div class="card-inner"><img class="place-img" src="Img.Index/kabard.jpg"><div class="place-title-overlay">Кабардинка</div><div class="place-desc-overlay">Чистые пляжи, Старый парк у моря.</div></div>
+        </div>
+        <div class="place-card place-future" onclick="showSoonToast()">
+          <div class="card-inner"><img class="place-img" src="Img.Index/novoros.jpg"><div class="place-title-overlay">Новороссийск</div><div class="place-desc-overlay">Герой-город, морской порт.</div></div>
+        </div>
       </div>
     </div>
     <div class="dots" id="placesDots"></div>
   </div>
 
-  <!-- ========== ФОРМА ОТЗЫВА (КЛИКАБЕЛЬНЫЕ ОВАЛЫ) ========== -->
+  <!-- ========== ФОРМА ОТЗЫВА ========== -->
   <div class="survey-section" id="section-review" style="margin-top:0; overflow:visible; position:relative; z-index:100;">
     <div class="question-text">✨ Если вы тут были, поделитесь впечатлением ✨</div>
     <div class="star-rating" id="starRating" style="position:relative; z-index:101;">
@@ -135,17 +146,14 @@
       <span class="star" data-value="5">★</span>
     </div>
     <form id="reviewForm" class="review-form" style="position:relative; z-index:102;">
-      <!-- Поле "Ваше имя" - кликабельный овал -->
       <div class="form-field-wrapper" onclick="document.getElementById('reviewerName').focus();">
         <input type="text" id="reviewerName" name="reviewerName" autocomplete="off">
         <label>📝 Ваше имя</label>
       </div>
-      <!-- Поле "Ваша почта" - кликабельный овал -->
       <div class="form-field-wrapper" onclick="document.getElementById('reviewerEmail').focus();">
         <input type="email" id="reviewerEmail" name="reviewerEmail" autocomplete="off">
         <label>📧 Ваша почта</label>
       </div>
-      <!-- Поле "Ваш отзыв" - кликабельный овал -->
       <div class="form-field-wrapper" onclick="document.getElementById('reviewText').focus();">
         <textarea id="reviewText" name="reviewText"></textarea>
         <label>💬 Ваш отзыв</label>
@@ -161,7 +169,8 @@
       <button class="share-btn" data-share="ok">👥 Одноклассники</button>
       <button class="share-btn" data-share="max">💬 Мессенджер Max</button>
     </div>
-    <div><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
+    <!-- ИСПРАВЛЕНО: Увеличен хитбокс для мобильной версии -->
+    <div class="footer-contact"><a href="mailto:angelina.chernovalova@yandex.ru">📧 Связаться со мной</a></div>
     <div style="margin-top:10px; font-size:0.7rem;">👁️ Просмотрено раз: <span id="siteViewsCounter">0</span></div>
   </div>
 </div>
@@ -169,6 +178,7 @@
 <!-- ========== ПК ЛИАНА ========== -->
 <div class="rope-container">
   <div class="rope-line"></div>
+  <!-- ИСПРАВЛЕНО: Все пункты лианы теперь имеют одинаковый размер шрифта через класс .knot-item -->
   <div class="knot-item" data-target="section-main" style="top: 5%;">⛵<div class="bubble-menu-right">⚓ Главная</div></div>
   <div class="knot-item" data-target="section-routes" style="top: 28%;">🗺️
     <div class="subknots-right">
@@ -185,13 +195,12 @@
 </div>
 <div class="rope-anchor" id="ropeAnchor">⚓</div>
 
-<!-- ========== ДОПОЛНИТЕЛЬНЫЕ ЭЛЕМЕНТЫ ========== -->
+<!-- Дополнительные элементы -->
 <div class="side-panel" id="panel"><div class="checklist" id="checklist"></div></div>
 <div id="toastMsg" class="toast-message"></div>
 <div id="introModal" class="modal-overlay"><div class="modal-card"><img src="Img.Index/i.jpg" class="modal-photo" id="modalUserPhoto"><div class="modal-text">Давайте знакомиться!<br><br>Меня зовут Черновалова Ангелина Алексеевна, я студентка ПИ-3,6-2024-2УД. Я объединила знания интернет-технологий и свою страсть к путешествиям, чтобы создать удобный интерфейс для планирования отдыха.</div><button class="modal-close" id="closeModalBtn">Закрыть</button></div></div>
 
 <audio id="bgMusic" src="Audio.Index/chai.mp3" loop></audio>
-
 <script src="menu.js"></script>
 <script src="index.js"></script>
 </body>
