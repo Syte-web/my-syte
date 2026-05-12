@@ -716,25 +716,7 @@ html, body {
   color: #b8d4f0; 
 }
 
-.answer-result {
-  margin-top: 20px;
-  padding: 18px 24px;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(12px);
-  border-radius: 60px;
-  font-family: 'Caveat', cursive;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #ffffff;
-  text-align: center;
-  border: 1px solid rgba(255,215,150,0.6);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
 
-[data-theme="dark"] .answer-result {
-  background: rgba(0,0,0,0.9);
-  color: #ffefcf;
-}
 
 /* ========== КАРУСЕЛИ ========== */
 .carousel-container { overflow: hidden; border-radius: 28px; touch-action: pan-y pinch-zoom; }
@@ -1140,3 +1122,60 @@ html, body {
 [data-theme="dark"] .footer a { color: #ffcc66; }
 [data-theme="dark"] .form-field-wrapper input,
 [data-theme="dark"] .form-field-wrapper textarea { background: #1a2a3a; color: #e6f0ff; border-color: #7ab8e8; }
+
+
+/* ========== TOAST (УВЕДОМЛЕНИЕ) - БЕЛЫЙ ФОН, СИНИЙ ТЕКСТ ========== */
+.toast-message {
+  background: #ffffff !important;
+  color: #0077cc !important;
+  border: 2px solid #0077cc !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+}
+
+[data-theme="dark"] .toast-message {
+  background: #1a2a3a !important;
+  color: #7ab8e8 !important;
+  border-color: #7ab8e8 !important;
+}
+
+/* ========== СООБЩЕНИЕ ОПРОСА - БЕЛЫЙ ФОН, СИНИЙ ТЕКСТ ========== */
+.answer-result {
+  background: #ffffff !important;
+  color: #0077cc !important;
+  border: 2px solid #0077cc !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+}
+
+[data-theme="dark"] .answer-result {
+  background: #1a2a3a !important;
+  color: #7ab8e8 !important;
+  border-color: #7ab8e8 !important;
+}
+
+/* ========== КНОПКИ ШЕРИНГА - МАКСИМАЛЬНАЯ ОБЛАСТЬ ========== */
+.share-btn {
+  padding: 16px 32px !important;
+  min-width: 140px !important;
+  font-size: 1.1rem !important;
+}
+
+/* ========== КАРТОЧКИ ОПРОСА - БОЛЬШАЯ ОБЛАСТЬ ========== */
+.option-card {
+  padding: 24px 20px !important;
+  min-width: 150px !important;
+  min-height: 160px !important;
+}
+
+.option-emoji {
+  font-size: 3.5rem !important;
+}
+
+.option-label {
+  font-size: 1.2rem !important;
+}
+
+/* ========== "ПЛАНИРУЮ ПОСЕТИТЬ" - ЗАТЕМНЕНИЕ ПРИ НАЖАТИИ ========== */
+.place-card.place-future:active {
+  filter: brightness(0.6);
+  transform: scale(0.98);
+}
