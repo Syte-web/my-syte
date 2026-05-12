@@ -1133,3 +1133,63 @@ html, body {
 [data-theme="dark"] .footer a { color: #ffcc66; }
 [data-theme="dark"] .form-field-wrapper input,
 [data-theme="dark"] .form-field-wrapper textarea { background: #1a2a3a; color: #e6f0ff; border-color: #7ab8e8; }
+
+/* ========== УВЕЛИЧЕННАЯ ОБЛАСТЬ НАЖАТИЯ ДЛЯ ВСЕХ КНОПОК ========== */
+.option-card,
+.share-btn,
+.submit-review-btn,
+.mobile-menu-btn,
+.icon-btn,
+.music-player,
+.change-bg-btn,
+.about-float,
+.remind-wrap,
+.modal-close,
+.star,
+.knot-item,
+.subknot-link,
+.dot,
+.footer a,
+.mobile-menu-item,
+.mobile-sub-link,
+.route-card,
+.place-card,
+.place-future {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Расширенная область для карточек "Планирую посетить" */
+.place-card.place-future {
+  display: block;
+  cursor: pointer;
+}
+
+.place-card.place-future:active {
+  filter: brightness(0.55);
+  transform: scale(0.98);
+}
+
+/* Сообщение ответа - читаемое и днём и ночью */
+.answer-result {
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,215,150,0.5);
+}
+
+[data-theme="dark"] .answer-result {
+  background: rgba(0,0,0,0.9);
+  color: #ffefcf;
+}
+
+/* Toast - читаемый */
+.toast-message {
+  background: rgba(0,0,0,0.9);
+  color: #ffefcf;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}

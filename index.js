@@ -66,17 +66,20 @@ function showSoonToast() {
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 const musicIcon = document.getElementById('musicIcon');
-let musicPlaying = true;
+let musicPlaying = false;
+let musicInitialized = false;
 
 function initMusic() {
-    if (!bgMusic) return;
+    if (!bgMusic || musicInitialized) return;
     bgMusic.volume = 0.3;
     bgMusic.loop = true;
-    bgMusic.play().catch(e => console.log('Автовоспроизведение заблокировано'));
+    musicInitialized = true;
 }
 
 function toggleMusic() {
     if (!bgMusic) return;
+    initMusic();
+    
     if (musicPlaying) {
         bgMusic.pause();
         if (musicIcon) musicIcon.textContent = '🔇';
@@ -92,16 +95,6 @@ if (musicToggle) {
     musicToggle.addEventListener('click', toggleMusic);
     musicToggle.addEventListener('touchstart', toggleMusic, { passive: false });
 }
-
-document.body.addEventListener('touchstart', function firstTouch() {
-    initMusic();
-    document.body.removeEventListener('touchstart', firstTouch);
-}, { once: true });
-
-document.body.addEventListener('click', function firstClick() {
-    initMusic();
-    document.body.removeEventListener('click', firstClick);
-}, { once: true });
 
 // ========== СВЯЗАТЬСЯ СО МНОЙ ==========
 const contactLink = document.querySelector('.footer-contact a');
@@ -145,6 +138,11 @@ applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
 const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
     themeToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+    });
+    themeToggle.addEventListener('touchstart', (e) => {
         e.stopPropagation();
         const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         applyTheme(next);
@@ -412,6 +410,13 @@ stars.forEach(star => {
         updateStars(currentRating);
         showToast(`⭐ Оценка: ${currentRating} звезды`);
     });
+    star.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+        const value = parseInt(star.getAttribute('data-value'));
+        currentRating = value;
+        updateStars(currentRating);
+        showToast(`⭐ Оценка: ${currentRating} звезды`);
+    });
 });
 
 // ========== ОТПРАВКА ОТЗЫВА ==========
@@ -496,7 +501,7 @@ const shareUrl = encodeURIComponent(window.location.href);
 const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
 
 document.querySelectorAll('.share-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    const shareHandler = (e) => {
         e.stopPropagation();
         const type = btn.dataset.share;
         if (type === 'vk') {
@@ -507,7 +512,9 @@ document.querySelectorAll('.share-btn').forEach(btn => {
             navigator.clipboard.writeText(window.location.href);
             showToast('🔗 Ссылка скопирована!');
         }
-    });
+    };
+    btn.addEventListener('click', shareHandler);
+    btn.addEventListener('touchstart', shareHandler);
 });
 
 // ========== КНОПКА НАВЕРХ ==========
@@ -543,24 +550,28 @@ function openMobileMenu() {
 
 if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); openMobileMenu(); });
+    mobileMenuBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); openMobileMenu(); });
 }
 if (mobileMenuClose) {
     mobileMenuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMobileMenu(); });
+    mobileMenuClose.addEventListener('touchstart', (e) => { e.stopPropagation(); closeMobileMenu(); });
 }
 if (mobileMenuOverlay) {
     mobileMenuOverlay.addEventListener('click', (e) => { if (e.target === mobileMenuOverlay) closeMobileMenu(); });
 }
 
 if (mobileRoutesBtn && mobileRoutesSub) {
-    mobileRoutesBtn.addEventListener('click', (e) => {
+    const toggleSubmenu = (e) => {
         e.stopPropagation();
         mobileRoutesSub.style.display = mobileRoutesSub.style.display === 'none' ? 'flex' : 'none';
-    });
+    };
+    mobileRoutesBtn.addEventListener('click', toggleSubmenu);
+    mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu);
 }
 
 const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
 menuItems.forEach(item => {
-    item.addEventListener('click', (e) => {
+    const menuHandler = (e) => {
         e.stopPropagation();
         const target = item.getAttribute('data-target');
         if (target === 'section-main') {
@@ -573,20 +584,24 @@ menuItems.forEach(item => {
             if (reviewSection) reviewSection.scrollIntoView({ behavior: 'smooth' });
         }
         closeMobileMenu();
-    });
+    };
+    item.addEventListener('click', menuHandler);
+    item.addEventListener('touchstart', menuHandler);
 });
 
 // ========== ПК ЛИАНА ==========
 const knotItems = document.querySelectorAll('.knot-item[data-target]');
 knotItems.forEach(knot => {
-    knot.addEventListener('click', (e) => {
+    const knotHandler = (e) => {
         e.stopPropagation();
         const targetId = knot.getAttribute('data-target');
         if (targetId) {
             const targetElement = document.getElementById(targetId);
             if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    });
+    };
+    knot.addEventListener('click', knotHandler);
+    knot.addEventListener('touchstart', knotHandler);
 });
 
 // ========== ДВИЖЕНИЕ ЯКОРЯ ==========
