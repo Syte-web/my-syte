@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 
-.clickable, .option-card, .route-card, .about-float, .icon-btn, .change-bg-btn, .modal-close, .star, .share-btn, .knot-item, .subknot-link, button, a, .dot, .modal-card, .music-player, .mobile-menu-btn, .scroll-top-btn {
+.clickable, .option-card, .route-card, .about-float, .icon-btn, .change-bg-btn, .modal-close, .star, .share-btn, .knot-item, .subknot-link, button, a, .dot, .modal-card, .music-player, .mobile-menu-btn, .scroll-top-btn, .place-card {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -595,7 +595,7 @@ html, body {
 }
 
 .place-card:active .place-img {
-  filter: brightness(0.6) !important;
+  filter: brightness(0.65) !important;
 }
 
 .route-title-overlay, .place-title-overlay {
@@ -865,6 +865,9 @@ html, body {
   
   .share-btn { padding: 10px 16px; font-size: 0.85rem; min-width: 90px; }
   .share-buttons { gap: 10px; }
+  
+  .place-title-overlay { font-size: 1.2rem; top: 10px; right: 12px; }
+  .place-desc-overlay { font-size: 0.8rem; bottom: 12px; left: 12px; right: 12px; }
 }
 
 /* ========== ТЁМНАЯ ТЕМА ========== */

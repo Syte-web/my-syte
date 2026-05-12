@@ -110,7 +110,7 @@ function showToast(msg) {
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// ========== ОТВЕТ НА ВОПРОС (КНОПКИ ПЛЯЖНЫЙ РЕЛАКС, АКТИВ В ГОРАХ, ПРОГУЛКИ ПО ПАРКАМ) ==========
+// ========== ОТВЕТ НА ВОПРОС (КНОПКИ ОПРОСА) ==========
 const answerResult = document.getElementById('answerResult');
 const optionCards = document.querySelectorAll('.option-card');
 
@@ -218,7 +218,7 @@ if (maxBtn) {
     console.log('✅ Кнопка MAX активирована');
 }
 
-// ========== ССЫЛКА "СВЯЗАТЬСЯ СО МНОЙ" В ФУТЕРЕ ==========
+// ========== ССЫЛКА "СВЯЗАТЬСЯ СО МНОЙ" ==========
 const footerMailLink = document.getElementById('footerMailLink');
 if (footerMailLink) {
     const openMail = (e) => {
@@ -283,7 +283,7 @@ if (routeCards.length > 0) {
     startAutoRoutes();
 }
 
-// ========== КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" ==========
+// ========== КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" (КЛИКАБЕЛЬНЫЕ КАРТОЧКИ) ==========
 const placesTrack = document.getElementById('placesTrack');
 const placeCards = document.querySelectorAll('.place-card');
 const placesDots = document.getElementById('placesDots');
@@ -317,7 +317,40 @@ function startAutoPlaces() {
     autoPlaceInterval = setInterval(() => goToPlaceSlide(currentPlace + 1), 4000);
 }
 
+// ДОБАВЛЯЕМ КЛИКАБЕЛЬНОСТЬ ДЛЯ КАРТОЧЕК "ПЛАНИРУЮ ПОСЕТИТЬ"
 if (placeCards.length > 0) {
+    console.log('Найдено карточек "Планирую посетить":', placeCards.length);
+    
+    placeCards.forEach((card, index) => {
+        const cardClickHandler = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            // Получаем название места
+            const titleElem = card.querySelector('.place-title-overlay');
+            const placeName = titleElem ? titleElem.textContent : 'это место';
+            
+            // Показываем уведомление
+            showToast(`📍 ${placeName} - скоро здесь появится подробный маршрут!`);
+            console.log(`Клик по карточке "${placeName}"`);
+            
+            // Визуальный эффект
+            card.style.transform = 'scale(0.98)';
+            setTimeout(() => { card.style.transform = ''; }, 200);
+        };
+        
+        // Удаляем старые обработчики и добавляем новые
+        card.removeEventListener('click', cardClickHandler);
+        card.removeEventListener('touchstart', cardClickHandler);
+        card.addEventListener('click', cardClickHandler);
+        card.addEventListener('touchstart', cardClickHandler, { passive: false });
+        
+        // Добавляем стиль курсора
+        card.style.cursor = 'pointer';
+    });
+    
+    console.log('✅ Карточки "Планирую посетить" активированы');
+    
     createPlaceDots();
     goToPlaceSlide(0);
     startAutoPlaces();
@@ -615,7 +648,7 @@ if (modalOverlay) {
     modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
 }
 
-// ========== ЧЕК-ЛИСТ (УДАЛЁН, НО ОСТАВЛЯЕМ ФУНКЦИЮ) ==========
+// ========== ЧЕК-ЛИСТ ==========
 const checklistItems = ['Паспорт 📄', 'Деньги и карты 💰', 'Документы на авто 🚗', 'Купальник 🩱', 'Аптечка 💊', 'Солнцезащитный крем 🧴', 'Головной убор 👒', 'Солнцезащитные очки 🕶️', 'Полотенце 🏖️', 'Зарядка и пауэрбанк 🔋', 'Наушники 🎧', 'Бутылка для воды 💧'];
 
 function loadChecklist() {
@@ -643,4 +676,4 @@ function renderChecklist() {
 }
 renderChecklist();
 
-console.log('index.js загружен - все кнопки работают');
+console.log('index.js загружен - все кнопки работают, карточки "Планирую посетить" кликабельны');

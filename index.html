@@ -61,9 +61,7 @@
   <!-- ГЛАВНОЕ ФОТО -->
   <div class="photo-wrap">
     <img src="Img.Index/m.avif" alt="Море и пляж" class="photo" id="seaPhoto">
-    <div class="photo-overlay">
-      <!-- Кнопка "Не забудь чемодан" УДАЛЕНА -->
-    </div>
+    <div class="photo-overlay"></div>
     <button class="change-bg-btn" id="changeSeaBtn">🌊 Сменить фото моря</button>
     <div class="about-float" id="about-float">
       <img src="Img.Index/i.jpg" class="about-photo" id="about-photo" alt="avatar">
@@ -110,7 +108,7 @@
     <div class="dots" id="routesDots"></div>
   </div>
 
-  <!-- КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" - затемнённые картинки -->
+  <!-- КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" -->
   <div class="places-section" id="section-places">
     <div class="places-title">🏝️ Планирую посетить... 🏝️</div>
     <div class="carousel-container" id="placesCarousel">
@@ -144,15 +142,15 @@
     </div>
     <form id="reviewForm" class="review-form">
       <div class="form-field-wrapper" onclick="document.getElementById('reviewerName').focus();">
-        <input type="text" id="reviewerName" name="reviewerName" autocomplete="off">
+        <input type="text" id="reviewerName" name="reviewerName" autocomplete="off" placeholder=" ">
         <label>📝 Ваше имя</label>
       </div>
       <div class="form-field-wrapper" onclick="document.getElementById('reviewerEmail').focus();">
-        <input type="email" id="reviewerEmail" name="reviewerEmail" autocomplete="off">
+        <input type="email" id="reviewerEmail" name="reviewerEmail" autocomplete="off" placeholder=" ">
         <label>📧 Ваша почта</label>
       </div>
       <div class="form-field-wrapper" onclick="document.getElementById('reviewText').focus();">
-        <textarea id="reviewText" name="reviewText"></textarea>
+        <textarea id="reviewText" name="reviewText" placeholder=" "></textarea>
         <label>💬 Ваш отзыв</label>
       </div>
       <button type="submit" class="submit-review-btn">📨 Поделиться впечатлением</button>
