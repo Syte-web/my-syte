@@ -42,8 +42,27 @@
         }
     }
 
-    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
-    if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openMobileMenu();
+        });
+        mobileMenuBtn.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            openMobileMenu();
+        }, { passive: false });
+    }
+    
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeMobileMenu();
+        });
+        mobileMenuClose.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            closeMobileMenu();
+        }, { passive: false });
+    }
 
     if (mobileMenuOverlay) {
         mobileMenuOverlay.addEventListener('click', (e) => {
@@ -52,7 +71,7 @@
     }
 
     if (mobileRoutesBtn && mobileRoutesSub) {
-        mobileRoutesBtn.addEventListener('click', (e) => {
+        const toggleSubmenu = (e) => {
             e.stopPropagation();
             if (mobileRoutesOpen) {
                 mobileRoutesSub.style.display = 'none';
@@ -61,12 +80,15 @@
                 mobileRoutesSub.style.display = 'flex';
                 mobileRoutesOpen = true;
             }
-        });
+        };
+        mobileRoutesBtn.addEventListener('click', toggleSubmenu);
+        mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu, { passive: false });
     }
 
     // ========== ПЕРЕХОДЫ ПО ПУНКТАМ МОБИЛЬНОГО МЕНЮ ==========
     document.querySelectorAll('.mobile-menu-item[data-target]').forEach(item => {
-        item.addEventListener('click', () => {
+        const clickHandler = (e) => {
+            e.stopPropagation();
             const targetId = item.dataset.target;
             
             if (targetId === 'index') {
@@ -89,7 +111,9 @@
                     targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 300);
             }
-        });
+        };
+        item.addEventListener('click', clickHandler);
+        item.addEventListener('touchstart', clickHandler, { passive: false });
     });
 
     // ========== ПК ЛИАНА ==========

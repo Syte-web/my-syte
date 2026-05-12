@@ -4,6 +4,7 @@ const musicToggle = document.getElementById('musicToggle');
 const musicIcon = document.getElementById('musicIcon');
 let musicPlaying = true;
 let musicStarted = false;
+let isMusicToggling = false;
 
 function startMusicOnFirstTouch() {
     if (!musicStarted && bgMusic) {
@@ -17,6 +18,9 @@ if (musicToggle) {
     const toggleMusic = (e) => {
         e.stopPropagation();
         e.preventDefault();
+        if (isMusicToggling) return;
+        isMusicToggling = true;
+        
         if (musicPlaying) {
             if (bgMusic) bgMusic.pause();
             if (musicIcon) musicIcon.textContent = '🔇';
@@ -26,6 +30,8 @@ if (musicToggle) {
             if (musicIcon) musicIcon.textContent = '🎵';
             musicPlaying = true;
         }
+        
+        setTimeout(() => { isMusicToggling = false; }, 300);
     };
     musicToggle.addEventListener('click', toggleMusic);
     musicToggle.addEventListener('touchstart', toggleMusic, { passive: false });
@@ -60,12 +66,19 @@ const savedTheme = localStorage.getItem('siteTheme');
 applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
 
 const themeToggle = document.getElementById('theme-toggle');
+let isThemeToggling = false;
+
 if (themeToggle) {
     const toggleTheme = (e) => {
         e.stopPropagation();
         e.preventDefault();
+        if (isThemeToggling) return;
+        isThemeToggling = true;
+        
         const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         applyTheme(next);
+        
+        setTimeout(() => { isThemeToggling = false; }, 300);
     };
     themeToggle.addEventListener('click', toggleTheme);
     themeToggle.addEventListener('touchstart', toggleTheme, { passive: false });
@@ -100,6 +113,7 @@ fetchWeather();
 // ========== ОТВЕТ НА ВОПРОС ==========
 const answerResult = document.getElementById('answerResult');
 const optionCards = document.querySelectorAll('.option-card');
+let isAnswerProcessing = false;
 
 function showToast(msg) {
     const toast = document.getElementById('toastMsg');
@@ -112,17 +126,20 @@ function showToast(msg) {
 optionCards.forEach(card => {
     const clickHandler = (e) => {
         e.stopPropagation();
+        if (isAnswerProcessing) return;
+        isAnswerProcessing = true;
+        
         const option = card.getAttribute('data-option');
         let message = '';
         switch (option) {
             case 'пляжный релакс':
-                message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. Желаю золотистого загара и кристально чистой воды! 🌊✨';
+                message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. 🌊✨';
                 break;
             case 'актив в горах':
-                message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды, чистый воздух и заряд бодрости. 🏔️💪';
+                message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды! 🏔️💪';
                 break;
             case 'прогулки по паркам':
-                message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония с природой. 📸✨';
+                message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение и гармония! 📸✨';
                 break;
             default:
                 message = '✨ Отличный выбор! Пусть ваше лето будет незабываемым! ✨';
@@ -132,6 +149,8 @@ optionCards.forEach(card => {
             answerResult.innerHTML = message;
         }
         showToast(`✨ Вы выбрали: ${card.querySelector('.option-label')?.textContent || option} ✨`);
+        
+        setTimeout(() => { isAnswerProcessing = false; }, 500);
     };
     card.addEventListener('click', clickHandler);
     card.addEventListener('touchstart', clickHandler, { passive: false });
@@ -167,6 +186,7 @@ renderChecklist();
 
 const remind = document.getElementById('remind-area');
 const panelDiv = document.getElementById('panel');
+let isPanelProcessing = false;
 
 function openPanel() {
     if (!panelDiv) return;
@@ -184,7 +204,12 @@ function closePanel() { if (panelDiv) panelDiv.classList.remove('visible'); }
 if (remind) {
     const panelToggle = (e) => {
         e.stopPropagation();
+        if (isPanelProcessing) return;
+        isPanelProcessing = true;
+        
         panelDiv.classList.contains('visible') ? closePanel() : openPanel();
+        
+        setTimeout(() => { isPanelProcessing = false; }, 300);
     };
     remind.addEventListener('click', panelToggle);
     remind.addEventListener('touchstart', panelToggle, { passive: false });
@@ -233,6 +258,7 @@ const modalOverlay = document.getElementById('introModal');
 const aboutFloat = document.getElementById('about-float');
 const closeModalBtn = document.getElementById('closeModalBtn');
 let savedScrollYModal = 0;
+let isModalProcessing = false;
 
 function openModalWindow() {
     if (!modalOverlay) return;
@@ -255,12 +281,20 @@ function closeModalWindow() {
 }
 
 if (aboutFloat) {
-    aboutFloat.addEventListener('click', (e) => { e.stopPropagation(); openModalWindow(); });
-    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); }, { passive: false });
+    const modalHandler = (e) => {
+        e.stopPropagation();
+        openModalWindow();
+    };
+    aboutFloat.addEventListener('click', modalHandler);
+    aboutFloat.addEventListener('touchstart', modalHandler, { passive: false });
 }
 if (closeModalBtn) {
-    closeModalBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModalWindow(); });
-    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); }, { passive: false });
+    const closeHandler = (e) => {
+        e.stopPropagation();
+        closeModalWindow();
+    };
+    closeModalBtn.addEventListener('click', closeHandler);
+    closeModalBtn.addEventListener('touchstart', closeHandler, { passive: false });
 }
 if (modalOverlay) {
     modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
@@ -386,46 +420,44 @@ stars.forEach(star => {
     star.addEventListener('touchstart', starHandler, { passive: false });
 });
 
-// ========== ОТПРАВКА ОТЗЫВА ==========
+// ========== ОТПРАВКА ОТЗЫВА (БЕЗ ALERT) ==========
 const reviewForm = document.getElementById('reviewForm');
 const reviewerName = document.getElementById('reviewerName');
 const reviewerEmail = document.getElementById('reviewerEmail');
 const reviewText = document.getElementById('reviewText');
+let isSubmitting = false;
 
 function showFieldError(field, message) {
     field.style.border = '2px solid #ff4444';
     field.style.backgroundColor = 'rgba(255,68,68,0.1)';
     setTimeout(() => {
-        field.style.border = '1px solid rgba(0,0,0,0.15)';
+        field.style.border = '2px solid #c9772e';
         field.style.backgroundColor = '';
     }, 3000);
     showToast(message);
 }
 
-// Очистка ошибок при фокусе
+function clearFieldError(field) {
+    field.style.border = '2px solid #c9772e';
+    field.style.backgroundColor = '';
+}
+
 if (reviewerName) {
-    reviewerName.addEventListener('focus', () => {
-        reviewerName.style.border = '1px solid rgba(0,0,0,0.15)';
-        reviewerName.style.backgroundColor = '';
-    });
+    reviewerName.addEventListener('focus', () => clearFieldError(reviewerName));
 }
 if (reviewerEmail) {
-    reviewerEmail.addEventListener('focus', () => {
-        reviewerEmail.style.border = '1px solid rgba(0,0,0,0.15)';
-        reviewerEmail.style.backgroundColor = '';
-    });
+    reviewerEmail.addEventListener('focus', () => clearFieldError(reviewerEmail));
 }
 if (reviewText) {
-    reviewText.addEventListener('focus', () => {
-        reviewText.style.border = '1px solid rgba(0,0,0,0.15)';
-        reviewText.style.backgroundColor = '';
-    });
+    reviewText.addEventListener('focus', () => clearFieldError(reviewText));
 }
 
 if (reviewForm) {
     const submitHandler = async (e) => {
         e.preventDefault();
         e.stopPropagation();
+        if (isSubmitting) return;
+        isSubmitting = true;
         
         const name = reviewerName?.value.trim() || '';
         const email = reviewerEmail?.value.trim() || '';
@@ -434,25 +466,29 @@ if (reviewForm) {
         let hasError = false;
         
         if (!name) {
-            showFieldError(reviewerName, '📝 Пожалуйста, введите ваше имя');
+            showFieldError(reviewerName, '📝 Введите ваше имя');
             hasError = true;
         }
         if (!email) {
-            showFieldError(reviewerEmail, '📧 Пожалуйста, введите вашу почту');
+            showFieldError(reviewerEmail, '📧 Введите вашу почту');
             hasError = true;
         } else if (!email.includes('@') || !email.includes('.')) {
             showFieldError(reviewerEmail, '📧 Введите корректный email');
             hasError = true;
         }
         if (!text) {
-            showFieldError(reviewText, '💬 Пожалуйста, напишите ваш отзыв');
+            showFieldError(reviewText, '💬 Напишите ваш отзыв');
             hasError = true;
         }
         
-        if (hasError) return;
+        if (hasError) {
+            isSubmitting = false;
+            return;
+        }
         
         if (currentRating === 0) {
             showToast('⭐ Поставьте оценку звёздами!');
+            isSubmitting = false;
             return;
         }
         
@@ -467,24 +503,17 @@ if (reviewForm) {
             if (reviewText) reviewText.style.border = '';
         }
         
-        if (navigator.share) {
-            try {
-                await navigator.share({ title: 'Отзыв о сайте Мой юг', text: message });
-                showToast('✅ Спасибо! Отзыв отправлен');
-                resetForm();
-                return;
-            } catch (err) { }
-        }
-        
         try {
             await navigator.clipboard.writeText(message + '\n\nОтправьте это сообщение: angelina.chernovalova@yandex.ru');
-            showToast('📋 Отзыв скопирован! Отправьте его мне любым способом');
+            showToast('📋 Отзыв скопирован! Отправьте его мне');
             resetForm();
         } catch (err) {
             showToast('⚠️ Не удалось скопировать, но отзыв сохранён');
             console.log(message);
             resetForm();
         }
+        
+        isSubmitting = false;
     };
     
     reviewForm.addEventListener('submit', submitHandler);
@@ -495,19 +524,7 @@ const shareUrl = encodeURIComponent(window.location.href);
 const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
 
 document.querySelectorAll('.share-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const type = btn.dataset.share;
-        if (type === 'vk') {
-            window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
-        } else if (type === 'ok') {
-            window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
-        } else if (type === 'max') {
-            navigator.clipboard.writeText(window.location.href);
-            showToast('🔗 Ссылка скопирована!');
-        }
-    });
-    btn.addEventListener('touchstart', (e) => {
+    const shareHandler = (e) => {
         e.stopPropagation();
         const type = btn.dataset.share;
         if (type === 'vk') {
@@ -518,7 +535,9 @@ document.querySelectorAll('.share-btn').forEach(btn => {
             navigator.clipboard.writeText(window.location.href);
             showToast('🔗 Ссылка скопирована!');
         }
-    }, { passive: false });
+    };
+    btn.addEventListener('click', shareHandler);
+    btn.addEventListener('touchstart', shareHandler, { passive: false });
 });
 
 // ========== ССЫЛКА В ФУТЕРЕ ==========
@@ -639,9 +658,8 @@ function initRopeAnchor() {
 }
 initRopeAnchor();
 
-// Принудительно делаем поля формы активными
+// Принудительная активация полей формы
 (function ensureFormWorks() {
-    console.log('🔧 Активация формы отзыва...');
     const inputs = document.querySelectorAll('#reviewForm input, #reviewForm textarea, #reviewForm button');
     inputs.forEach(el => {
         el.style.pointerEvents = 'auto';
@@ -652,7 +670,7 @@ initRopeAnchor();
             el.readOnly = false;
         }
     });
-    console.log('✅ Форма активирована, найдено элементов:', inputs.length);
+    console.log('✅ Форма активирована');
 })();
 
 console.log('index.js загружен');
