@@ -62,38 +62,27 @@ function showSoonToast() {
     showToast('🔜 Скоро здесь появится подробный маршрут! Следите за обновлениями.');
 }
 
-// ========== МУЗЫКА (ИСПРАВЛЕНА) ==========
-const bgMusic = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
-const musicIcon = document.getElementById('musicIcon');
-let musicPlaying = false;
-let musicInitialized = false;
-
-function initMusic() {
-    if (!bgMusic || musicInitialized) return;
-    bgMusic.volume = 0.3;
-    bgMusic.loop = true;
-    musicInitialized = true;
-}
-
-function toggleMusic() {
-    if (!bgMusic) return;
-    initMusic();
-    
-    if (musicPlaying) {
-        bgMusic.pause();
-        if (musicIcon) musicIcon.textContent = '🔇';
-        musicPlaying = false;
-    } else {
-        bgMusic.play().catch(e => console.log('Ошибка:', e));
-        if (musicIcon) musicIcon.textContent = '🎵';
-        musicPlaying = true;
-    }
-}
+/// ========== МУЗЫКА (ПРОСТО И НАДЁЖНО) ==========
+var bgMusic = document.getElementById('bgMusic');
+var musicToggle = document.getElementById('musicToggle');
+var musicIcon = document.getElementById('musicIcon');
+var musicPlaying = false;
 
 if (musicToggle) {
-    musicToggle.addEventListener('click', toggleMusic);
-    musicToggle.addEventListener('touchstart', toggleMusic, { passive: false });
+    musicToggle.onclick = function(e) {
+        e.stopPropagation();
+        if (!bgMusic) return;
+        
+        if (musicPlaying) {
+            bgMusic.pause();
+            if (musicIcon) musicIcon.textContent = '🔇';
+            musicPlaying = false;
+        } else {
+            bgMusic.play().catch(function() {});
+            if (musicIcon) musicIcon.textContent = '🎵';
+            musicPlaying = true;
+        }
+    };
 }
 
 // ========== СВЯЗАТЬСЯ СО МНОЙ ==========
@@ -116,10 +105,13 @@ localStorage.setItem('siteTotalViews', siteViews);
 const viewsCounter = document.getElementById('siteViewsCounter');
 if (viewsCounter) viewsCounter.textContent = siteViews;
 
-// ========== ТЕМА ==========
+// ========== ТЕМА (ДЕНЬ/НОЧЬ) ==========
+var themeToggle = document.getElementById('theme-toggle');
+var savedTheme = localStorage.getItem('siteTheme');
+
 function applyTheme(t) {
-    const themeIcon = document.getElementById('themeIcon');
-    const themeText = document.getElementById('themeText');
+    var themeIcon = document.getElementById('themeIcon');
+    var themeText = document.getElementById('themeText');
     if (t === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
         if (themeIcon) themeIcon.textContent = '🌙';
@@ -132,21 +124,19 @@ function applyTheme(t) {
     localStorage.setItem('siteTheme', t);
 }
 
-const savedTheme = localStorage.getItem('siteTheme');
-applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+if (savedTheme === 'dark') {
+    applyTheme('dark');
+} else {
+    applyTheme('light');
+}
 
-const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
-    themeToggle.addEventListener('click', (e) => {
+    themeToggle.onclick = function(e) {
+        e.preventDefault();
         e.stopPropagation();
-        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         applyTheme(next);
-    });
-    themeToggle.addEventListener('touchstart', (e) => {
-        e.stopPropagation();
-        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-    });
+    };
 }
 
 // ========== ВРЕМЯ ==========
