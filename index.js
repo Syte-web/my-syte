@@ -502,49 +502,68 @@ if (reviewForm) {
     reviewForm.addEventListener('submit', submitHandler);
 }
 
-// ========== КНОПКИ ШЕРИНГА (РАБОТАЮТ) ==========
+// ========== КНОПКИ ШЕРИНГА (ВК, ОК, MAX) - ИСПРАВЛЕНЫ ==========
 const shareUrl = encodeURIComponent(window.location.href);
 const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
 
+// Кнопка ВКонтакте
 const vkBtn = document.getElementById('vkShareBtn');
-const okBtn = document.getElementById('okShareBtn');
-const maxBtn = document.getElementById('maxShareBtn');
-
 if (vkBtn) {
     const shareVK = (e) => {
         e.stopPropagation();
+        e.preventDefault();
         window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
+        return false;
     };
     vkBtn.addEventListener('click', shareVK);
     vkBtn.addEventListener('touchstart', shareVK, { passive: false });
+    console.log('✅ Кнопка ВК активирована');
 }
 
+// Кнопка Одноклассники
+const okBtn = document.getElementById('okShareBtn');
 if (okBtn) {
     const shareOK = (e) => {
         e.stopPropagation();
+        e.preventDefault();
         window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
+        return false;
     };
     okBtn.addEventListener('click', shareOK);
     okBtn.addEventListener('touchstart', shareOK, { passive: false });
+    console.log('✅ Кнопка ОК активирована');
 }
 
+// Кнопка Мессенджер Max (копирование ссылки)
+const maxBtn = document.getElementById('maxShareBtn');
 if (maxBtn) {
     const shareMax = (e) => {
         e.stopPropagation();
-        navigator.clipboard.writeText(window.location.href);
-        showToast('🔗 Ссылка скопирована!');
+        e.preventDefault();
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            showToast('🔗 Ссылка скопирована! Поделитесь с друзьями');
+        }).catch(() => {
+            showToast('⚠️ Не удалось скопировать ссылку');
+        });
+        return false;
     };
     maxBtn.addEventListener('click', shareMax);
     maxBtn.addEventListener('touchstart', shareMax, { passive: false });
+    console.log('✅ Кнопка MAX активирована');
 }
 
-// ========== ССЫЛКА В ФУТЕРЕ ==========
+// ========== ССЫЛКА "СВЯЗАТЬСЯ СО МНОЙ" В ФУТЕРЕ ==========
 const footerMailLink = document.getElementById('footerMailLink');
 if (footerMailLink) {
-    footerMailLink.addEventListener('click', (e) => {
+    const openMail = (e) => {
+        e.stopPropagation();
         e.preventDefault();
         window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
-    });
+        return false;
+    };
+    footerMailLink.addEventListener('click', openMail);
+    footerMailLink.addEventListener('touchstart', openMail, { passive: false });
+    console.log('✅ Ссылка "Связаться со мной" активирована');
 }
 
 // ========== КНОПКА НАВЕРХ ==========
@@ -665,4 +684,4 @@ function initRopeAnchor() {
 }
 initRopeAnchor();
 
-console.log('index.js загружен');
+console.log('index.js загружен - все кнопки работают');

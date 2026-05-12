@@ -886,3 +886,165 @@ html, body {
 [data-theme="dark"] .form-field-wrapper textarea { background: #1a2a3a; color: #e6f0ff; border-color: #7ab8e8; }
 [data-theme="dark"] .form-field-wrapper input:focus ~ label,
 [data-theme="dark"] .form-field-wrapper textarea:focus ~ label { background: #1a2a3a; color: #7ab8e8; }
+
+/* ========== ФИКСАЦИЯ КНОПОК ДЛЯ МОБИЛЬНЫХ ========== */
+/* Кнопки соцсетей и ссылка "Связаться со мной" */
+.share-btn,
+#vkShareBtn,
+#okShareBtn,
+#maxShareBtn,
+#footerMailLink,
+.footer a {
+  cursor: pointer;
+  touch-action: manipulation;
+  display: inline-block;
+  position: relative;
+  z-index: 10;
+}
+
+.share-btn:active,
+#footerMailLink:active {
+  transform: scale(0.96);
+}
+
+/* Увеличиваем зону нажатия на мобильных */
+@media (max-width: 768px) {
+  .share-btn,
+  #vkShareBtn,
+  #okShareBtn,
+  #maxShareBtn {
+    padding: 10px 16px !important;
+    min-width: 90px !important;
+    font-size: 0.9rem !important;
+  }
+  
+  #footerMailLink {
+    display: inline-block;
+    padding: 10px 20px !important;
+    font-size: 1rem !important;
+  }
+}
+
+/* ========== ФИКСАЦИЯ КНОПКИ ТЕМЫ РЯДОМ С МУЗЫКОЙ ========== */
+.header-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.stickers {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.icon-btn,
+#theme-toggle {
+  background: rgba(0,0,0,0.05);
+  border: none;
+  border-radius: 40px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  white-space: nowrap;
+  min-width: auto;
+}
+
+.icon-btn:active,
+#theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.music-player {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.05);
+  border-radius: 40px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.3rem;
+  transition: 0.2s;
+  flex-shrink: 0;
+}
+
+/* Мобильная версия - кнопки в одну строку */
+@media (max-width: 768px) {
+  .header-right {
+    gap: 6px;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+  }
+  
+  .stickers {
+    gap: 5px;
+    flex-wrap: nowrap;
+  }
+  
+  .sticker {
+    padding: 5px 8px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+  
+  .sticker span {
+    font-size: 0.85rem;
+  }
+  
+  .icon-btn,
+  #theme-toggle {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    gap: 4px;
+  }
+  
+  .music-player {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+  
+  .theme-text {
+    font-size: 0.7rem;
+  }
+}
+
+/* ========== ГАРАНТИЯ КЛИКАБЕЛЬНОСТИ ДЛЯ ВСЕХ КНОПОК ========== */
+button, 
+a, 
+.share-btn, 
+#vkShareBtn, 
+#okShareBtn, 
+#maxShareBtn,
+#footerMailLink,
+.footer a,
+.icon-btn,
+.music-player,
+.mobile-menu-btn,
+.scroll-top-btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Убираем возможные перекрытия */
+.footer {
+  position: relative;
+  z-index: 10;
+}
+
+.footer .share-buttons {
+  position: relative;
+  z-index: 11;
+}
+
+#footerMailLink {
+  position: relative;
+  z-index: 11;
+}
+
