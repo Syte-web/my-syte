@@ -1,536 +1,430 @@
-// ========== МУЗЫКА ==========
-const bgMusic = document.getElementById('bgMusic');
+// МУЗЫКА
 const musicToggle = document.getElementById('musicToggle');
 const musicIcon = document.getElementById('musicIcon');
 let musicPlaying = true;
-let musicStarted = false;
+let bgMusicObj = null;
 
-function startMusicOnFirstTouch() {
-    if (!musicStarted && bgMusic) {
-        bgMusic.volume = 0.3;
-        bgMusic.play().catch(e => console.log('Автовоспроизведение заблокировано'));
-        musicStarted = true;
-    }
+function createAudio() {
+  const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+  audio.loop = true;
+  audio.volume = 0.3;
+  return audio;
 }
 
 if (musicToggle) {
-    const toggleMusic = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        if (musicPlaying) {
-            if (bgMusic) bgMusic.pause();
-            if (musicIcon) musicIcon.textContent = '🔇';
-            musicPlaying = false;
-        } else {
-            if (bgMusic) bgMusic.play().catch(e => console.log('Ошибка'));
-            if (musicIcon) musicIcon.textContent = '🎵';
-            musicPlaying = true;
-        }
-    };
-    musicToggle.addEventListener('click', toggleMusic);
-    musicToggle.addEventListener('touchstart', toggleMusic, { passive: false });
-}
-
-document.body.addEventListener('touchstart', startMusicOnFirstTouch, { once: true });
-
-// ========== СЧЁТЧИК ПРОСМОТРОВ ==========
-let siteViews = localStorage.getItem('siteTotalViews');
-siteViews = siteViews ? Number(siteViews) + 1 : 1;
-localStorage.setItem('siteTotalViews', siteViews);
-const viewsCounter = document.getElementById('siteViewsCounter');
-if (viewsCounter) viewsCounter.textContent = siteViews;
-
-// ========== ТЕМА ==========
-function applyTheme(t) {
-    const themeIcon = document.getElementById('themeIcon');
-    const themeText = document.getElementById('themeText');
-    if (t === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        if (themeIcon) themeIcon.textContent = '🌙';
-        if (themeText) themeText.textContent = 'Ночь';
-    } else {
-        document.documentElement.removeAttribute('data-theme');
-        if (themeIcon) themeIcon.textContent = '☀️';
-        if (themeText) themeText.textContent = 'День';
+  musicToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!bgMusicObj) {
+      bgMusicObj = createAudio();
     }
-    localStorage.setItem('siteTheme', t);
+    if (musicPlaying) {
+      bgMusicObj.pause();
+      musicIcon.textContent = '🔇';
+    } else {
+      bgMusicObj.play().catch(e => console.log('play error'));
+      musicIcon.textContent = '🎵';
+    }
+    musicPlaying = !musicPlaying;
+  });
 }
 
-const savedTheme = localStorage.getItem('siteTheme');
-applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+// СЧЁТЧИК ПРОСМОТРОВ
+let views = localStorage.getItem('siteViews') || 0;
+views = Number(views) + 1;
+localStorage.setItem('siteViews', views);
+const viewsCounter = document.getElementById('siteViewsCounter');
+if (viewsCounter) viewsCounter.textContent = views;
 
-const themeToggle = document.getElementById('theme-toggle');
-if (themeToggle) {
-    const toggleTheme = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-    };
-    themeToggle.addEventListener('click', toggleTheme);
-    themeToggle.addEventListener('touchstart', toggleTheme, { passive: false });
+// ТЕМА ДЕНЬ/НОЧЬ
+function applyTheme(theme) {
+  if (theme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    const themeIcon = document.getElementById('themeIcon');
+    if (themeIcon) themeIcon.textContent = '🌙';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    const themeIcon = document.getElementById('themeIcon');
+    if (themeIcon) themeIcon.textContent = '☀️';
+  }
+  localStorage.setItem('theme', theme);
 }
 
-// ========== ВРЕМЯ ==========
+const savedTheme = localStorage.getItem('theme') || 'light';
+applyTheme(savedTheme);
+
+const themeToggleBtn = document.getElementById('theme-toggle');
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+}
+
+// ВРЕМЯ
 function updateTime() {
-    const timeElem = document.getElementById('st-time-txt');
-    if (timeElem) timeElem.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const timeEl = document.getElementById('st-time-txt');
+  if (timeEl) {
+    timeEl.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
 }
 updateTime();
 setInterval(updateTime, 60000);
 
-// ========== ПОГОДА ==========
-async function fetchWeather() {
-    try {
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.8953&longitude=37.3167&current_weather=true');
-        const data = await res.json();
-        if (data.current_weather) {
-            const temp = Math.round(data.current_weather.temperature);
-            const weatherElem = document.getElementById('st-weather-txt');
-            if (weatherElem) weatherElem.innerHTML = temp + '°C';
-        }
-    } catch (e) {
-        const weatherElem = document.getElementById('st-weather-txt');
-        if (weatherElem) weatherElem.innerHTML = '24°C';
-    }
-}
-fetchWeather();
+// ПОГОДА
+fetch('https://api.open-meteo.com/v1/forecast?latitude=44.8953&longitude=37.3167&current_weather=true')
+  .then(res => res.json())
+  .then(data => {
+    const temp = Math.round(data.current_weather.temperature);
+    const weatherEl = document.getElementById('st-weather-txt');
+    if (weatherEl) weatherEl.textContent = temp + '°C';
+  })
+  .catch(() => {
+    const weatherEl = document.getElementById('st-weather-txt');
+    if (weatherEl) weatherEl.textContent = '24°C';
+  });
 
-// ========== ОТВЕТ НА ВОПРОС (ТОСТ УДАЛЁН) ==========
+// ТОСТ
+function showToast(msg) {
+  const toast = document.getElementById('toastMsg');
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ОПРОС
 const answerResult = document.getElementById('answerResult');
 const optionCards = document.querySelectorAll('.option-card');
 
-function showToast(msg) {
-    const toast = document.getElementById('toastMsg');
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
 optionCards.forEach(card => {
-    const clickHandler = (e) => {
-        e.stopPropagation();
-        const option = card.getAttribute('data-option');
-        let message = '';
-        switch (option) {
-            case 'пляжный релакс':
-                message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и бесконечное море. Желаю золотистого загара и кристально чистой воды! 🌊✨';
-                break;
-            case 'актив в горах':
-                message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды, чистый воздух и заряд бодрости. Пусть вершины покоряются легко! 🏔️💪';
-                break;
-            case 'прогулки по паркам':
-                message = '🌳 Прекрасный выбор! Прогулки по паркам — это вдохновение, уютные аллеи и гармония с природой. Желаю ярких впечатлений и красивых фото! 📸✨';
-                break;
-            default:
-                message = '✨ Отличный выбор! Пусть ваше лето будет незабываемым! ✨';
-        }
-        if (answerResult) {
-            answerResult.style.display = 'block';
-            answerResult.innerHTML = message;
-            answerResult.style.opacity = '0';
-            setTimeout(() => { answerResult.style.opacity = '1'; }, 10);
-        }
-        // ТОСТ С "ВЫ ВЫБРАЛИ" УДАЛЁН
-    };
-    card.addEventListener('click', clickHandler);
-    card.addEventListener('touchstart', clickHandler, { passive: false });
+  card.addEventListener('click', () => {
+    const option = card.getAttribute('data-option');
+    let message = '';
+    if (option === 'пляжный релакс') {
+      message = '🏖️ Отличный выбор! Пляжный релакс — это солнце, песок и море. Желаю классного отдыха! 🌊✨';
+    } else if (option === 'актив в горах') {
+      message = '⛰️ Великолепный выбор! Активный отдых в горах дарит незабываемые виды и заряд бодрости! 🏔️💪';
+    } else if (option === 'прогулки по паркам') {
+      message = '🌳 Прекрасный выбор! Прогулки по паркам — это уют и гармония с природой! 📸✨';
+    } else {
+      message = '✨ Отличный выбор! Пусть лето будет незабываемым! ✨';
+    }
+    answerResult.style.display = 'block';
+    answerResult.innerHTML = message;
+    answerResult.style.opacity = '0';
+    setTimeout(() => { answerResult.style.opacity = '1'; }, 10);
+  });
 });
 
-// ========== ЧЕК-ЛИСТ ==========
-const checklistItems = ['Паспорт 📄', 'Деньги и карты 💰', 'Документы на авто 🚗', 'Купальник 🩱', 'Аптечка 💊', 'Солнцезащитный крем 🧴', 'Головной убор 👒', 'Солнцезащитные очки 🕶️', 'Полотенце 🏖️', 'Зарядка и пауэрбанк 🔋', 'Наушники 🎧', 'Бутылка для воды 💧'];
-
-function loadChecklist() {
-    try { return JSON.parse(localStorage.getItem('checklist_popup') || '[]'); } catch { return []; }
-}
-function saveChecklist(arr) { localStorage.setItem('checklist_popup', JSON.stringify(arr)); }
-function renderChecklist() {
-    const saved = loadChecklist();
-    const container = document.getElementById('checklist');
-    if (!container) return;
-    container.innerHTML = checklistItems.map(text => `<label class="checkrow"><input type="checkbox" ${saved.includes(text) ? 'checked' : ''}> ${text}</label>`).join('');
-    document.querySelectorAll('#checklist input').forEach(cb => {
-        cb.addEventListener('change', () => {
-            let cur = loadChecklist();
-            const text = cb.parentElement.textContent.trim();
-            if (cb.checked) {
-                if (!cur.includes(text)) cur.push(text);
-            } else {
-                const idx = cur.indexOf(text);
-                if (idx !== -1) cur.splice(idx, 1);
-            }
-            saveChecklist(cur);
-        });
-    });
-}
-renderChecklist();
-
-const remind = document.getElementById('remind-area');
-const panelDiv = document.getElementById('panel');
-
-function openPanel() {
-    if (!panelDiv) return;
-    panelDiv.classList.add('visible');
-    if (remind) {
-        const btnRect = remind.getBoundingClientRect();
-        let left = window.scrollX + btnRect.left - panelDiv.offsetWidth - 12;
-        if (left < 12) left = 12;
-        panelDiv.style.left = left + 'px';
-        panelDiv.style.top = window.scrollY + btnRect.top + 'px';
-    }
-}
-function closePanel() { if (panelDiv) panelDiv.classList.remove('visible'); }
-
-if (remind) {
-    const panelToggle = (e) => {
-        e.stopPropagation();
-        panelDiv.classList.contains('visible') ? closePanel() : openPanel();
-    };
-    remind.addEventListener('click', panelToggle);
-    remind.addEventListener('touchstart', panelToggle, { passive: false });
-}
-
-// ========== СМЕНА ФОТО МОРЯ ==========
-const changeSeaBtn = document.getElementById('changeSeaBtn');
-if (changeSeaBtn) {
-    changeSeaBtn.addEventListener('click', () => {
-        const inp = document.createElement('input');
-        inp.type = 'file';
-        inp.accept = 'image/*';
-        inp.onchange = (e) => {
-            if (e.target.files[0]) {
-                const seaPhoto = document.getElementById('seaPhoto');
-                if (seaPhoto) seaPhoto.src = URL.createObjectURL(e.target.files[0]);
-                showToast('🌊 Фото моря обновлено!');
-            }
-        };
-        inp.click();
-    });
-}
-
-// ========== АВАТАР ==========
-const aboutPhoto = document.getElementById('about-photo');
-const modalUserPhoto = document.getElementById('modalUserPhoto');
-if (aboutPhoto) {
-    aboutPhoto.addEventListener('click', () => {
-        const inp = document.createElement('input');
-        inp.type = 'file';
-        inp.accept = 'image/*';
-        inp.onchange = () => {
-            if (inp.files[0]) {
-                const url = URL.createObjectURL(inp.files[0]);
-                aboutPhoto.src = url;
-                if (modalUserPhoto) modalUserPhoto.src = url;
-                showToast('🖼️ Аватар обновлён');
-            }
-        };
-        inp.click();
-    });
-}
-
-// ========== МОДАЛЬНОЕ ОКНО ==========
-const modalOverlay = document.getElementById('introModal');
-const aboutFloat = document.getElementById('about-float');
-const closeModalBtn = document.getElementById('closeModalBtn');
-let savedScrollYModal = 0;
-
-function openModalWindow() {
-    if (!modalOverlay) return;
-    savedScrollYModal = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${savedScrollYModal}px`;
-    document.body.style.width = '100%';
-    document.body.style.overflow = 'hidden';
-    modalOverlay.classList.add('active');
-}
-
-function closeModalWindow() {
-    if (!modalOverlay) return;
-    modalOverlay.classList.remove('active');
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    document.body.style.overflow = '';
-    window.scrollTo(0, savedScrollYModal);
-}
-
-if (aboutFloat) {
-    aboutFloat.addEventListener('click', (e) => { e.stopPropagation(); openModalWindow(); });
-    aboutFloat.addEventListener('touchstart', (e) => { e.stopPropagation(); openModalWindow(); }, { passive: false });
-}
-if (closeModalBtn) {
-    closeModalBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModalWindow(); });
-    closeModalBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); closeModalWindow(); }, { passive: false });
-}
-if (modalOverlay) {
-    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModalWindow(); });
-}
-
-// ========== КАРУСЕЛЬ МАРШРУТОВ ==========
+// КАРУСЕЛЬ МАРШРУТОВ
 const routesTrack = document.getElementById('routesTrack');
 const routeCards = document.querySelectorAll('.route-card');
 const routesDots = document.getElementById('routesDots');
-let currentRoute = 0, autoRouteInterval;
+let currentRoute = 0;
+let routeInterval;
 
 function updateRouteDots() {
-    if (!routesDots) return;
-    document.querySelectorAll('#routesDots .dot').forEach((d, i) => d.classList.toggle('active', i === currentRoute));
+  const dots = document.querySelectorAll('#routesDots .dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i === currentRoute);
+  });
 }
 
-function goToRouteSlide(i) {
-    currentRoute = (i + routeCards.length) % routeCards.length;
-    if (routesTrack) routesTrack.style.transform = `translateX(-${currentRoute * 100}%)`;
-    updateRouteDots();
+function goToRoute(i) {
+  currentRoute = (i + routeCards.length) % routeCards.length;
+  if (routesTrack) routesTrack.style.transform = `translateX(-${currentRoute * 100}%)`;
+  updateRouteDots();
 }
 
 function createRouteDots() {
-    if (!routesDots) return;
-    routesDots.innerHTML = '';
-    routeCards.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (i === currentRoute) dot.classList.add('active');
-        dot.addEventListener('click', () => { clearInterval(autoRouteInterval); goToRouteSlide(i); startAutoRoutes(); });
-        dot.addEventListener('touchstart', () => { clearInterval(autoRouteInterval); goToRouteSlide(i); startAutoRoutes(); });
-        routesDots.appendChild(dot);
+  if (!routesDots) return;
+  routesDots.innerHTML = '';
+  routeCards.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => {
+      clearInterval(routeInterval);
+      goToRoute(i);
+      startRouteAuto();
     });
+    routesDots.appendChild(dot);
+  });
 }
 
-function startAutoRoutes() {
-    if (autoRouteInterval) clearInterval(autoRouteInterval);
-    autoRouteInterval = setInterval(() => goToRouteSlide(currentRoute + 1), 4000);
+function startRouteAuto() {
+  if (routeInterval) clearInterval(routeInterval);
+  routeInterval = setInterval(() => goToRoute(currentRoute + 1), 4000);
+}
+
+if (routeCards.length > 0) {
+  createRouteDots();
+  goToRoute(0);
+  startRouteAuto();
 }
 
 routeCards.forEach(card => {
-    const cardHandler = (e) => {
-        e.stopPropagation();
-        const page = card.getAttribute('data-page');
-        if (page) window.location.href = page;
-    };
-    card.addEventListener('click', cardHandler);
-    card.addEventListener('touchstart', cardHandler, { passive: false });
+  card.addEventListener('click', () => {
+    showToast('🚗 Переход на страницу маршрута');
+  });
 });
 
-if (routeCards.length > 0) {
-    createRouteDots();
-    goToRouteSlide(0);
-    startAutoRoutes();
-}
-
-// ========== КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ" ==========
+// КАРУСЕЛЬ "ПЛАНИРУЮ ПОСЕТИТЬ"
 const placesTrack = document.getElementById('placesTrack');
 const placeCards = document.querySelectorAll('.place-card');
 const placesDots = document.getElementById('placesDots');
-let currentPlace = 0, autoPlaceInterval;
+let currentPlace = 0;
+let placeInterval;
 
 function updatePlaceDots() {
-    if (!placesDots) return;
-    document.querySelectorAll('#placesDots .dot').forEach((d, i) => d.classList.toggle('active', i === currentPlace));
+  const dots = document.querySelectorAll('#placesDots .dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i === currentPlace);
+  });
 }
 
-function goToPlaceSlide(i) {
-    currentPlace = (i + placeCards.length) % placeCards.length;
-    if (placesTrack) placesTrack.style.transform = `translateX(-${currentPlace * 100}%)`;
-    updatePlaceDots();
+function goToPlace(i) {
+  currentPlace = (i + placeCards.length) % placeCards.length;
+  if (placesTrack) placesTrack.style.transform = `translateX(-${currentPlace * 100}%)`;
+  updatePlaceDots();
 }
 
 function createPlaceDots() {
-    if (!placesDots) return;
-    placesDots.innerHTML = '';
-    placeCards.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        dot.addEventListener('click', () => { clearInterval(autoPlaceInterval); goToPlaceSlide(i); startAutoPlaces(); });
-        dot.addEventListener('touchstart', () => { clearInterval(autoPlaceInterval); goToPlaceSlide(i); startAutoPlaces(); });
-        placesDots.appendChild(dot);
+  if (!placesDots) return;
+  placesDots.innerHTML = '';
+  placeCards.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => {
+      clearInterval(placeInterval);
+      goToPlace(i);
+      startPlaceAuto();
     });
+    placesDots.appendChild(dot);
+  });
 }
 
-function startAutoPlaces() {
-    if (autoPlaceInterval) clearInterval(autoPlaceInterval);
-    autoPlaceInterval = setInterval(() => goToPlaceSlide(currentPlace + 1), 4000);
+function startPlaceAuto() {
+  if (placeInterval) clearInterval(placeInterval);
+  placeInterval = setInterval(() => goToPlace(currentPlace + 1), 4000);
 }
 
 if (placeCards.length > 0) {
-    createPlaceDots();
-    goToPlaceSlide(0);
-    startAutoPlaces();
+  createPlaceDots();
+  goToPlace(0);
+  startPlaceAuto();
 }
 
-// ========== ЗВЁЗДЫ ==========
+// Затемненные карточки с сообщением
+placeCards.forEach(card => {
+  card.addEventListener('click', () => {
+    const placeName = card.getAttribute('data-place') || 'это место';
+    showToast(`⭐ ${placeName} — скоро появится на сайте! Следите за обновлениями ⭐`);
+  });
+});
+
+// ЗВЁЗДЫ
 let currentRating = 0;
 const stars = document.querySelectorAll('.star');
 
 function updateStars(rating) {
-    stars.forEach((star, index) => {
-        if (index < rating) {
-            star.classList.add('active');
-            star.style.color = '#ffc107';
-        } else {
-            star.classList.remove('active');
-            star.style.color = '#f5e6b0';
-        }
-    });
+  stars.forEach((star, index) => {
+    if (index < rating) {
+      star.classList.add('active');
+    } else {
+      star.classList.remove('active');
+    }
+  });
 }
 
 stars.forEach(star => {
-    const starHandler = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        const value = parseInt(star.getAttribute('data-value'));
-        currentRating = value;
-        updateStars(currentRating);
-        showToast(`⭐ Оценка: ${currentRating} звезды`);
-    };
-    star.addEventListener('click', starHandler);
-    star.addEventListener('touchstart', starHandler, { passive: false });
+  star.addEventListener('click', () => {
+    const value = parseInt(star.getAttribute('data-value'));
+    currentRating = value;
+    updateStars(currentRating);
+    showToast(`⭐ Оценка: ${currentRating} звезд${currentRating === 1 ? 'а' : ''}`);
+  });
 });
 
-// ========== ОТПРАВКА ОТЗЫВА ==========
+// ОТПРАВКА ОТЗЫВА
 const reviewForm = document.getElementById('reviewForm');
 const reviewerName = document.getElementById('reviewerName');
 const reviewerEmail = document.getElementById('reviewerEmail');
 const reviewText = document.getElementById('reviewText');
 
 function showFieldError(field, message) {
-    field.style.border = '2px solid #ff4444';
-    field.style.backgroundColor = 'rgba(255,68,68,0.1)';
-    setTimeout(() => {
-        field.style.border = '2px solid var(--accent)';
-        field.style.backgroundColor = '';
-    }, 3000);
-    showToast(message);
-}
-
-if (reviewerName) {
-    reviewerName.addEventListener('focus', () => {
-        reviewerName.style.border = '2px solid var(--accent)';
-        reviewerName.style.backgroundColor = '';
-    });
-}
-if (reviewerEmail) {
-    reviewerEmail.addEventListener('focus', () => {
-        reviewerEmail.style.border = '2px solid var(--accent)';
-        reviewerEmail.style.backgroundColor = '';
-    });
-}
-if (reviewText) {
-    reviewText.addEventListener('focus', () => {
-        reviewText.style.border = '2px solid var(--accent)';
-        reviewText.style.backgroundColor = '';
-    });
+  field.style.border = '2px solid #ff4444';
+  field.style.backgroundColor = 'rgba(255,68,68,0.1)';
+  setTimeout(() => {
+    field.style.border = '2px solid var(--accent)';
+    field.style.backgroundColor = '';
+  }, 3000);
+  showToast(message);
 }
 
 if (reviewForm) {
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const name = reviewerName?.value.trim() || '';
-        const email = reviewerEmail?.value.trim() || '';
-        const text = reviewText?.value.trim() || '';
-        
-        let hasError = false;
-        
-        if (!name) {
-            showFieldError(reviewerName, '📝 Пожалуйста, введите ваше имя');
-            hasError = true;
-        }
-        if (!email) {
-            showFieldError(reviewerEmail, '📧 Пожалуйста, введите вашу почту');
-            hasError = true;
-        } else if (!email.includes('@') || !email.includes('.')) {
-            showFieldError(reviewerEmail, '📧 Введите корректный email');
-            hasError = true;
-        }
-        if (!text) {
-            showFieldError(reviewText, '💬 Пожалуйста, напишите ваш отзыв');
-            hasError = true;
-        }
-        
-        if (hasError) return;
-        
-        if (currentRating === 0) {
-            showToast('⭐ Поставьте оценку звёздами!');
-            return;
-        }
-        
-        const message = `🌟 ОТЗЫВ 🌟\n\n👤 Имя: ${name}\n📧 Почта: ${email}\n⭐ Оценка: ${currentRating}★\n📝 Отзыв: ${text}`;
-        
-        function resetForm() {
-            if (reviewForm) reviewForm.reset();
-            currentRating = 0;
-            updateStars(0);
-            if (reviewerName) reviewerName.style.border = '';
-            if (reviewerEmail) reviewerEmail.style.border = '';
-            if (reviewText) reviewText.style.border = '';
-        }
-        
-        if (navigator.share) {
-            try {
-                await navigator.share({ title: 'Отзыв о сайте Мой юг', text: message });
-                showToast('✅ Спасибо! Отзыв отправлен');
-                resetForm();
-                return;
-            } catch (err) { }
-        }
-        
-        try {
-            await navigator.clipboard.writeText(message + '\n\nОтправьте это сообщение: angelina.chernovalova@yandex.ru');
-            showToast('📋 Отзыв скопирован! Отправьте его мне любым способом');
-            resetForm();
-        } catch (err) {
-            showToast('⚠️ Не удалось скопировать, но отзыв сохранён');
-            console.log(message);
-            resetForm();
-        }
-    };
+  reviewForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
     
-    reviewForm.addEventListener('submit', submitHandler);
+    const name = reviewerName?.value.trim() || '';
+    const email = reviewerEmail?.value.trim() || '';
+    const text = reviewText?.value.trim() || '';
+    
+    let hasError = false;
+    
+    if (!name) {
+      showFieldError(reviewerName, '📝 Введите ваше имя');
+      hasError = true;
+    }
+    if (!email) {
+      showFieldError(reviewerEmail, '📧 Введите вашу почту');
+      hasError = true;
+    } else if (!email.includes('@') || !email.includes('.')) {
+      showFieldError(reviewerEmail, '📧 Введите корректный email');
+      hasError = true;
+    }
+    if (!text) {
+      showFieldError(reviewText, '💬 Напишите ваш отзыв');
+      hasError = true;
+    }
+    
+    if (hasError) return;
+    
+    if (currentRating === 0) {
+      showToast('⭐ Поставьте оценку звёздами!');
+      return;
+    }
+    
+    const message = `🌟 ОТЗЫВ 🌟\n\n👤 Имя: ${name}\n📧 Почта: ${email}\n⭐ Оценка: ${currentRating}★\n📝 Отзыв: ${text}`;
+    
+    try {
+      await navigator.clipboard.writeText(message + '\n\nОтправьте это сообщение: angelina.chernovalova@yandex.ru');
+      showToast('📋 Спасибо! Отзыв скопирован, отправьте мне');
+      reviewForm.reset();
+      currentRating = 0;
+      updateStars(0);
+    } catch (err) {
+      showToast('⚠️ Спасибо за отзыв!');
+      console.log(message);
+      reviewForm.reset();
+      currentRating = 0;
+      updateStars(0);
+    }
+  });
 }
 
-// ========== КНОПКИ ШЕРИНГА ==========
+// КНОПКИ ШЕРИНГА
 const shareUrl = encodeURIComponent(window.location.href);
 const shareTitle = encodeURIComponent('Мой юг: от Анапы до Сочи');
 
 document.querySelectorAll('.share-btn').forEach(btn => {
-    const clickHandler = (e) => {
-        e.stopPropagation();
-        const type = btn.dataset.share;
-        if (type === 'vk') {
-            window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
-        } else if (type === 'ok') {
-            window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
-        } else if (type === 'max') {
-            navigator.clipboard.writeText(window.location.href);
-            showToast('🔗 Ссылка скопирована!');
-        }
-    };
-    btn.addEventListener('click', clickHandler);
-    btn.addEventListener('touchstart', clickHandler, { passive: false });
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const type = btn.dataset.share;
+    if (type === 'vk') {
+      window.open(`https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
+    } else if (type === 'ok') {
+      window.open(`https://connect.ok.ru/offer?url=${shareUrl}&title=${shareTitle}`, '_blank', 'width=600,height=400');
+    } else if (type === 'max') {
+      navigator.clipboard.writeText(window.location.href);
+      showToast('🔗 Ссылка скопирована!');
+    }
+  });
 });
 
-// ========== ССЫЛКА В ФУТЕРЕ ==========
-const footerLink = document.querySelector('.footer a');
-if (footerLink) {
-    footerLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'mailto:angelina.chernovalova@yandex.ru';
-    });
+// МОДАЛЬНОЕ ОКНО
+const modalOverlay = document.getElementById('introModal');
+const aboutFloat = document.getElementById('about-float');
+const closeModalBtn = document.getElementById('closeModalBtn');
+let savedScrollY = 0;
+
+function openModal() {
+  if (!modalOverlay) return;
+  savedScrollY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${savedScrollY}px`;
+  document.body.style.width = '100%';
+  document.body.style.overflow = 'hidden';
+  modalOverlay.classList.add('active');
 }
 
-// ========== КНОПКА НАВЕРХ ==========
+function closeModal() {
+  if (!modalOverlay) return;
+  modalOverlay.classList.remove('active');
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  document.body.style.overflow = '';
+  window.scrollTo(0, savedScrollY);
+}
+
+if (aboutFloat) {
+  aboutFloat.addEventListener('click', openModal);
+}
+if (closeModalBtn) {
+  closeModalBtn.addEventListener('click', closeModal);
+}
+if (modalOverlay) {
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+}
+
+// СМЕНА ФОТО МОРЯ
+const changeSeaBtn = document.getElementById('changeSeaBtn');
+if (changeSeaBtn) {
+  changeSeaBtn.addEventListener('click', () => {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    inp.onchange = (e) => {
+      if (e.target.files[0]) {
+        const seaPhoto = document.getElementById('seaPhoto');
+        if (seaPhoto) seaPhoto.src = URL.createObjectURL(e.target.files[0]);
+        showToast('🌊 Фото моря обновлено!');
+      }
+    };
+    inp.click();
+  });
+}
+
+// АВАТАР
+const aboutPhoto = document.getElementById('about-photo');
+const modalUserPhoto = document.getElementById('modalUserPhoto');
+if (aboutPhoto) {
+  aboutPhoto.addEventListener('click', () => {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    inp.onchange = () => {
+      if (inp.files[0]) {
+        const url = URL.createObjectURL(inp.files[0]);
+        aboutPhoto.src = url;
+        if (modalUserPhoto) modalUserPhoto.src = url;
+        showToast('🖼️ Аватар обновлён');
+      }
+    };
+    inp.click();
+  });
+}
+
+// КНОПКА НАВЕРХ
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 if (scrollTopBtn) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) scrollTopBtn.classList.add('show');
-        else scrollTopBtn.classList.remove('show');
-    });
-    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.classList.add('show');
+    } else {
+      scrollTopBtn.classList.remove('show');
+    }
+  });
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 }
 
-// ========== МОБИЛЬНОЕ МЕНЮ ==========
+// МОБИЛЬНОЕ МЕНЮ
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
 const mobileMenuClose = document.getElementById('mobileMenuClose');
@@ -538,106 +432,62 @@ const mobileRoutesBtn = document.getElementById('mobileRoutesBtn');
 const mobileRoutesSub = document.getElementById('mobileRoutesSub');
 
 function closeMobileMenu() {
-    if (mobileMenuOverlay) {
-        mobileMenuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+  if (mobileMenuOverlay) {
+    mobileMenuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 }
 
 function openMobileMenu() {
-    if (mobileMenuOverlay) {
-        mobileMenuOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
+  if (mobileMenuOverlay) {
+    mobileMenuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
 }
 
 if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); openMobileMenu(); });
-    mobileMenuBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); openMobileMenu(); }, { passive: false });
+  mobileMenuBtn.addEventListener('click', openMobileMenu);
 }
 if (mobileMenuClose) {
-    mobileMenuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMobileMenu(); });
-    mobileMenuClose.addEventListener('touchstart', (e) => { e.stopPropagation(); closeMobileMenu(); }, { passive: false });
+  mobileMenuClose.addEventListener('click', closeMobileMenu);
 }
 if (mobileMenuOverlay) {
-    mobileMenuOverlay.addEventListener('click', (e) => { if (e.target === mobileMenuOverlay) closeMobileMenu(); });
+  mobileMenuOverlay.addEventListener('click', (e) => {
+    if (e.target === mobileMenuOverlay) closeMobileMenu();
+  });
 }
 
 if (mobileRoutesBtn && mobileRoutesSub) {
-    const toggleSubmenu = (e) => {
-        e.stopPropagation();
-        mobileRoutesSub.style.display = mobileRoutesSub.style.display === 'none' ? 'flex' : 'none';
-    };
-    mobileRoutesBtn.addEventListener('click', toggleSubmenu);
-    mobileRoutesBtn.addEventListener('touchstart', toggleSubmenu, { passive: false });
+  mobileRoutesBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    mobileRoutesSub.style.display = mobileRoutesSub.style.display === 'none' ? 'flex' : 'none';
+  });
 }
 
 const menuItems = document.querySelectorAll('.mobile-menu-item[data-target]');
 menuItems.forEach(item => {
-    const menuHandler = (e) => {
-        e.stopPropagation();
-        const target = item.getAttribute('data-target');
-        if (target === 'section-main') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (target === 'section-places') {
-            const placesSection = document.getElementById('section-places');
-            if (placesSection) placesSection.scrollIntoView({ behavior: 'smooth' });
-        } else if (target === 'section-review') {
-            const reviewSection = document.getElementById('section-review');
-            if (reviewSection) reviewSection.scrollIntoView({ behavior: 'smooth' });
-        }
-        closeMobileMenu();
-    };
-    item.addEventListener('click', menuHandler);
-    item.addEventListener('touchstart', menuHandler, { passive: false });
-});
-
-// ========== ПК ЛИАНА ==========
-const knotItems = document.querySelectorAll('.knot-item[data-target]');
-knotItems.forEach(knot => {
-    const knotHandler = (e) => {
-        e.stopPropagation();
-        const targetId = knot.getAttribute('data-target');
-        if (targetId) {
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    };
-    knot.addEventListener('click', knotHandler);
-    knot.addEventListener('touchstart', knotHandler, { passive: false });
-});
-
-// ========== ДВИЖЕНИЕ ЯКОРЯ ==========
-function initRopeAnchor() {
-    const ropeAnchor = document.getElementById('ropeAnchor');
-    if (!ropeAnchor) return;
-    function updateAnchorPosition() {
-        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-        const minTop = 80, maxTop = window.innerHeight - 100;
-        let newTop = minTop + (maxTop - minTop) * Math.min(1, Math.max(0, scrollPercent));
-        ropeAnchor.style.top = Math.min(maxTop, Math.max(minTop, newTop)) + 'px';
+  item.addEventListener('click', () => {
+    const target = item.getAttribute('data-target');
+    if (target === 'section-main') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (target === 'section-places') {
+      const placesSection = document.getElementById('section-places');
+      if (placesSection) placesSection.scrollIntoView({ behavior: 'smooth' });
+    } else if (target === 'section-review') {
+      const reviewSection = document.getElementById('section-review');
+      if (reviewSection) reviewSection.scrollIntoView({ behavior: 'smooth' });
     }
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => { updateAnchorPosition(); ticking = false; });
-            ticking = true;
-        }
-    });
-    window.addEventListener('resize', updateAnchorPosition);
-    updateAnchorPosition();
-}
-initRopeAnchor();
+    closeMobileMenu();
+  });
+});
 
-// Принудительная активация полей формы
-(function ensureFormWorks() {
-    const inputs = document.querySelectorAll('.form-field-wrapper input, .form-field-wrapper textarea');
-    inputs.forEach(el => {
-        el.style.pointerEvents = 'auto';
-        el.style.opacity = '1';
-        el.removeAttribute('disabled');
-        el.readOnly = false;
-    });
-})();
+const mobileSubLinks = document.querySelectorAll('.mobile-sub-link');
+mobileSubLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    const page = link.getAttribute('data-page');
+    if (page) showToast('🚗 Переход на страницу маршрута');
+    closeMobileMenu();
+  });
+});
 
-console.log('index.js загружен');
+console.log('Сайт загружен!');
