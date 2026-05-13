@@ -554,7 +554,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
 }
 
 /* ====================================================================== ЛИАНА (ПК) ================================================================================================== */
-/* ====================================================================== ЛИАНА (ПК) ================================================================================================== */
 .rope-container {
   position: fixed;
   left: calc(50% - 500px - 30px);
@@ -564,7 +563,11 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   z-index: 1000;
   pointer-events: none;
 }
-@media (max-width: 1060px) { .rope-container { left: 8px; } }
+@media (max-width: 1060px) {
+  .rope-container {
+    left: 8px;
+  }
+}
 .rope-line {
   position: absolute;
   left: 0;
@@ -669,7 +672,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   .subknot-link { font-size: 0.9rem; padding: 6px 12px; }
   .subknot-title { font-size: 0.9rem; padding: 6px 12px; }
 }
-
 /* ================================================================================== ФУТЕР ======================================================================================================= */
 .footer { 
   text-align:center; 
