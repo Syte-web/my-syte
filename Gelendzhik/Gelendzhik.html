@@ -71,16 +71,20 @@
   </div>
 
   <!-- ========== МУЗЫКА ========== -->
-  <div class="music-player">
-    <div class="music-info">🎸 Леонид Агутин — Мир зелёного света</div>
-    <div class="music-controls">
-      <button class="music-btn" id="playPauseBtn">▶</button>
-    </div>
+ <div class="music-player">
+  <div class="music-info">🎸 Леонид Агутин — Мир зелёного света</div>
+  <div class="music-visualizer" id="musicVisualizer">
+    <div class="visualizer-bar"></div>
+    <div class="visualizer-bar"></div>
+    <div class="visualizer-bar"></div>
+    <div class="visualizer-bar"></div>
+    <div class="visualizer-bar"></div>
+    <div class="visualizer-bar"></div>
   </div>
-  <audio id="audioPlayer" loop>
-    <source src="Audio.Gelendzhik/agu.mp3" type="audio/mpeg">
-  </audio>
 </div>
+<audio id="audioPlayer" loop>
+  <source src="Audio.Gelendzhik/agu.mp3" type="audio/mpeg">
+</audio>
 
 <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ТОЧЕК НА КАРТЕ ========== -->
 <!-- Модальное окно 1: Набережная -->
