@@ -50,7 +50,7 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 60000);
 
-// ========== МУЗЫКА С ВИЗУАЛИЗАТОРОМ (СТОЛБИКИ МЕЖДУ НАЗВАНИЕМ И КНОПКОЙ) ==========
+// ========== МУЗЫКА С ВИЗУАЛИЗАТОРОМ (36 СТОЛБИКОВ) ==========
 const audioPlayer = document.getElementById('audioPlayer');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const visualizer = document.getElementById('musicVisualizer');
@@ -58,12 +58,11 @@ const bars = document.querySelectorAll('.visualizer-bar');
 let isPlaying = false;
 let animationId = null;
 
-// Паттерн высоты столбиков (как эквалайзер)
+// Высота столбиков (случайные значения)
 function getRandomHeights() {
   const heights = [];
   for (let i = 0; i < bars.length; i++) {
-    // Создаём эффект "прыгающих" столбиков разной высоты
-    const height = Math.floor(Math.random() * 35) + 12; // от 12 до 47px
+    const height = Math.floor(Math.random() * 35) + 12;
     heights.push(height);
   }
   return heights;
@@ -83,14 +82,14 @@ function animateVisualizer() {
   const heights = getRandomHeights();
   
   bars.forEach((bar, index) => {
-    let targetHeight = heights[index];
-    bar.style.height = targetHeight + 'px';
+    bar.style.height = heights[index] + 'px';
     bar.style.opacity = '0.9';
   });
   
   animationId = requestAnimationFrame(animateVisualizer);
 }
 
+// Кнопка Play/Pause
 if (playPauseBtn) {
   playPauseBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -113,7 +112,7 @@ if (playPauseBtn) {
   });
 }
 
-// Нажатие на визуализатор тоже включает/выключает (опционально)
+// Клик на визуализатор (тоже вкл/выкл)
 if (visualizer) {
   visualizer.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -136,7 +135,7 @@ if (visualizer) {
   });
 }
 
-// Автозапуск при первом клике
+// Автозапуск при первом клике по странице
 function enableAutoplay() {
   if (audioPlayer && audioPlayer.paused && !isPlaying) {
     audioPlayer.play().catch(() => {});
@@ -148,6 +147,7 @@ function enableAutoplay() {
 }
 document.body.addEventListener('click', enableAutoplay, { once: true });
 
+// Зацикливание музыки
 if (audioPlayer) {
   audioPlayer.addEventListener('ended', () => {
     audioPlayer.currentTime = 0;
