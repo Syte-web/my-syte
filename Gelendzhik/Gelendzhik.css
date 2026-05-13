@@ -321,6 +321,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
 }
 
 /* =========================================================================== МУЗЫКАЛЬНЫЙ ПЛЕЕР С ВИЗУАЛИЗАТОРОМ =========================================================================== */
+/* =========================================================================== МУЗЫКАЛЬНЫЙ ПЛЕЕР =========================================================================== */
 .music-player {
   background: var(--music-bg);
   margin: 20px 24px 30px 24px;
@@ -329,37 +330,69 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 15px;
   border: 1px solid var(--border-light);
 }
-.music-info { font-family:'Inter', monospace; font-size:1.1rem; font-weight:500; }
+.music-info {
+  font-family: 'Inter', monospace;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+}
 .music-visualizer {
-  background: var(--accent2);
-  border: none;
-  border-radius: 60px;
-  width: 80px;
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  cursor: pointer;
-  transition: 0.1s;
+  height: 50px;
+  flex: 1;
 }
-.music-visualizer:active { transform: scale(0.92); }
 .visualizer-bar {
-  width: 6px;
-  height: 20px;
-  background: white;
-  border-radius: 10px;
+  width: 5px;
+  background: var(--accent2);
+  border-radius: 4px;
   transition: height 0.08s ease;
 }
+/* Разноцветные столбики */
+.visualizer-bar:nth-child(1) { background: #ff6b6b; }
+.visualizer-bar:nth-child(2) { background: #ffa500; }
+.visualizer-bar:nth-child(3) { background: #ffd93d; }
+.visualizer-bar:nth-child(4) { background: #6bcb77; }
+.visualizer-bar:nth-child(5) { background: #4d96ff; }
+.visualizer-bar:nth-child(6) { background: #b983ff; }
+.visualizer-bar:nth-child(7) { background: #ff6b6b; }
+.visualizer-bar:nth-child(8) { background: #ffa500; }
+.visualizer-bar:nth-child(9) { background: #ffd93d; }
+.visualizer-bar:nth-child(10) { background: #6bcb77; }
+.visualizer-bar:nth-child(11) { background: #4d96ff; }
+.visualizer-bar:nth-child(12) { background: #b983ff; }
+
+.music-btn {
+  background: var(--accent2);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: white;
+  transition: 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.music-btn:active { transform: scale(0.92); }
+
 @media (max-width:700px){
-  .music-player { padding: 10px 16px; margin: 15px 16px 20px 16px; gap: 10px; }
-  .music-info { font-size: 0.8rem; }
-  .music-visualizer { width: 60px; height: 44px; gap: 3px; }
-  .visualizer-bar { width: 4px; }
+  .music-player { padding: 12px 20px; margin: 15px 16px 20px 16px; gap: 12px; }
+  .music-info { font-size: 0.7rem; }
+  .music-visualizer { gap: 3px; height: 40px; }
+  .visualizer-bar { width: 3px; }
+  .music-btn { width: 40px; height: 40px; font-size: 1.1rem; }
 }
 
 /* ========================================================================== МОДАЛЬНЫЕ ОКНА =============================================================================================== */

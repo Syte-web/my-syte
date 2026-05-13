@@ -50,56 +50,98 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 60000);
 
-// ========== МУЗЫКА С ВИЗУАЛИЗАТОРОМ ==========
+// ========== МУЗЫКА С ВИЗУАЛИЗАТОРОМ (СТОЛБИКИ МЕЖДУ НАЗВАНИЕМ И КНОПКОЙ) ==========
 const audioPlayer = document.getElementById('audioPlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
 const visualizer = document.getElementById('musicVisualizer');
 const bars = document.querySelectorAll('.visualizer-bar');
 let isPlaying = false;
 let animationId = null;
 
+// Паттерн высоты столбиков (как эквалайзер)
+function getRandomHeights() {
+  const heights = [];
+  for (let i = 0; i < bars.length; i++) {
+    // Создаём эффект "прыгающих" столбиков разной высоты
+    const height = Math.floor(Math.random() * 35) + 12; // от 12 до 47px
+    heights.push(height);
+  }
+  return heights;
+}
+
 function animateVisualizer() {
   if (!isPlaying) {
     bars.forEach(bar => {
-      bar.style.height = '8px';
-      bar.style.opacity = '0.4';
+      bar.style.height = '6px';
+      bar.style.opacity = '0.3';
     });
     if (animationId) cancelAnimationFrame(animationId);
     animationId = null;
     return;
   }
   
-  bars.forEach(() => {
-    const randomHeight = Math.floor(Math.random() * 30) + 12;
-    bar.style.height = randomHeight + 'px';
+  const heights = getRandomHeights();
+  
+  bars.forEach((bar, index) => {
+    let targetHeight = heights[index];
+    bar.style.height = targetHeight + 'px';
     bar.style.opacity = '0.9';
   });
   
   animationId = requestAnimationFrame(animateVisualizer);
 }
 
-if (visualizer) {
-  visualizer.addEventListener('click', () => {
+if (playPauseBtn) {
+  playPauseBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (isPlaying) {
       audioPlayer.pause();
       isPlaying = false;
+      playPauseBtn.textContent = '▶';
       bars.forEach(bar => {
-        bar.style.height = '8px';
-        bar.style.opacity = '0.4';
+        bar.style.height = '6px';
+        bar.style.opacity = '0.3';
       });
       if (animationId) cancelAnimationFrame(animationId);
       animationId = null;
     } else {
-      audioPlayer.play().catch(e => console.log('Автовоспроизведение заблокировано'));
+      audioPlayer.play().catch(e => console.log('Ошибка:', e));
       isPlaying = true;
+      playPauseBtn.textContent = '⏸';
       animateVisualizer();
     }
   });
 }
 
+// Нажатие на визуализатор тоже включает/выключает (опционально)
+if (visualizer) {
+  visualizer.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (isPlaying) {
+      audioPlayer.pause();
+      isPlaying = false;
+      playPauseBtn.textContent = '▶';
+      bars.forEach(bar => {
+        bar.style.height = '6px';
+        bar.style.opacity = '0.3';
+      });
+      if (animationId) cancelAnimationFrame(animationId);
+      animationId = null;
+    } else {
+      audioPlayer.play().catch(e => console.log('Ошибка:', e));
+      isPlaying = true;
+      playPauseBtn.textContent = '⏸';
+      animateVisualizer();
+    }
+  });
+}
+
+// Автозапуск при первом клике
 function enableAutoplay() {
   if (audioPlayer && audioPlayer.paused && !isPlaying) {
     audioPlayer.play().catch(() => {});
     isPlaying = true;
+    playPauseBtn.textContent = '⏸';
     animateVisualizer();
   }
   document.body.removeEventListener('click', enableAutoplay);
