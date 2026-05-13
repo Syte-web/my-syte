@@ -5,8 +5,6 @@
   box-sizing: border-box;
 }
 
-
-
 .clickable, .option-card, .route-card, .remind-wrap, .about-float, .icon-btn, .change-bg-btn, .modal-close, .cta-button, .star, .share-btn, .knot-item, .subknot-link, button, a, .dot, .modal-card, .back-to-main-btn, .music-player, .mobile-menu-btn {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -322,7 +320,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   .handwrite-city-bottom { bottom: 12px; font-size: clamp(0.7rem, 4vw, 1rem); white-space: nowrap; }
 }
 
-/* =========================================================================== МУЗЫКАЛЬНЫЙ ПЛЕЕР =================================================================================== */
+/* =========================================================================== МУЗЫКАЛЬНЫЙ ПЛЕЕР С ВИЗУАЛИЗАТОРОМ =========================================================================== */
 .music-player {
   background: var(--music-bg);
   margin: 20px 24px 30px 24px;
@@ -336,22 +334,32 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   border: 1px solid var(--border-light);
 }
 .music-info { font-family:'Inter', monospace; font-size:1.1rem; font-weight:500; }
-.music-btn {
+.music-visualizer {
   background: var(--accent2);
   border: none;
   border-radius: 60px;
-  width: 60px;
+  width: 80px;
   height: 60px;
-  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   cursor: pointer;
-  color: white;
   transition: 0.1s;
 }
-.music-btn:active { transform: scale(0.92); }
+.music-visualizer:active { transform: scale(0.92); }
+.visualizer-bar {
+  width: 6px;
+  height: 20px;
+  background: white;
+  border-radius: 10px;
+  transition: height 0.08s ease;
+}
 @media (max-width:700px){
   .music-player { padding: 10px 16px; margin: 15px 16px 20px 16px; gap: 10px; }
   .music-info { font-size: 0.8rem; }
-  .music-btn { width: 44px; height: 44px; font-size: 1.4rem; border-radius: 12px; }
+  .music-visualizer { width: 60px; height: 44px; gap: 3px; }
+  .visualizer-bar { width: 4px; }
 }
 
 /* ========================================================================== МОДАЛЬНЫЕ ОКНА =============================================================================================== */

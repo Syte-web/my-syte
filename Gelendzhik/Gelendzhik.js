@@ -50,24 +50,68 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 60000);
 
-// ========== МУЗЫКА ==========
-const audio = document.getElementById('audioPlayer');
-const playPauseBtn = document.getElementById('playPauseBtn');
+// ========== МУЗЫКА С ВИЗУАЛИЗАТОРОМ ==========
+const audioPlayer = document.getElementById('audioPlayer');
+const visualizer = document.getElementById('musicVisualizer');
+const bars = document.querySelectorAll('.visualizer-bar');
 let isPlaying = false;
-playPauseBtn.addEventListener('click', () => {
-  if(isPlaying) { audio.pause(); playPauseBtn.textContent = '▶'; }
-  else { audio.play(); playPauseBtn.textContent = '⏸'; }
-  isPlaying = !isPlaying;
-});
-function enableAutoplay() { 
-  if(audio.paused && !isPlaying) { 
-    audio.play().catch(()=>{}); 
-    playPauseBtn.textContent = '⏸'; 
-    isPlaying = true; 
-  } 
-  document.body.removeEventListener('click', enableAutoplay); 
+let animationId = null;
+
+function animateVisualizer() {
+  if (!isPlaying) {
+    bars.forEach(bar => {
+      bar.style.height = '8px';
+      bar.style.opacity = '0.4';
+    });
+    if (animationId) cancelAnimationFrame(animationId);
+    animationId = null;
+    return;
+  }
+  
+  bars.forEach(() => {
+    const randomHeight = Math.floor(Math.random() * 30) + 12;
+    bar.style.height = randomHeight + 'px';
+    bar.style.opacity = '0.9';
+  });
+  
+  animationId = requestAnimationFrame(animateVisualizer);
+}
+
+if (visualizer) {
+  visualizer.addEventListener('click', () => {
+    if (isPlaying) {
+      audioPlayer.pause();
+      isPlaying = false;
+      bars.forEach(bar => {
+        bar.style.height = '8px';
+        bar.style.opacity = '0.4';
+      });
+      if (animationId) cancelAnimationFrame(animationId);
+      animationId = null;
+    } else {
+      audioPlayer.play().catch(e => console.log('Автовоспроизведение заблокировано'));
+      isPlaying = true;
+      animateVisualizer();
+    }
+  });
+}
+
+function enableAutoplay() {
+  if (audioPlayer && audioPlayer.paused && !isPlaying) {
+    audioPlayer.play().catch(() => {});
+    isPlaying = true;
+    animateVisualizer();
+  }
+  document.body.removeEventListener('click', enableAutoplay);
 }
 document.body.addEventListener('click', enableAutoplay, { once: true });
+
+if (audioPlayer) {
+  audioPlayer.addEventListener('ended', () => {
+    audioPlayer.currentTime = 0;
+    audioPlayer.play();
+  });
+}
 
 // ========== МОДАЛЬНЫЕ ОКНА ==========
 const modalNab = document.getElementById('modalNaberezhnaya');
@@ -80,7 +124,7 @@ document.querySelectorAll('.modal-close-btn').forEach(btn => { btn.addEventListe
 document.querySelectorAll('.modal-overlay').forEach(modal => { modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(modal); }); });
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(m => closeModal(m)); });
 
-// ========== ЛАЙКИ ДЛЯ МОДАЛЬНЫХ ОКОН (от 100, 1 раз на пользователя) ==========
+// ========== ЛАЙКИ ДЛЯ МОДАЛЬНЫХ ОКОН ==========
 function createFloatingHeartGel(x, y) {
   const heartSymbols = ['❤️', '💖', '💕', '💗', '💓', '❣️', '💝', '💘', '💟'];
   const randomHeart = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
