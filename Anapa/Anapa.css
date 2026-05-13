@@ -221,13 +221,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 
 
 /* ================================================================ АДАПТАЦИЯ: ПК И МОБИЛЬНЫЕ ==================================================== */
-@media (min-width: 769px) {
-  .rope-container { display: block; }
-  .rope-anchor { display: flex; }
-  .mobile-menu-btn { display: none; }
-  .mobile-menu-overlay { display: none; }
-}
-
 @media (max-width: 768px) {
   /* ===== СКРЫВАЕМ ПК ЭЛЕМЕНТЫ ===== */
   .rope-container { display: none !important; }
@@ -244,28 +237,34 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     gap: 8px;
   }
   
-  /* Первая строка: бургер + заголовок */
+  /* Первая строка: бургер + заголовок (горизонтально, по центру вертикально) */
   .header-top {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 12px;
     width: 100%;
   }
   
-  .header-left {
-    order: 0;
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    margin: 0;
+    padding: 8px 14px;
   }
   
   .title {
-    order: 1;
     flex: 1;
     font-size: 1rem;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1;
+    margin: 0;
   }
   
   /* Вторая строка: погода, время, музыка, день/ночь */
