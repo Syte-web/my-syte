@@ -645,21 +645,18 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .footer a:active { opacity: 0.8; transform: scale(0.96); display: inline-block; }
 
-/* ========== МОБИЛЬНАЯ ВЕРСИЯ (ПОЛНОСТЬЮ) ========== */
+/* ========== МОБИЛЬНАЯ ВЕРСИЯ (ВРЕМЯ И ДЕНЬ/НОЧЬ РЯДОМ) ========== */
 @media (max-width: 768px) {
-  /* Убираем лиану */
   .rope-container, .rope-anchor {
     display: none !important;
   }
   
-  /* Контейнер на всю ширину */
   .container {
     width: auto !important;
     margin: 10px !important;
     border-radius: 20px !important;
   }
   
-  /* Шапка — 2 строки, значки в одну строку */
   .header {
     flex-direction: column !important;
     align-items: stretch !important;
@@ -687,7 +684,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     flex: 1 !important;
   }
   
-  /* Значки в одну строку */
+  /* ВСЕ ЗНАЧКИ В ОДНУ СТРОКУ, ВРЕМЯ И ДЕНЬ/НОЧЬ РЯДОМ */
   .header-right {
     width: 100% !important;
     display: flex !important;
@@ -735,7 +732,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     font-size: 0.7rem !important;
   }
   
-  /* Главное фото без отступов */
   .hero-photo {
     margin: 0 !important;
     border-radius: 0 !important;
@@ -748,7 +744,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     padding: 5px 14px !important;
   }
   
-  /* Фотоплёнка */
   .filmstrip-section {
     margin: 20px 12px !important;
     padding: 12px 0 !important;
@@ -771,7 +766,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     font-size: 1rem !important;
   }
   
-  /* Самолёт */
   .plane-corner {
     width: auto !important;
     border-radius: 60px !important;
