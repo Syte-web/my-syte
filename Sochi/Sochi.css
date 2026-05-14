@@ -879,7 +879,6 @@ html, body {
 
 /* ============================================
    ТОЛЬКО ДЛЯ МОБИЛЬНОЙ ВЕРСИИ (ДО 768px)
-   ПК НЕ ТРОГАЮ
    ============================================ */
 @media (max-width: 768px) {
   /* Шапка — 2 строки */
@@ -902,8 +901,8 @@ html, body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 10px;
+    flex-wrap: nowrap;
   }
   
   .title {
@@ -915,12 +914,12 @@ html, body {
   
   .stickers {
     display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
+    gap: 6px;
+    flex-wrap: nowrap;
   }
   
   .sticker {
-    padding: 4px 10px;
+    padding: 4px 8px;
     font-size: 0.7rem;
   }
   
@@ -1023,7 +1022,6 @@ html, body {
   .mobile-menu-btn,
   #theme-toggle,
   .sticker,
-  .music-btn,
   button {
     -webkit-tap-highlight-color: transparent !important;
     touch-action: manipulation !important;
@@ -1038,9 +1036,5 @@ html, body {
   .scroll-top-btn:active,
   button:active {
     transform: none !important;
-  }
-  
-  .carousel-btn:active {
-    background: var(--accent-teal-light) !important;
   }
 }
