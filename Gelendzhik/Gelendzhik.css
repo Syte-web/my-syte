@@ -535,7 +535,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
 /* ====================================================================== ЛИАНА (ПК) ================================================================================================== */
 .rope-container {
   position: fixed;
- left: 20px !important;  /* ← временно, для проверки */
+left: calc(50% - 500px - 40px);
   top: 100px;
   bottom: 100px;
   width: 6px;
@@ -652,7 +652,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
 
 .rope-anchor {
   position: fixed;
-  left: 20px !important;  /* ← временно, для проверки */
+left: calc(50% - 500px - 46px);
   width: 52px;
   height: 52px;
   background: radial-gradient(circle, #ffd700, #ff8c00);
