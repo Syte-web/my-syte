@@ -703,3 +703,121 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     border-radius: 0 !important;
   }
 }
+
+/* ========== ПОЛНАЯ МОБИЛЬНАЯ ВЕРСИЯ ========== */
+@media (max-width: 768px) {
+  /* Контейнер */
+  .container {
+    width: auto !important;
+    margin: 10px !important;
+    border-radius: 20px !important;
+  }
+  
+  /* Шапка */
+  .header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  
+  .header-top {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+  
+  .mobile-menu-btn {
+    display: flex !important;
+    padding: 8px 12px !important;
+    font-size: 1.3rem !important;
+  }
+  
+  .title {
+    font-size: 1rem !important;
+    text-align: center !important;
+    flex: 1 !important;
+  }
+  
+  .header-right {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .sticker {
+    padding: 5px 12px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  .icon-btn {
+    padding: 5px 12px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Главное фото */
+  .hero-photo {
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+  
+  .handwrite-city {
+    font-size: 2rem !important;
+    top: 15px !important;
+    left: 15px !important;
+    padding: 5px 14px !important;
+  }
+  
+  /* Фотоплёнка */
+  .filmstrip-section {
+    margin: 20px 12px !important;
+    padding: 12px 0 !important;
+  }
+  
+  .film-card {
+    width: 280px !important;
+  }
+  
+  .film-img {
+    height: 180px !important;
+  }
+  
+  .film-text {
+    font-size: 0.9rem !important;
+    padding: 12px !important;
+  }
+  
+  .film-text strong {
+    font-size: 1rem !important;
+  }
+  
+  /* Самолёт */
+  .plane-corner {
+    width: auto !important;
+    border-radius: 60px !important;
+  }
+  
+  .plane-inner {
+    padding: 10px 18px !important;
+    gap: 10px !important;
+  }
+  
+  .plane-icon {
+    font-size: 1.6rem !important;
+  }
+  
+  .plane-text {
+    font-size: 1rem !important;
+    opacity: 1 !important;
+  }
+  
+  /* Лиана скрыта */
+  .rope-container, .rope-anchor {
+    display: none !important;
+  }
+}
