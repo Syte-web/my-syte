@@ -937,7 +937,6 @@ html, body {
    МОБИЛЬНАЯ ВЕРСИЯ (2 СТРОКИ)
    ============================================ */
 @media (max-width: 768px) {
-  /* Первая строка: бургер + название */
   .header {
     display: flex !important;
     flex-direction: column !important;
@@ -945,7 +944,6 @@ html, body {
     gap: 10px !important;
   }
   
-  /* Оборачиваем бургер и название в строку */
   .header-top {
     display: flex !important;
     flex-direction: row !important;
@@ -968,30 +966,39 @@ html, body {
     flex: 1 !important;
   }
   
-  /* Вторая строка: погода + день/ночь */
   .header-right {
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
-    gap: 10px !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
   }
   
   .stickers {
     display: flex !important;
     flex-direction: row !important;
-    gap: 6px !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
   }
   
   .sticker {
-    padding: 4px 8px !important;
+    padding: 3px 6px !important;
+    font-size: 0.65rem !important;
+  }
+  
+  .sticker span {
     font-size: 0.7rem !important;
   }
   
   .icon-btn {
-    padding: 4px 10px !important;
-    font-size: 0.7rem !important;
+    padding: 3px 8px !important;
+    font-size: 0.65rem !important;
+  }
+  
+  .theme-text {
+    font-size: 0.55rem !important;
   }
   
   .rope-container {
