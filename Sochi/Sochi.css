@@ -933,80 +933,161 @@ html, body {
   }
 }
 /* ============================================
-   МОБИЛЬНАЯ ВЕРСИЯ (2 СТРОКИ)
+   МОБИЛЬНАЯ ВЕРСИЯ (2 СТРОКИ) - КАК В АНАПЕ
    ============================================ */
 @media (max-width: 768px) {
+  /* ШАПКА */
   .header {
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 8px 12px !important;
-    gap: 8px !important;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 12px;
+    gap: 8px;
   }
   
+  /* Первая строка: бургер + название */
   .header-top {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    width: 100% !important;
-  }
-  
-  .header-left {
-    display: flex !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 100%;
   }
   
   .mobile-menu-btn {
-    display: flex !important;
-    font-size: 1.2rem !important;
-    padding: 6px 10px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 8px 14px;
   }
   
   .title {
-    font-size: 0.9rem !important;
-    text-align: center !important;
-    flex: 1 !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    flex: 1;
+    font-size: 1rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+    margin: 0;
   }
   
+  /* Вторая строка: погода + день/ночь */
   .header-right {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    width: 100% !important;
-    gap: 6px !important;
-    flex-wrap: nowrap !important;
+    order: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
   
   .stickers {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 4px !important;
-    flex-wrap: nowrap !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
   }
   
   .sticker {
-    padding: 3px 6px !important;
-    font-size: 0.6rem !important;
-    gap: 3px !important;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    gap: 5px;
   }
   
   .sticker span {
-    font-size: 0.65rem !important;
+    font-size: 0.8rem;
   }
   
   .icon-btn {
-    padding: 3px 8px !important;
-    font-size: 0.6rem !important;
-    gap: 4px !important;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    gap: 5px;
   }
   
   .theme-text {
-    font-size: 0.5rem !important;
+    font-size: 0.65rem;
   }
   
+  /* КОНТЕЙНЕР НА ВСЮ ШИРИНУ */
+  .container {
+    width: auto;
+    margin: 10px;
+    border-radius: 20px;
+  }
+  
+  /* ОСТАЛЬНЫЕ МОБИЛЬНЫЕ ДОРАБОТКИ */
+  .handwrite-city {
+    font-size: 2rem;
+    top: 15px;
+    left: 15px;
+    padding: 4px 12px;
+    min-width: 130px;
+  }
+  
+  .hero-photo {
+    max-width: 100%;
+    margin: 12px;
+  }
+  
+  .music-on-photo {
+    padding: 5px 12px;
+  }
+  
+  .music-info-text {
+    font-size: 0.7rem;
+  }
+  
+  .music-icon-large {
+    font-size: 1.2rem;
+  }
+  
+  .feature-block {
+    padding: 16px;
+    margin: 16px;
+  }
+  
+  .feature-text {
+    font-size: 1rem;
+    padding: 8px;
+  }
+  
+  .feature-text strong {
+    font-size: 1.1rem;
+  }
+  
+  .carousel-container {
+    width: 280px;
+  }
+  
+  .carousel-btn {
+    padding: 6px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .cta-text {
+    font-size: 1.2rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .anchor-float {
+    font-size: 1.2rem;
+  }
+  
+  .tetris-piece {
+    font-size: 1rem;
+  }
+  
+  .leaf {
+    font-size: 1.2rem;
+  }
+  
+  /* СКРЫВАЕМ ЛИАНУ */
   .rope-container {
     display: none !important;
   }
