@@ -937,6 +937,7 @@ html, body {
    МОБИЛЬНАЯ ВЕРСИЯ (2 СТРОКИ)
    ============================================ */
 @media (max-width: 768px) {
+  /* Первая строка: бургер + название */
   .header {
     display: flex !important;
     flex-direction: column !important;
@@ -944,9 +945,17 @@ html, body {
     gap: 10px !important;
   }
   
+  /* Оборачиваем бургер и название в строку */
+  .header-top {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  
   .header-left {
     display: flex !important;
-    justify-content: flex-start !important;
   }
   
   .mobile-menu-btn {
@@ -956,9 +965,10 @@ html, body {
   .title {
     font-size: 1rem !important;
     text-align: center !important;
-    width: 100% !important;
+    flex: 1 !important;
   }
   
+  /* Вторая строка: погода + день/ночь */
   .header-right {
     display: flex !important;
     flex-direction: row !important;
