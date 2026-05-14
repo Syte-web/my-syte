@@ -532,10 +532,10 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   .modal-close-btn { width: 32px; height: 32px; font-size: 1rem; }
 }
 
-/* ====================================================================== ЛИАНА (ПК + МОБИЛЬНЫЕ) ================================================================================================== */
+/* ====================================================================== ЛИАНА (ПК) ================================================================================================== */
 .rope-container {
   position: fixed;
-  left: calc(50% - 500px - 35px);
+  left: calc(50% - 500px - 40px);
   top: 100px;
   bottom: 100px;
   width: 6px;
@@ -652,7 +652,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
 
 .rope-anchor {
   position: fixed;
-  left: calc(50% - 500px - 41px);
+  left: calc(50% - 500px - 46px);
   width: 52px;
   height: 52px;
   background: radial-gradient(circle, #ffd700, #ff8c00);
@@ -669,28 +669,13 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   transform: translateY(-50%);
 }
 
-/* ========== АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ (лиана скрыта) ========== */
-@media (max-width: 768px) {
-  .rope-container {
-    display: none !important;
-  }
-  .knot-item {
-    display: none !important;
-  }
-  .rope-anchor {
-    display: none !important;
-  }
-  .mobile-menu-btn { display: flex; }
-  .header-left { display: flex; }
-}
-
 /* Адаптация для узких экранов ПК */
 @media (max-width: 1060px) {
   .rope-container {
-    left: calc(50% - 45vw - 30px);
+    left: calc(50% - 45vw - 35px);
   }
   .rope-anchor {
-    left: calc(50% - 45vw - 36px);
+    left: calc(50% - 45vw - 41px);
     width: 44px;
     height: 44px;
     font-size: 1.8rem;
@@ -714,6 +699,14 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
     font-size: 0.85rem;
     padding: 6px 12px;
   }
+}
+
+/* ========== ТЕЛЕФОНЫ: лиана скрыта ========== */
+@media (max-width: 768px) {
+  .rope-container { display: none !important; }
+  .rope-anchor { display: none !important; }
+  .mobile-menu-btn { display: flex; }
+  .header-left { display: flex; }
 }
 
 /* ================================================================================== ФУТЕР ======================================================================================================= */
