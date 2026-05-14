@@ -1105,3 +1105,42 @@ html, body {
     display: contents !important;
   }
 }
+
+/* Дополнительный фикс для ПК — уменьшаем элементы */
+@media (min-width: 769px) {
+  .sticker {
+    padding: 4px 8px !important;
+    font-size: 0.7rem !important;
+    gap: 4px !important;
+  }
+  
+  .sticker span {
+    font-size: 0.8rem !important;
+  }
+  
+  .icon-btn {
+    padding: 4px 10px !important;
+    font-size: 0.7rem !important;
+  }
+  
+  .theme-text {
+    font-size: 0.65rem !important;
+  }
+  
+  .title {
+    font-size: 1rem !important;
+  }
+  
+  .header {
+    gap: 6px !important;
+    padding: 8px 16px !important;
+  }
+  
+  .header-right {
+    gap: 4px !important;
+  }
+  
+  .stickers {
+    gap: 4px !important;
+  }
+}
