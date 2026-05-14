@@ -249,6 +249,12 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .rope-anchor { display: flex; }
   .mobile-menu-btn { display: none; }
   .mobile-menu-overlay { display: none; }
+}
+@media (max-width: 768px) {
+  .rope-container { display: none !important; }
+  .rope-anchor { display: none !important; }
+  .mobile-menu-btn { display: flex; }
+}
 
 /* ========== КНОПКА НАВЕРХ ========== */
 .scroll-top-btn {
@@ -644,19 +650,10 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .footer a:active { opacity: 0.8; transform: scale(0.96); display: inline-block; }
 
-
-
-
-/* ========== ФИКС ДЛЯ МОБИЛЬНОЙ ВЕРСИИ ========== */
+/* ========== ФИКС ДЛЯ МОБИЛЬНОЙ ШАПКИ ========== */
 @media (max-width: 768px) {
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  
   .container {
     width: auto !important;
-    max-width: 100% !important;
     margin: 10px !important;
     border-radius: 20px !important;
   }
@@ -676,13 +673,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     width: 100% !important;
   }
   
-  .mobile-menu-btn {
-    display: flex !important;
-    flex-shrink: 0 !important;
-    padding: 8px 14px !important;
-    font-size: 1.3rem !important;
-  }
-  
   .title {
     font-size: 1rem !important;
     text-align: center !important;
@@ -692,56 +682,24 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .header-right {
     width: 100% !important;
     display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
+    justify-content: center !important;
     align-items: center !important;
     gap: 8px !important;
-    flex-wrap: nowrap !important;
-  }
-  
-  .stickers {
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    gap: 8px !important;
-    flex-wrap: nowrap !important;
+    flex-wrap: wrap !important;
   }
   
   .sticker {
-    flex: 1 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 8px 6px !important;
-    font-size: 0.85rem !important;
-    gap: 6px !important;
-    white-space: nowrap !important;
-  }
-  
-  .sticker span {
-    font-size: 0.9rem !important;
+    padding: 5px 12px !important;
+    font-size: 0.8rem !important;
   }
   
   .icon-btn {
-    flex-shrink: 0 !important;
-    padding: 8px 12px !important;
-    font-size: 0.85rem !important;
-    gap: 6px !important;
-    white-space: nowrap !important;
-  }
-  
-  .theme-text {
-    font-size: 0.75rem !important;
+    padding: 5px 12px !important;
+    font-size: 0.8rem !important;
   }
   
   .hero-photo {
     margin: 0 !important;
     border-radius: 0 !important;
-  }
-  
-  .rope-container, .rope-anchor {
-    display: none !important;
   }
 }
