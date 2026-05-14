@@ -5,6 +5,21 @@
 (function() {
     "use strict";
 
+    // ======================== ЗАЩИТА ОТ ДВОЙНЫХ НАЖАТИЙ ========================
+    let lastClickTime = 0;
+    const CLICK_DELAY = 300; // миллисекунд
+
+    function safeHandler(handler) {
+        return function(e) {
+            const now = Date.now();
+            if (now - lastClickTime < CLICK_DELAY) return;
+            lastClickTime = now;
+            e.preventDefault();
+            e.stopPropagation();
+            handler(e);
+        };
+    }
+
     // ======================== МУЗЫКА ========================
     const photoMusicBtn = document.getElementById('photoMusicBtn');
     const photoMusicState = document.getElementById('photoMusicState');
@@ -13,7 +28,6 @@
 
     if (photoMusicBtn && sochiMusic) {
         const toggleMusic = (e) => {
-            e.stopPropagation();
             if (isMusicPlaying) {
                 sochiMusic.pause();
                 if (photoMusicState) photoMusicState.textContent = '▶';
@@ -24,8 +38,7 @@
                 isMusicPlaying = true;
             }
         };
-        photoMusicBtn.addEventListener('click', toggleMusic);
-        photoMusicBtn.addEventListener('touchstart', toggleMusic);
+        photoMusicBtn.addEventListener('click', safeHandler(toggleMusic));
     }
 
     // ======================== АНИМАЦИЯ ПЕЧАТИ ========================
@@ -81,8 +94,7 @@
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             applyTheme(isDark ? 'light' : 'dark');
         };
-        themeToggle.addEventListener('click', toggleTheme);
-        themeToggle.addEventListener('touchstart', toggleTheme);
+        themeToggle.addEventListener('click', safeHandler(toggleTheme));
     }
 
     // ======================== ПОГОДА ========================
@@ -117,47 +129,65 @@
     updateTime();
     setInterval(updateTime, 60000);
 
-    // ======================== КАРУСЕЛЬ РИВЬЕРА ========================
+    // ======================== КАРУСЕЛЬ РИВЬЕРА (с защитой от двойных нажатий) ========================
     const rivImages = ["20.jpg", "21.jpg", "22.jpg"];
     let rIdx = 0;
+    let rIsAnimating = false;
     const rImg = document.getElementById('rivieraImg');
+    
     function updateRiviera() {
-        if (rImg) rImg.src = "Img.Sochi/" + rivImages[rIdx];
+        if (rImg && !rIsAnimating) {
+            rImg.src = "Img.Sochi/" + rivImages[rIdx];
+        }
     }
+    
     const prevRiv = document.getElementById('prevRivieraBtn');
     const nextRiv = document.getElementById('nextRivieraBtn');
     
+    function changeRiviera(delta) {
+        if (rIsAnimating) return;
+        rIsAnimating = true;
+        rIdx = (rIdx + delta + rivImages.length) % rivImages.length;
+        updateRiviera();
+        setTimeout(() => { rIsAnimating = false; }, 300);
+    }
+    
     if (prevRiv) {
-        const prevHandler = () => { rIdx = (rIdx - 1 + rivImages.length) % rivImages.length; updateRiviera(); };
-        prevRiv.addEventListener('click', prevHandler);
-        prevRiv.addEventListener('touchstart', prevHandler);
+        prevRiv.addEventListener('click', safeHandler(() => changeRiviera(-1)));
     }
     if (nextRiv) {
-        const nextHandler = () => { rIdx = (rIdx + 1) % rivImages.length; updateRiviera(); };
-        nextRiv.addEventListener('click', nextHandler);
-        nextRiv.addEventListener('touchstart', nextHandler);
+        nextRiv.addEventListener('click', safeHandler(() => changeRiviera(1)));
     }
     updateRiviera();
 
-    // ======================== КАРУСЕЛЬ МУЗЕЙ ========================
+    // ======================== КАРУСЕЛЬ МУЗЕЙ (с защитой от двойных нажатий) ========================
     const musImages = ["24.jpg", "25.jpg", "26.jpg", "27.jpg"];
     let mIdx = 0;
+    let mIsAnimating = false;
     const mImg = document.getElementById('museum90Img');
+    
     function updateMuseum() {
-        if (mImg) mImg.src = "Img.Sochi/" + musImages[mIdx];
+        if (mImg && !mIsAnimating) {
+            mImg.src = "Img.Sochi/" + musImages[mIdx];
+        }
     }
+    
     const prevMus = document.getElementById('prevMuseumBtn');
     const nextMus = document.getElementById('nextMuseumBtn');
     
+    function changeMuseum(delta) {
+        if (mIsAnimating) return;
+        mIsAnimating = true;
+        mIdx = (mIdx + delta + musImages.length) % musImages.length;
+        updateMuseum();
+        setTimeout(() => { mIsAnimating = false; }, 300);
+    }
+    
     if (prevMus) {
-        const prevHandler = () => { mIdx = (mIdx - 1 + musImages.length) % musImages.length; updateMuseum(); };
-        prevMus.addEventListener('click', prevHandler);
-        prevMus.addEventListener('touchstart', prevHandler);
+        prevMus.addEventListener('click', safeHandler(() => changeMuseum(-1)));
     }
     if (nextMus) {
-        const nextHandler = () => { mIdx = (mIdx + 1) % musImages.length; updateMuseum(); };
-        nextMus.addEventListener('click', nextHandler);
-        nextMus.addEventListener('touchstart', nextHandler);
+        nextMus.addEventListener('click', safeHandler(() => changeMuseum(1)));
     }
     updateMuseum();
 
@@ -187,12 +217,7 @@
     }
 
     if (openChoiceBtn && modal) {
-        const openHandler = (e) => {
-            e.stopPropagation();
-            openModal();
-        };
-        openChoiceBtn.addEventListener('click', openHandler);
-        openChoiceBtn.addEventListener('touchstart', openHandler);
+        openChoiceBtn.addEventListener('click', safeHandler(openModal));
     }
 
     if (modal) {
@@ -206,9 +231,9 @@
     // КНОПКА "НА ГЛАВНУЮ" В МОДАЛЬНОМ ОКНЕ
     const backToMainBtn = document.getElementById('backToMainModalBtn');
     if (backToMainBtn) {
-        const goToMain = () => { window.location.href = '../index.html'; };
-        backToMainBtn.addEventListener('click', goToMain);
-        backToMainBtn.addEventListener('touchstart', goToMain);
+        backToMainBtn.addEventListener('click', safeHandler(() => {
+            window.location.href = '../index.html';
+        }));
     }
     
     // КАРТОЧКИ В МОДАЛЬНОМ ОКНЕ
@@ -216,14 +241,14 @@
     const siriusCard = document.getElementById('siriusCard');
     
     if (rozaCard) {
-        const goToRoza = () => { window.location.href = '../Roza/Roza.html'; };
-        rozaCard.addEventListener('click', goToRoza);
-        rozaCard.addEventListener('touchstart', goToRoza);
+        rozaCard.addEventListener('click', safeHandler(() => {
+            window.location.href = '../Roza/Roza.html';
+        }));
     }
     if (siriusCard) {
-        const goToSirius = () => { window.location.href = '../Sirius/Sirius.html'; };
-        siriusCard.addEventListener('click', goToSirius);
-        siriusCard.addEventListener('touchstart', goToSirius);
+        siriusCard.addEventListener('click', safeHandler(() => {
+            window.location.href = '../Sirius/Sirius.html';
+        }));
     }
 
     // ======================== КНОПКА НАВЕРХ ========================
@@ -236,10 +261,10 @@
                 scrollTopBtn.classList.remove('show');
             }
         });
-        const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); };
-        scrollTopBtn.addEventListener('click', scrollToTop);
-        scrollTopBtn.addEventListener('touchstart', scrollToTop);
+        scrollTopBtn.addEventListener('click', safeHandler(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }));
     }
 
-    console.log('Sochi.js загружен - модальное окно адаптировано для мобильных');
+    console.log('Sochi.js загружен - все обработчики оптимизированы');
 })();
