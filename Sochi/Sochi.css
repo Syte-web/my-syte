@@ -1051,13 +1051,53 @@ html, body {
     transform: none !important;
   }
 }
-/* Фикс для ПК — чтобы шапка не уезжала */
+
+
+/* Фикс для ПК — чтобы всё было в одну строку */
 @media (min-width: 769px) {
   .header {
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
     align-items: center !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .header-left {
+    flex-shrink: 0 !important;
+  }
+  
+  .title {
+    flex-shrink: 1 !important;
+    font-size: 1.2rem !important;
+    white-space: nowrap !important;
+  }
+  
+  .header-right {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .stickers {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .sticker {
+    padding: 5px 10px !important;
+    font-size: 0.8rem !important;
+    white-space: nowrap !important;
+  }
+  
+  .icon-btn {
+    padding: 5px 12px !important;
+    font-size: 0.8rem !important;
+    white-space: nowrap !important;
   }
   
   .header-row-1,
