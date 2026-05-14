@@ -249,9 +249,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .rope-anchor { display: flex; }
   .mobile-menu-btn { display: none; }
   .mobile-menu-overlay { display: none; }
-}
-@media (max-width: 768px) {
-  /* Убираем поля */
+}@media (max-width: 768px) {
   body {
     margin: 0 !important;
     padding: 0 !important;
@@ -264,7 +262,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     border-radius: 0 !important;
   }
   
-  /* Шапка */
   .header {
     flex-direction: column;
     align-items: stretch;
@@ -298,7 +295,9 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 12px;
+    flex-wrap: nowrap !important;
   }
   
   .stickers {
@@ -306,7 +305,9 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     gap: 12px;
+    flex-wrap: nowrap !important;
   }
   
   .sticker {
@@ -317,6 +318,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     padding: 12px 6px;
     font-size: 1rem;
     gap: 8px;
+    white-space: nowrap;
   }
   
   .sticker span {
@@ -328,6 +330,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     padding: 12px 16px;
     font-size: 1rem;
     gap: 8px;
+    white-space: nowrap;
   }
   
   .theme-text {
