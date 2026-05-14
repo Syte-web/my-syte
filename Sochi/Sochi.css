@@ -876,6 +876,7 @@ html, body {
   font-family: 'Pacifico', cursive;
 }
 .footer a:active { transform: scale(0.96); display: inline-block; }
+
 /* ============================================
    ТОЛЬКО ДЛЯ МОБИЛЬНОЙ ВЕРСИИ (ДО 768px)
    ============================================ */
@@ -884,8 +885,8 @@ html, body {
   .header {
     flex-direction: column;
     align-items: stretch;
-    padding: 8px 12px;
-    gap: 8px;
+    padding: 10px 16px;
+    gap: 10px;
   }
   
   .header-row-1 {
@@ -900,49 +901,40 @@ html, body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 4px;
+    gap: 10px;
     flex-wrap: nowrap;
   }
   
   .title {
-    font-size: 0.9rem;
+    font-size: 1rem;
     text-align: center;
     flex: 1;
-    white-space: nowrap;
   }
   
   .stickers {
     display: flex;
-    gap: 3px;
+    gap: 6px;
     flex-wrap: nowrap;
   }
   
   .sticker {
-    padding: 3px 6px;
-    font-size: 0.6rem;
-    gap: 3px;
-  }
-  
-  .sticker span {
+    padding: 4px 8px;
     font-size: 0.7rem;
   }
   
+  .sticker span {
+    font-size: 0.85rem;
+  }
+  
   .icon-btn {
-    padding: 3px 8px;
-    font-size: 0.6rem;
-    gap: 4px;
+    padding: 4px 10px;
+    font-size: 0.7rem;
   }
   
   .theme-text {
-    font-size: 0.55rem;
-  }
-  
-  .mobile-menu-btn {
-    padding: 6px 10px;
-    font-size: 1.2rem;
+    font-size: 0.65rem;
   }
 
-  /* Остальные мобильные доработки */
   .container {
     width: 96%;
     margin: 12px auto;
@@ -950,11 +942,11 @@ html, body {
   }
   
   .handwrite-city {
-    font-size: 1.8rem;
-    top: 12px;
-    left: 12px;
-    padding: 4px 10px;
-    min-width: 110px;
+    font-size: 2rem;
+    top: 15px;
+    left: 15px;
+    padding: 4px 12px;
+    min-width: 130px;
   }
   
   .hero-photo {
@@ -963,68 +955,60 @@ html, body {
   }
   
   .music-on-photo {
-    padding: 4px 10px;
-    gap: 6px;
+    padding: 5px 12px;
   }
   
   .music-info-text {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
   }
   
   .music-icon-large {
-    font-size: 1.1rem;
-  }
-  
-  .section-title {
-    font-size: 1.4rem;
-    margin: 20px 12px 15px;
+    font-size: 1.2rem;
   }
   
   .feature-block {
-    padding: 12px;
-    margin: 12px;
+    padding: 16px;
+    margin: 16px;
   }
   
   .feature-text {
-    font-size: 0.95rem;
-    padding: 6px;
+    font-size: 1rem;
+    padding: 8px;
   }
   
   .feature-text strong {
-    font-size: 1rem;
-  }
-  
-  .carousel-container {
-    width: 260px;
-  }
-  
-  .carousel-btn {
-    padding: 5px 14px;
-    font-size: 0.75rem;
-  }
-  
-  .cta-text {
     font-size: 1.1rem;
   }
   
-  .cta-button {
-    padding: 10px 24px;
-    font-size: 1rem;
+  .carousel-container {
+    width: 280px;
   }
   
-  .anchor-float {
-    font-size: 1rem;
-  }
-  
-  .tetris-piece {
+  .carousel-btn {
+    padding: 6px 16px;
     font-size: 0.8rem;
   }
   
-  .leaf {
+  .cta-text {
+    font-size: 1.2rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .anchor-float {
+    font-size: 1.2rem;
+  }
+  
+  .tetris-piece {
     font-size: 1rem;
   }
+  
+  .leaf {
+    font-size: 1.2rem;
+  }
 
-  /* Убираем дергания на кнопках */
   .carousel-btn, 
   .icon-btn, 
   .cta-button, 
@@ -1052,7 +1036,6 @@ html, body {
   }
 }
 
-
 /* Фикс для ПК — чтобы всё было в одну строку */
 @media (min-width: 769px) {
   .header {
@@ -1069,7 +1052,7 @@ html, body {
   
   .title {
     flex-shrink: 1 !important;
-    font-size: 1.2rem !important;
+    font-size: 1rem !important;
     white-space: nowrap !important;
   }
   
@@ -1077,40 +1060,21 @@ html, body {
     flex-shrink: 0 !important;
     display: flex !important;
     flex-direction: row !important;
-    gap: 8px !important;
+    gap: 4px !important;
     flex-wrap: nowrap !important;
   }
   
   .stickers {
     display: flex !important;
     flex-direction: row !important;
-    gap: 6px !important;
+    gap: 4px !important;
     flex-wrap: nowrap !important;
   }
   
   .sticker {
-    padding: 5px 10px !important;
-    font-size: 0.8rem !important;
-    white-space: nowrap !important;
-  }
-  
-  .icon-btn {
-    padding: 5px 12px !important;
-    font-size: 0.8rem !important;
-    white-space: nowrap !important;
-  }
-  
-  .header-row-1,
-  .header-row-2 {
-    display: contents !important;
-  }
-}
-
-/* Дополнительный фикс для ПК — уменьшаем элементы */
-@media (min-width: 769px) {
-  .sticker {
     padding: 4px 8px !important;
     font-size: 0.7rem !important;
+    white-space: nowrap !important;
     gap: 4px !important;
   }
   
@@ -1121,14 +1085,11 @@ html, body {
   .icon-btn {
     padding: 4px 10px !important;
     font-size: 0.7rem !important;
+    white-space: nowrap !important;
   }
   
   .theme-text {
     font-size: 0.65rem !important;
-  }
-  
-  .title {
-    font-size: 1rem !important;
   }
   
   .header {
@@ -1136,11 +1097,77 @@ html, body {
     padding: 8px 16px !important;
   }
   
+  .header-row-1,
+  .header-row-2 {
+    display: contents !important;
+  }
+}
+
+/* ================================================================ ПК ВЕРСИЯ (ВСЁ В ОДНУ СТРОКУ) ==================================================== */
+@media (min-width: 769px) {
+  .header {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    padding: 12px 24px !important;
+  }
+  
+  .header-top {
+    display: contents !important;
+  }
+  
+  .header-left {
+    flex-shrink: 0 !important;
+    order: 1 !important;
+  }
+  
+  .title {
+    order: 2 !important;
+    font-size: 1.4rem !important;
+    white-space: nowrap !important;
+    flex: 1 !important;
+    text-align: center !important;
+  }
+  
   .header-right {
-    gap: 4px !important;
+    order: 3 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    flex-shrink: 0 !important;
   }
   
   .stickers {
-    gap: 4px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .sticker {
+    padding: 5px 12px !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap !important;
+  }
+  
+  .sticker span {
+    font-size: 0.9rem !important;
+  }
+  
+  .icon-btn {
+    padding: 5px 12px !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap !important;
+  }
+  
+  .theme-text {
+    font-size: 0.7rem !important;
+  }
+  
+  .mobile-menu-btn {
+    display: none !important;
   }
 }
