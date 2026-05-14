@@ -889,21 +889,7 @@ html, body {
     gap: 10px;
   }
   
-  .header-row-1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .header-row-2 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 10px;
-    flex-wrap: nowrap;
-  }
+
   
   .title {
     font-size: 1rem;
