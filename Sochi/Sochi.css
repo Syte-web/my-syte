@@ -878,156 +878,9 @@ html, body {
 .footer a:active { transform: scale(0.96); display: inline-block; }
 
 /* ============================================
-   ТОЛЬКО ДЛЯ МОБИЛЬНОЙ ВЕРСИИ (ДО 768px)
+   ПК ВЕРСИЯ (ВСЁ В ОДНУ СТРОКУ)
    ============================================ */
-@media (max-width: 768px) {
-  /* Шапка — 2 строки */
-  .header {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 10px 16px;
-    gap: 10px;
-  }
-  
-
-  
-  .title {
-    font-size: 1rem;
-    text-align: center;
-    flex: 1;
-  }
-  
-  .stickers {
-    display: flex;
-    gap: 6px;
-    flex-wrap: nowrap;
-  }
-  
-  .sticker {
-    padding: 4px 8px;
-    font-size: 0.7rem;
-  }
-  
-  .sticker span {
-    font-size: 0.85rem;
-  }
-  
-  .icon-btn {
-    padding: 4px 10px;
-    font-size: 0.7rem;
-  }
-  
-  .theme-text {
-    font-size: 0.65rem;
-  }
-
-  .container {
-    width: 96%;
-    margin: 12px auto;
-    border-radius: 20px;
-  }
-  
-  .handwrite-city {
-    font-size: 2rem;
-    top: 15px;
-    left: 15px;
-    padding: 4px 12px;
-    min-width: 130px;
-  }
-  
-  .hero-photo {
-    max-width: 100%;
-    margin: 12px;
-  }
-  
-  .music-on-photo {
-    padding: 5px 12px;
-  }
-  
-  .music-info-text {
-    font-size: 0.7rem;
-  }
-  
-  .music-icon-large {
-    font-size: 1.2rem;
-  }
-  
-  .feature-block {
-    padding: 16px;
-    margin: 16px;
-  }
-  
-  .feature-text {
-    font-size: 1rem;
-    padding: 8px;
-  }
-  
-  .feature-text strong {
-    font-size: 1.1rem;
-  }
-  
-  .carousel-container {
-    width: 280px;
-  }
-  
-  .carousel-btn {
-    padding: 6px 16px;
-    font-size: 0.8rem;
-  }
-  
-  .cta-text {
-    font-size: 1.2rem;
-  }
-  
-  .section-title {
-    font-size: 1.6rem;
-  }
-  
-  .anchor-float {
-    font-size: 1.2rem;
-  }
-  
-  .tetris-piece {
-    font-size: 1rem;
-  }
-  
-  .leaf {
-    font-size: 1.2rem;
-  }
-
-  .carousel-btn, 
-  .icon-btn, 
-  .cta-button, 
-  .back-to-main-btn, 
-  .modal-card, 
-  .music-on-photo, 
-  .scroll-top-btn,
-  .mobile-menu-btn,
-  #theme-toggle,
-  .sticker,
-  button {
-    -webkit-tap-highlight-color: transparent !important;
-    touch-action: manipulation !important;
-    transition: none !important;
-  }
-  
-  .carousel-btn:active, 
-  .icon-btn:active, 
-  .cta-button:active, 
-  .back-to-main-btn:active,
-  .music-on-photo:active,
-  .scroll-top-btn:active,
-  button:active {
-    transform: none !important;
-  }
-  
-  /* Скрываем лиану на телефонах */
-  .rope-container { display: none !important; }
-  .rope-anchor { display: none !important; }
-}
-/* ================================================================ ПК ВЕРСИЯ (ВСЁ В ОДНУ СТРОКУ, КАК В АНАПЕ) ==================================================== */
 @media (min-width: 769px) {
-  /* Шапка в одну строку */
   .header {
     display: flex !important;
     flex-direction: row !important;
@@ -1037,32 +890,21 @@ html, body {
     padding: 12px 24px !important;
   }
   
-  .header-left {
-    order: 1 !important;
-    flex-shrink: 0 !important;
-  }
-  
-  /* Скрываем бургер-корабль на ПК */
   .mobile-menu-btn {
     display: none !important;
   }
   
   .title {
-    order: 2 !important;
     font-size: 1.4rem !important;
-    white-space: nowrap !important;
-    flex: 1 !important;
     text-align: center !important;
-    letter-spacing: 0.4px !important;
+    flex: 1 !important;
   }
   
   .header-right {
-    order: 3 !important;
     display: flex !important;
     flex-direction: row !important;
     gap: 12px !important;
     flex-wrap: nowrap !important;
-    flex-shrink: 0 !important;
   }
   
   .stickers {
@@ -1075,34 +917,78 @@ html, body {
   .sticker {
     padding: 8px 16px !important;
     font-size: 1rem !important;
-    white-space: nowrap !important;
-    gap: 8px !important;
-    border-radius: 40px !important;
-  }
-  
-  .sticker span {
-    font-size: 1.2rem !important;
-    font-weight: 800 !important;
   }
   
   .icon-btn {
     padding: 8px 16px !important;
     font-size: 1rem !important;
-    white-space: nowrap !important;
-    gap: 8px !important;
-    border-radius: 40px !important;
   }
   
-  .theme-text {
-    font-size: 0.8rem !important;
-  }
-  
-  /* Лиана на ПК видна */
   .rope-container {
     display: block !important;
   }
   
   .rope-anchor {
     display: flex !important;
+  }
+}
+
+/* ============================================
+   МОБИЛЬНАЯ ВЕРСИЯ (2 СТРОКИ)
+   ============================================ */
+@media (max-width: 768px) {
+  .header {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px 16px !important;
+    gap: 10px !important;
+  }
+  
+  .header-left {
+    display: flex !important;
+    justify-content: flex-start !important;
+  }
+  
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+  
+  .title {
+    font-size: 1rem !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
+  
+  .header-right {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+  
+  .stickers {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 6px !important;
+  }
+  
+  .sticker {
+    padding: 4px 8px !important;
+    font-size: 0.7rem !important;
+  }
+  
+  .icon-btn {
+    padding: 4px 10px !important;
+    font-size: 0.7rem !important;
+  }
+  
+  .rope-container {
+    display: none !important;
+  }
+  
+  .rope-anchor {
+    display: none !important;
   }
 }
