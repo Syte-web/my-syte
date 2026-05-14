@@ -1034,77 +1034,15 @@ html, body {
   button:active {
     transform: none !important;
   }
+  
+  /* Скрываем лиану на телефонах */
+  .rope-container { display: none !important; }
+  .rope-anchor { display: none !important; }
 }
 
-/* Фикс для ПК — чтобы всё было в одну строку */
+/* ================================================================ ПК ВЕРСИЯ (ВСЁ В ОДНУ СТРОКУ, БУРГЕР СКРЫТ, ЛИАНА ВИДНА) ==================================================== */
 @media (min-width: 769px) {
-  .header {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-  }
-  
-  .header-left {
-    flex-shrink: 0 !important;
-  }
-  
-  .title {
-    flex-shrink: 1 !important;
-    font-size: 1rem !important;
-    white-space: nowrap !important;
-  }
-  
-  .header-right {
-    flex-shrink: 0 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 4px !important;
-    flex-wrap: nowrap !important;
-  }
-  
-  .stickers {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 4px !important;
-    flex-wrap: nowrap !important;
-  }
-  
-  .sticker {
-    padding: 4px 8px !important;
-    font-size: 0.7rem !important;
-    white-space: nowrap !important;
-    gap: 4px !important;
-  }
-  
-  .sticker span {
-    font-size: 0.8rem !important;
-  }
-  
-  .icon-btn {
-    padding: 4px 10px !important;
-    font-size: 0.7rem !important;
-    white-space: nowrap !important;
-  }
-  
-  .theme-text {
-    font-size: 0.65rem !important;
-  }
-  
-  .header {
-    gap: 6px !important;
-    padding: 8px 16px !important;
-  }
-  
-  .header-row-1,
-  .header-row-2 {
-    display: contents !important;
-  }
-}
-
-/* ================================================================ ПК ВЕРСИЯ (ВСЁ В ОДНУ СТРОКУ) ==================================================== */
-@media (min-width: 769px) {
+  /* Шапка в одну строку */
   .header {
     display: flex !important;
     flex-direction: row !important;
@@ -1114,13 +1052,13 @@ html, body {
     padding: 12px 24px !important;
   }
   
-  .header-top {
-    display: contents !important;
+  .header-left {
+    order: 1 !important;
   }
   
-  .header-left {
-    flex-shrink: 0 !important;
-    order: 1 !important;
+  /* Скрываем бургер-корабль на ПК */
+  .mobile-menu-btn {
+    display: none !important;
   }
   
   .title {
@@ -1137,7 +1075,6 @@ html, body {
     flex-direction: row !important;
     gap: 8px !important;
     flex-wrap: nowrap !important;
-    flex-shrink: 0 !important;
   }
   
   .stickers {
@@ -1167,7 +1104,12 @@ html, body {
     font-size: 0.7rem !important;
   }
   
-  .mobile-menu-btn {
-    display: none !important;
+  /* Показываем лиану на ПК */
+  .rope-container {
+    display: block !important;
+  }
+  
+  .rope-anchor {
+    display: flex !important;
   }
 }
