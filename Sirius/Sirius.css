@@ -250,118 +250,6 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .mobile-menu-btn { display: none; }
   .mobile-menu-overlay { display: none; }
 
-
-
-
-
-
-
-
-@media (max-width: 768px) {
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  
-  .container {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    border-radius: 0 !important;
-  }
-  
-  .header {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 8px 12px;
-    gap: 8px;
-  }
-  
-  .header-top {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    width: 100%;
-  }
-  
-  .mobile-menu-btn {
-    display: flex;
-    flex-shrink: 0;
-    padding: 8px 14px;
-    font-size: 1.3rem;
-  }
-  
-  .title {
-    font-size: 1rem;
-    text-align: center;
-    flex: 1;
-  }
-  
-  .header-right {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  
-  .stickers {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .sticker {
-    padding: 6px 14px;
-    font-size: 0.9rem;
-    gap: 8px;
-  }
-  
-  .sticker span {
-    font-size: 1rem;
-  }
-  
-  .icon-btn {
-    padding: 6px 14px;
-    font-size: 0.9rem;
-    gap: 8px;
-  }
-  
-  .theme-text {
-    font-size: 0.8rem;
-  }
-  
-  .hero-photo {
-    max-width: 100%;
-    margin: 0 !important;
-    border-radius: 0 !important;
-  }
-  
-  .rope-container {
-    display: none !important;
-  }
-  
-  .rope-anchor {
-    display: none !important;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
 /* ========== КНОПКА НАВЕРХ ========== */
 .scroll-top-btn {
   position: fixed;
@@ -755,3 +643,105 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   transition: 0.2s;
 }
 .footer a:active { opacity: 0.8; transform: scale(0.96); display: inline-block; }
+
+
+
+
+/* ========== ФИКС ДЛЯ МОБИЛЬНОЙ ВЕРСИИ ========== */
+@media (max-width: 768px) {
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .container {
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 10px !important;
+    border-radius: 20px !important;
+  }
+  
+  .header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  
+  .header-top {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+  
+  .mobile-menu-btn {
+    display: flex !important;
+    flex-shrink: 0 !important;
+    padding: 8px 14px !important;
+    font-size: 1.3rem !important;
+  }
+  
+  .title {
+    font-size: 1rem !important;
+    text-align: center !important;
+    flex: 1 !important;
+  }
+  
+  .header-right {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .stickers {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .sticker {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 8px 6px !important;
+    font-size: 0.85rem !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+  }
+  
+  .sticker span {
+    font-size: 0.9rem !important;
+  }
+  
+  .icon-btn {
+    flex-shrink: 0 !important;
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+  }
+  
+  .theme-text {
+    font-size: 0.75rem !important;
+  }
+  
+  .hero-photo {
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+  
+  .rope-container, .rope-anchor {
+    display: none !important;
+  }
+}
