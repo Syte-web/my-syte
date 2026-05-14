@@ -747,25 +747,31 @@ left: calc(50% - 500px - 46px);
 
 
 
-/* ========== ФИКС МОДАЛЬНОГО ОКНА ДЛЯ ТЕЛЕФОНА ========== */
+/* ========== ФИКС МОДАЛЬНОГО ОКНА (ПРОКРУТКА И ВИДИМОСТЬ) ========== */
 @media (max-width: 768px) {
-  .modal-wall {
-    width: 95% !important;
-    max-width: 550px !important;
-    padding: 20px !important;
-    border-radius: 32px !important;
-    max-height: 90vh !important;
+  .modal-overlay {
     overflow-y: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 20px 0 !important;
+  }
+  
+  .modal-wall {
+    width: 92% !important;
+    max-width: 500px !important;
+    padding: 16px !important;
+    border-radius: 28px !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    margin: 20px auto !important;
   }
   
   .modal-header-row {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    margin-bottom: 20px !important;
-    flex-shrink: 0 !important;
+    margin-bottom: 15px !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
   }
   
   .modal-like-block {
@@ -773,22 +779,22 @@ left: calc(50% - 500px - 46px);
     align-items: center !important;
     gap: 8px !important;
     background: rgba(0,0,0,0.5) !important;
-    padding: 6px 15px !important;
+    padding: 5px 12px !important;
     border-radius: 40px !important;
   }
   
   .modal-heart-icon {
-    font-size: 1.6rem !important;
+    font-size: 1.4rem !important;
   }
   
   .modal-likes-count {
-    font-size: 1.1rem !important;
+    font-size: 1rem !important;
   }
   
   .modal-close-btn {
-    width: 40px !important;
-    height: 40px !important;
-    font-size: 1.3rem !important;
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 1.2rem !important;
     background: rgba(0,0,0,0.6) !important;
     border-radius: 50% !important;
     display: flex !important;
@@ -800,10 +806,9 @@ left: calc(50% - 500px - 46px);
   .modal-photo-grid {
     display: flex !important;
     flex-wrap: wrap !important;
-    gap: 15px !important;
+    gap: 12px !important;
     justify-content: center !important;
-    margin-bottom: 20px !important;
-    flex-shrink: 0 !important;
+    margin-bottom: 15px !important;
   }
   
   .modal-photo-horizontal,
@@ -816,18 +821,15 @@ left: calc(50% - 500px - 46px);
   .modal-photo-vertical img {
     width: 100% !important;
     height: auto !important;
-    max-height: 250px !important;
+    max-height: 200px !important;
     object-fit: cover !important;
-    border-radius: 20px !important;
+    border-radius: 16px !important;
   }
   
   .modal-text-box {
-    font-size: 1rem !important;
-    padding: 16px !important;
+    font-size: 0.9rem !important;
+    padding: 12px !important;
     margin-bottom: 10px !important;
-    overflow-y: auto !important;
-    flex: 1 !important;
-    line-height: 1.5 !important;
   }
   
   .modal-heart-btn {
