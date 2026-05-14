@@ -1039,8 +1039,7 @@ html, body {
   .rope-container { display: none !important; }
   .rope-anchor { display: none !important; }
 }
-
-/* ================================================================ ПК ВЕРСИЯ (ВСЁ В ОДНУ СТРОКУ, БУРГЕР СКРЫТ, ЛИАНА ВИДНА) ==================================================== */
+/* ================================================================ ПК ВЕРСИЯ (ВСЁ В ОДНУ СТРОКУ, КАК В АНАПЕ) ==================================================== */
 @media (min-width: 769px) {
   /* Шапка в одну строку */
   .header {
@@ -1054,6 +1053,7 @@ html, body {
   
   .header-left {
     order: 1 !important;
+    flex-shrink: 0 !important;
   }
   
   /* Скрываем бургер-корабль на ПК */
@@ -1067,44 +1067,51 @@ html, body {
     white-space: nowrap !important;
     flex: 1 !important;
     text-align: center !important;
+    letter-spacing: 0.4px !important;
   }
   
   .header-right {
     order: 3 !important;
     display: flex !important;
     flex-direction: row !important;
-    gap: 8px !important;
+    gap: 12px !important;
     flex-wrap: nowrap !important;
+    flex-shrink: 0 !important;
   }
   
   .stickers {
     display: flex !important;
     flex-direction: row !important;
-    gap: 6px !important;
+    gap: 8px !important;
     flex-wrap: nowrap !important;
   }
   
   .sticker {
-    padding: 5px 12px !important;
-    font-size: 0.85rem !important;
+    padding: 8px 16px !important;
+    font-size: 1rem !important;
     white-space: nowrap !important;
+    gap: 8px !important;
+    border-radius: 40px !important;
   }
   
   .sticker span {
-    font-size: 0.9rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
   }
   
   .icon-btn {
-    padding: 5px 12px !important;
-    font-size: 0.85rem !important;
+    padding: 8px 16px !important;
+    font-size: 1rem !important;
     white-space: nowrap !important;
+    gap: 8px !important;
+    border-radius: 40px !important;
   }
   
   .theme-text {
-    font-size: 0.7rem !important;
+    font-size: 0.8rem !important;
   }
   
-  /* Показываем лиану на ПК */
+  /* Лиана на ПК видна */
   .rope-container {
     display: block !important;
   }
