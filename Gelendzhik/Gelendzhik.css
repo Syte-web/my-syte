@@ -223,32 +223,10 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   .mobile-menu-overlay { display: none; }
 }
 @media (max-width: 768px) {
-  .rope-container { display: none !important; }
-  .rope-anchor { display: none !important; }
+  /* ЛИАНА БОЛЬШЕ НЕ СКРЫВАЕТСЯ НА ТЕЛЕФОНАХ */
   .mobile-menu-btn { display: flex; }
   .header-left { display: flex; }
 }
-
-/* ==================================================================================== ЯКОРЬ ЛИАНЫ =================================================================================== */
-.rope-anchor {
-  position: fixed;
-  left: calc(50% - 500px - 36px);
-  width: 52px;
-  height: 52px;
-  background: radial-gradient(circle, #ffd700, #ff8c00);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.2rem;
-  z-index: 1005;
-  pointer-events: none;
-  box-shadow: 0 0 22px rgba(255,200,0,0.9);
-  border: 3px solid rgba(255,255,200,0.6);
-  top: 35%;
-  transform: translateY(-50%);
-}
-@media (max-width: 1060px) { .rope-anchor { left: 2px; width: 44px; height: 44px; font-size: 1.8rem; } }
 
 /* =================================================================================== КАРТА С ФОТО И НАДПИСЯМИ ======================================================================================== */
 .map-container {
@@ -553,21 +531,17 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   .modal-close-btn { width: 32px; height: 32px; font-size: 1rem; }
 }
 
-/* ====================================================================== ЛИАНА (ПК) ================================================================================================== */
+/* ====================================================================== ЛИАНА (ПК + МОБИЛЬНЫЕ) ================================================================================================== */
 .rope-container {
   position: fixed;
-  left: calc(50% - 500px - 30px);
+  left: 20px;
   top: 100px;
   bottom: 100px;
   width: 6px;
   z-index: 1000;
   pointer-events: none;
 }
-@media (max-width: 1060px) {
-  .rope-container {
-    left: 8px;
-  }
-}
+
 .rope-line {
   position: absolute;
   left: 0;
@@ -578,6 +552,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   border-radius: 4px;
   box-shadow: 0 0 6px rgba(0,0,0,0.2);
 }
+
 .knot-item {
   position: absolute;
   left: -18px;
@@ -597,7 +572,9 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   font-size: 1.6rem;
   touch-action: manipulation;
 }
+
 .knot-item:active { transform: translateY(-50%) scale(1.1); box-shadow: 0 0 18px rgba(255,215,0,0.7); }
+
 .bubble-menu {
   position: absolute;
   left: 56px;
@@ -618,7 +595,9 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   border: 1px solid rgba(255,215,150,0.3);
   opacity: 0;
 }
+
 .knot-item:hover .bubble-menu, .knot-item:active .bubble-menu { opacity: 1; }
+
 .subknots {
   position: absolute;
   left: 56px;
@@ -638,7 +617,9 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   z-index: 1003;
   border: 1px solid rgba(255,215,150,0.3);
 }
+
 .knot-item:hover .subknots, .knot-item:active .subknots { opacity: 1; visibility: visible; }
+
 .subknot-link {
   display: flex;
   align-items: center;
@@ -652,7 +633,9 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   transition: background 0.2s;
   touch-action: manipulation;
 }
+
 .subknot-link:active { background: rgba(255,215,150,0.3); transform: scale(0.96); }
+
 .subknot-title {
   display: flex;
   align-items: center;
@@ -665,13 +648,61 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Inter', sy
   margin-bottom: 4px;
   font-weight: 600;
 }
-@media (max-width: 1060px) {
-  .knot-item { width: 48px; height: 48px; left: -16px; font-size: 1.4rem; }
-  .bubble-menu { left: 48px; font-size: 0.85rem; padding: 5px 12px; }
-  .subknots { left: 48px; padding: 8px 12px; }
-  .subknot-link { font-size: 0.9rem; padding: 6px 12px; }
-  .subknot-title { font-size: 0.9rem; padding: 6px 12px; }
+
+.rope-anchor {
+  position: fixed;
+  left: 20px;
+  width: 52px;
+  height: 52px;
+  background: radial-gradient(circle, #ffd700, #ff8c00);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  z-index: 1005;
+  pointer-events: none;
+  box-shadow: 0 0 22px rgba(255,200,0,0.9);
+  border: 3px solid rgba(255,255,200,0.6);
+  top: 35%;
+  transform: translateY(-50%);
 }
+
+/* ========== АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ (лиана видна, но меньше) ========== */
+@media (max-width: 768px) {
+  .rope-container {
+    left: 8px;
+    width: 4px;
+  }
+  .knot-item {
+    width: 38px;
+    height: 38px;
+    left: -16px;
+    font-size: 1.2rem;
+  }
+  .bubble-menu {
+    left: 42px;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+  }
+  .subknots {
+    left: 42px;
+    padding: 6px 10px;
+  }
+  .subknot-link, .subknot-title {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+  .rope-anchor {
+    left: 8px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+  .mobile-menu-btn { display: flex; }
+  .header-left { display: flex; }
+}
+
 /* ================================================================================== ФУТЕР ======================================================================================================= */
 .footer { 
   text-align:center; 
