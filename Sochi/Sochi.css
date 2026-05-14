@@ -876,8 +876,67 @@ html, body {
   font-family: 'Pacifico', cursive;
 }
 .footer a:active { transform: scale(0.96); display: inline-block; }
+/* ============================================
+   ТОЛЬКО ДЛЯ МОБИЛЬНОЙ ВЕРСИИ (до 768px) - НОВЫЙ БЛОК
+   ============================================ */
+@media (max-width: 768px) {
+  /* Шапка — 2 строки */
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 16px;
+    gap: 10px;
+  }
+  
+  .header-row-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .header-row-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .title {
+    font-size: 1rem;
+    white-space: normal;
+    text-align: center;
+    flex: 1;
+  }
+  
+  .stickers {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  
+  .sticker {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+  }
+  
+  .sticker span {
+    font-size: 0.85rem;
+  }
+  
+  .icon-btn {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+  }
+  
+  .theme-text {
+    font-size: 0.65rem;
+  }
+}
 
-/* Мобильные доработки */
+/* Мобильные доработки - ЭТОТ БЛОК НЕ ТРОГАЙ, ОН НУЖЕН! */
 @media (max-width:700px){
   .container { width: 96%; margin: 12px auto; border-radius: 20px; }
   .title { font-size: 1rem; }
@@ -900,4 +959,30 @@ html, body {
   .anchor-float { font-size: 1.2rem; }
   .tetris-piece { font-size: 1rem; }
   .leaf { font-size: 1.2rem; }
+}
+
+
+
+/* Убираем дергания на мобилках */
+@media (max-width: 768px) {
+  .carousel-btn, 
+  .icon-btn, 
+  .cta-button, 
+  .back-to-main-btn, 
+  .modal-card, 
+  .music-on-photo, 
+  .scroll-top-btn,
+  .mobile-menu-btn,
+  #theme-toggle {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: transform 0.05s ease;
+  }
+  
+  .carousel-btn:active, 
+  .icon-btn:active, 
+  .cta-button:active, 
+  .back-to-main-btn:active {
+    transform: scale(0.96);
+  }
 }
