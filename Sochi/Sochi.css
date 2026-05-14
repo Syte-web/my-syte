@@ -876,16 +876,16 @@ html, body {
   font-family: 'Pacifico', cursive;
 }
 .footer a:active { transform: scale(0.96); display: inline-block; }
-
 /* ============================================
    ТОЛЬКО ДЛЯ МОБИЛЬНОЙ ВЕРСИИ (ДО 768px)
    ============================================ */
 @media (max-width: 768px) {
+  /* Шапка — 2 строки */
   .header {
     flex-direction: column;
     align-items: stretch;
-    padding: 10px 16px;
-    gap: 10px;
+    padding: 8px 12px;
+    gap: 8px;
   }
   
   .header-row-1 {
@@ -900,40 +900,49 @@ html, body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 10px;
+    gap: 4px;
     flex-wrap: nowrap;
   }
   
   .title {
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-align: center;
     flex: 1;
+    white-space: nowrap;
   }
   
   .stickers {
     display: flex;
-    gap: 6px;
+    gap: 3px;
     flex-wrap: nowrap;
   }
   
   .sticker {
-    padding: 4px 8px;
-    font-size: 0.7rem;
+    padding: 3px 6px;
+    font-size: 0.6rem;
+    gap: 3px;
   }
   
   .sticker span {
-    font-size: 0.85rem;
-  }
-  
-  .icon-btn {
-    padding: 4px 10px;
     font-size: 0.7rem;
   }
   
+  .icon-btn {
+    padding: 3px 8px;
+    font-size: 0.6rem;
+    gap: 4px;
+  }
+  
   .theme-text {
-    font-size: 0.65rem;
+    font-size: 0.55rem;
+  }
+  
+  .mobile-menu-btn {
+    padding: 6px 10px;
+    font-size: 1.2rem;
   }
 
+  /* Остальные мобильные доработки */
   .container {
     width: 96%;
     margin: 12px auto;
@@ -941,11 +950,11 @@ html, body {
   }
   
   .handwrite-city {
-    font-size: 2rem;
-    top: 15px;
-    left: 15px;
-    padding: 4px 12px;
-    min-width: 130px;
+    font-size: 1.8rem;
+    top: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    min-width: 110px;
   }
   
   .hero-photo {
@@ -954,60 +963,68 @@ html, body {
   }
   
   .music-on-photo {
-    padding: 5px 12px;
+    padding: 4px 10px;
+    gap: 6px;
   }
   
   .music-info-text {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
   
   .music-icon-large {
-    font-size: 1.2rem;
-  }
-  
-  .feature-block {
-    padding: 16px;
-    margin: 16px;
-  }
-  
-  .feature-text {
-    font-size: 1rem;
-    padding: 8px;
-  }
-  
-  .feature-text strong {
     font-size: 1.1rem;
   }
   
-  .carousel-container {
-    width: 280px;
-  }
-  
-  .carousel-btn {
-    padding: 6px 16px;
-    font-size: 0.8rem;
-  }
-  
-  .cta-text {
-    font-size: 1.2rem;
-  }
-  
   .section-title {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    margin: 20px 12px 15px;
   }
   
-  .anchor-float {
-    font-size: 1.2rem;
+  .feature-block {
+    padding: 12px;
+    margin: 12px;
   }
   
-  .tetris-piece {
+  .feature-text {
+    font-size: 0.95rem;
+    padding: 6px;
+  }
+  
+  .feature-text strong {
     font-size: 1rem;
   }
   
+  .carousel-container {
+    width: 260px;
+  }
+  
+  .carousel-btn {
+    padding: 5px 14px;
+    font-size: 0.75rem;
+  }
+  
+  .cta-text {
+    font-size: 1.1rem;
+  }
+  
+  .cta-button {
+    padding: 10px 24px;
+    font-size: 1rem;
+  }
+  
+  .anchor-float {
+    font-size: 1rem;
+  }
+  
+  .tetris-piece {
+    font-size: 0.8rem;
+  }
+  
   .leaf {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
+  /* Убираем дергания на кнопках */
   .carousel-btn, 
   .icon-btn, 
   .cta-button, 
@@ -1032,5 +1049,19 @@ html, body {
   .scroll-top-btn:active,
   button:active {
     transform: none !important;
+  }
+}
+/* Фикс для ПК — чтобы шапка не уезжала */
+@media (min-width: 769px) {
+  .header {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  
+  .header-row-1,
+  .header-row-2 {
+    display: contents !important;
   }
 }

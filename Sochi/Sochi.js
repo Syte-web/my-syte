@@ -1,34 +1,21 @@
 (function() {
     "use strict";
 
-    // ======================== АНИМАЦИЯ ПЕЧАТИ ========================
-    const typedSpan = document.getElementById("typedText");
-    if (typedSpan) {
-        const cityName = "Сочи";
-        let idx = 0;
-        let isDeleting = false;
-        
-        function typeAnimation() {
-            if (!isDeleting && idx <= cityName.length) {
-                typedSpan.textContent = cityName.substring(0, idx);
-                idx++;
-                setTimeout(typeAnimation, 150);
-            } else if (isDeleting && idx >= 0) {
-                typedSpan.textContent = cityName.substring(0, idx);
-                idx--;
-                setTimeout(typeAnimation, 100);
-            } else if (idx === cityName.length + 1) {
-                isDeleting = true;
-                setTimeout(typeAnimation, 2000);
-            } else if (idx === -1) {
-                isDeleting = false;
-                idx = 0;
-                setTimeout(typeAnimation, 500);
-            }
+// ======================== АНИМАЦИЯ ПЕЧАТИ (упрощённая) ========================
+const typedSpan = document.getElementById("typedText");
+if (typedSpan) {
+    const cityName = "Сочи";
+    let i = 0;
+    typedSpan.textContent = "";
+    function typeWriter() {
+        if (i < cityName.length) {
+            typedSpan.textContent += cityName.charAt(i);
+            i++;
+            setTimeout(typeWriter, 200);
         }
-        typeAnimation();
     }
-
+    typeWriter();
+}
     // ======================== КАРУСЕЛЬ РИВЬЕРА ========================
     const rivImages = ["20.jpg", "21.jpg", "22.jpg"];
     let rIdx = 0;
