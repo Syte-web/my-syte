@@ -133,7 +133,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 .icon-btn:active { transform: scale(0.95); }
 .theme-text { font-size: 0.8rem; font-weight: normal; }
 
-/* ========== МОБИЛЬНОЕ МЕНЮ (БУРГЕР) ========== */
+/* ========== МОБИЛЬНОЕ МЕНЮ ========== */
 .mobile-menu-btn {
   display: none;
   background: rgba(0,0,0,0.4);
@@ -243,17 +243,12 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .mobile-sub-link:active { background: rgba(255,255,255,0.2); transform: scale(0.97); }
 
-/* ========== АДАПТАЦИЯ: ПК И МОБИЛЬНЫЕ ========== */
+/* ========== ПК ВЕРСИЯ ========== */
 @media (min-width: 769px) {
   .rope-container { display: block; }
   .rope-anchor { display: flex; }
   .mobile-menu-btn { display: none; }
   .mobile-menu-overlay { display: none; }
-}
-@media (max-width: 768px) {
-  .rope-container { display: none !important; }
-  .rope-anchor { display: none !important; }
-  .mobile-menu-btn { display: flex; }
 }
 
 /* ========== КНОПКА НАВЕРХ ========== */
@@ -488,7 +483,7 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   100% { transform: translateX(-500px) translateY(-220px) rotate(-20deg); opacity: 0; visibility: hidden; }
 }
 
-/* ========== ЛИАНА (ПК) ========== */
+/* ========== ЛИАНА ========== */
 .rope-container {
   position: fixed;
   left: calc(50% - 500px - 30px);
@@ -650,70 +645,21 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
 }
 .footer a:active { opacity: 0.8; transform: scale(0.96); display: inline-block; }
 
-/* ========== ФИКС ДЛЯ МОБИЛЬНОЙ ШАПКИ ========== */
+/* ========== МОБИЛЬНАЯ ВЕРСИЯ (ПОЛНОСТЬЮ) ========== */
 @media (max-width: 768px) {
+  /* Убираем лиану */
+  .rope-container, .rope-anchor {
+    display: none !important;
+  }
+  
+  /* Контейнер на всю ширину */
   .container {
     width: auto !important;
     margin: 10px !important;
     border-radius: 20px !important;
   }
   
-  .header {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    padding: 8px 12px !important;
-    gap: 8px !important;
-  }
-  
-  .header-top {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-  }
-  
-  .title {
-    font-size: 1rem !important;
-    text-align: center !important;
-    flex: 1 !important;
-  }
-  
-  .header-right {
-    width: 100% !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 8px !important;
-    flex-wrap: wrap !important;
-  }
-  
-  .sticker {
-    padding: 5px 12px !important;
-    font-size: 0.8rem !important;
-  }
-  
-  .icon-btn {
-    padding: 5px 12px !important;
-    font-size: 0.8rem !important;
-  }
-  
-  .hero-photo {
-    margin: 0 !important;
-    border-radius: 0 !important;
-  }
-}
-
-/* ========== ПОЛНАЯ МОБИЛЬНАЯ ВЕРСИЯ ========== */
-@media (max-width: 768px) {
-  /* Контейнер */
-  .container {
-    width: auto !important;
-    margin: 10px !important;
-    border-radius: 20px !important;
-  }
-  
-  /* Шапка */
+  /* Шапка — 2 строки, значки в одну строку */
   .header {
     flex-direction: column !important;
     align-items: stretch !important;
@@ -741,26 +687,55 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
     flex: 1 !important;
   }
   
+  /* Значки в одну строку */
   .header-right {
     width: 100% !important;
     display: flex !important;
-    justify-content: center !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
     align-items: center !important;
-    gap: 8px !important;
-    flex-wrap: wrap !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .stickers {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex: 1 !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
   }
   
   .sticker {
-    padding: 5px 12px !important;
-    font-size: 0.8rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex: 1 !important;
+    padding: 6px 4px !important;
+    font-size: 0.75rem !important;
+    gap: 4px !important;
+    white-space: nowrap !important;
+  }
+  
+  .sticker span {
+    font-size: 0.85rem !important;
   }
   
   .icon-btn {
-    padding: 5px 12px !important;
-    font-size: 0.8rem !important;
+    flex-shrink: 0 !important;
+    padding: 6px 10px !important;
+    font-size: 0.75rem !important;
+    gap: 4px !important;
+    white-space: nowrap !important;
   }
   
-  /* Главное фото */
+  .theme-text {
+    font-size: 0.7rem !important;
+  }
+  
+  /* Главное фото без отступов */
   .hero-photo {
     margin: 0 !important;
     border-radius: 0 !important;
@@ -814,10 +789,5 @@ html,body{height:100%;margin:0;background:var(--bg-page);font-family:'Caveat',sy
   .plane-text {
     font-size: 1rem !important;
     opacity: 1 !important;
-  }
-  
-  /* Лиана скрыта */
-  .rope-container, .rope-anchor {
-    display: none !important;
   }
 }
